@@ -2,23 +2,27 @@ import { useMemo, useState } from "react";
 import { modules as set1Modules, questions as set1Questions } from "./data/questions.js";
 import { set2Modules, set2Questions } from "./data/set2Questions.js";
 import { set3Modules, set3Questions } from "./data/set3Questions.js";
+import { set4Modules, set4Questions } from "./data/set4Questions.js";
 
 const STORAGE_KEY = "react-zero-to-hero-progress";
 const curriculumSets = [
   { id: "set1", title: "Set 1", label: "Foundations" },
   { id: "set2", title: "Set 2", label: "Interactive React" },
   { id: "set3", title: "Set 3", label: "JavaScript Maturity" },
+  { id: "set4", title: "Set 4", label: "React Architecture" },
   { id: "all", title: "All Sets", label: "Everything" }
 ];
 const modules = [
   ...set1Modules.map((module) => ({ ...module, setId: "set1" })),
   ...set2Modules,
-  ...set3Modules
+  ...set3Modules,
+  ...set4Modules
 ];
 const questions = [
   ...set1Questions.map((question) => ({ ...question, setId: "set1" })),
   ...set2Questions,
-  ...set3Questions
+  ...set3Questions,
+  ...set4Questions
 ].map((question, order) => ({ ...question, order }));
 const moduleOrder = Object.fromEntries(modules.map((module, order) => [module.id, order]));
 
@@ -45,7 +49,7 @@ function loadProgress() {
 }
 
 function App() {
-  const [activeSet, setActiveSet] = useState("set3");
+  const [activeSet, setActiveSet] = useState("set4");
   const [activeModule, setActiveModule] = useState("all");
   const [questionIndex, setQuestionIndex] = useState(0);
   const [choice, setChoice] = useState(null);
