@@ -3,28 +3,152 @@ import { modules as set1Modules, questions as set1Questions } from "./data/quest
 import { set2Modules, set2Questions } from "./data/set2Questions.js";
 import { set3Modules, set3Questions } from "./data/set3Questions.js";
 import { set4Modules, set4Questions } from "./data/set4Questions.js";
+import { set5Modules, set5Questions } from "./data/set5Questions.js";
+import { pythonSet1Modules, pythonSet1Questions } from "./data/pythonSet1Questions.js";
 
 const STORAGE_KEY = "react-zero-to-hero-progress";
-const curriculumSets = [
+const reactCurriculumSets = [
   { id: "set1", title: "Set 1", label: "Foundations" },
   { id: "set2", title: "Set 2", label: "Interactive React" },
   { id: "set3", title: "Set 3", label: "JavaScript Maturity" },
   { id: "set4", title: "Set 4", label: "React Architecture" },
+  { id: "set5", title: "Set 5", label: "Routing + Server Data" },
   { id: "all", title: "All Sets", label: "Everything" }
 ];
-const modules = [
+const reactModules = [
   ...set1Modules.map((module) => ({ ...module, setId: "set1" })),
   ...set2Modules,
   ...set3Modules,
-  ...set4Modules
+  ...set4Modules,
+  ...set5Modules
 ];
-const questions = [
+const reactQuestions = [
   ...set1Questions.map((question) => ({ ...question, setId: "set1" })),
   ...set2Questions,
   ...set3Questions,
-  ...set4Questions
+  ...set4Questions,
+  ...set5Questions
 ].map((question, order) => ({ ...question, order }));
-const moduleOrder = Object.fromEntries(modules.map((module, order) => [module.id, order]));
+const pythonCurriculumSets = [
+  { id: "python-set1", title: "Set 1", label: "Python Foundations" },
+  { id: "python-all", title: "All Sets", label: "Everything" }
+];
+const pythonModules = pythonSet1Modules;
+const pythonQuestions = pythonSet1Questions.map((question, order) => ({ ...question, order }));
+const tracks = {
+  react: {
+    id: "react",
+    title: "React Zero to Hero",
+    setTitle: "React",
+    defaultSet: "set5",
+    sets: reactCurriculumSets,
+    modules: reactModules,
+    questions: reactQuestions
+  },
+  python: {
+    id: "python",
+    title: "Python Zero to Hero",
+    setTitle: "Python",
+    defaultSet: "python-set1",
+    sets: pythonCurriculumSets,
+    modules: pythonModules,
+    questions: pythonQuestions
+  }
+};
+const allLiveQuestions = Object.values(tracks).flatMap((track) => track.questions);
+const allLiveModules = Object.values(tracks).flatMap((track) => track.modules);
+const topicCatalog = [
+  {
+    id: "react",
+    title: "React",
+    label: "Frontend UI development",
+    description: "Components, hooks, routing, forms, server state, architecture, and production workflows.",
+    mark: "Rx",
+    accent: "#48c9f2",
+    status: "Available"
+  },
+  {
+    id: "sql",
+    title: "SQL",
+    label: "Relational data querying",
+    description: "Tables, joins, aggregation, filtering, schema reasoning, and real query practice.",
+    mark: "SQL",
+    accent: "#4f7cff",
+    status: "Planned"
+  },
+  {
+    id: "jquery",
+    title: "jQuery",
+    label: "Legacy DOM workflows",
+    description: "Selectors, events, DOM updates, AJAX, plugins, and migration thinking.",
+    mark: "jQ",
+    accent: "#1d77c3",
+    status: "Planned"
+  },
+  {
+    id: "python",
+    title: "Python",
+    label: "Programming fundamentals",
+    description: "Files, terminal workflow, syntax, input, variables, data types, strings, and beginner errors.",
+    mark: "Py",
+    accent: "#f0bd35",
+    status: "Available"
+  },
+  {
+    id: "typescript",
+    title: "TypeScript",
+    label: "Typed JavaScript",
+    description: "Types, interfaces, unions, generics, narrowing, API types, and React typing.",
+    mark: "TS",
+    accent: "#3178c6",
+    status: "Planned"
+  },
+  {
+    id: "matplotlib",
+    title: "Matplotlib",
+    label: "Python visualization",
+    description: "Figures, axes, plots, labels, styling, subplots, and chart interpretation.",
+    mark: "plt",
+    accent: "#6c63ff",
+    status: "Planned"
+  },
+  {
+    id: "numpy",
+    title: "NumPy",
+    label: "Numerical arrays",
+    description: "Arrays, shapes, slicing, broadcasting, vectorized operations, and statistics.",
+    mark: "NP",
+    accent: "#4dabcf",
+    status: "Planned"
+  },
+  {
+    id: "pandas",
+    title: "Pandas",
+    label: "Data analysis tables",
+    description: "Series, DataFrames, filtering, grouping, joins, cleanup, and analysis workflows.",
+    mark: "pd",
+    accent: "#150458",
+    status: "Planned"
+  },
+  {
+    id: "bash",
+    title: "Bash",
+    label: "Shell scripting",
+    description: "Commands, pipes, variables, loops, scripts, permissions, and automation.",
+    mark: "$_",
+    accent: "#20b486",
+    status: "Planned"
+  },
+  {
+    id: "linux",
+    title: "Linux",
+    label: "Operating system basics",
+    description: "Filesystem, permissions, processes, users, packages, services, and troubleshooting.",
+    mark: "LX",
+    accent: "#f6b92b",
+    status: "Planned"
+  }
+];
 
 function cleanText(value) {
   return String(value)
@@ -49,7 +173,11 @@ function loadProgress() {
 }
 
 function App() {
-  const [activeSet, setActiveSet] = useState("set4");
+  const [view, setView] = useState("topics");
+  const [topicFilter, setTopicFilter] = useState("");
+  const [topicNotice, setTopicNotice] = useState("");
+  const [activeTopic, setActiveTopic] = useState("react");
+  const [activeSet, setActiveSet] = useState(tracks.react.defaultSet);
   const [activeModule, setActiveModule] = useState("all");
   const [questionIndex, setQuestionIndex] = useState(0);
   const [choice, setChoice] = useState(null);
@@ -59,29 +187,36 @@ function App() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [completed, setCompleted] = useState(loadProgress);
 
+  const activeTrack = tracks[activeTopic] ?? tracks.react;
+  const isAllSet = activeSet === "all" || activeSet.endsWith("-all");
+  const moduleOrder = useMemo(
+    () => Object.fromEntries(activeTrack.modules.map((module, order) => [module.id, order])),
+    [activeTrack]
+  );
   const moduleLookup = useMemo(
-    () => Object.fromEntries(modules.map((module) => [module.id, module])),
-    []
+    () => Object.fromEntries(activeTrack.modules.map((module) => [module.id, module])),
+    [activeTrack]
   );
 
-  const activeSetMeta = curriculumSets.find((set) => set.id === activeSet) ?? curriculumSets[1];
+  const activeSetMeta = activeTrack.sets.find((set) => set.id === activeSet) ?? activeTrack.sets[0];
   const setQuestions = useMemo(() => {
     const selectedQuestions =
-      activeSet === "all"
-        ? questions
-        : questions.filter((question) => question.setId === activeSet);
+      isAllSet
+        ? activeTrack.questions
+        : activeTrack.questions.filter((question) => question.setId === activeSet);
 
     return [...selectedQuestions].sort(
-      (a, b) => moduleOrder[a.moduleId] - moduleOrder[b.moduleId] || a.order - b.order
+      (a, b) =>
+        (moduleOrder[a.moduleId] ?? 0) - (moduleOrder[b.moduleId] ?? 0) || a.order - b.order
     );
-  }, [activeSet]);
+  }, [activeSet, activeTrack, isAllSet, moduleOrder]);
   const visibleModules = useMemo(() => {
-    if (activeSet === "all") {
-      return modules;
+    if (isAllSet) {
+      return activeTrack.modules;
     }
 
-    return modules.filter((module) => module.setId === activeSet);
-  }, [activeSet]);
+    return activeTrack.modules.filter((module) => module.setId === activeSet);
+  }, [activeSet, activeTrack, isAllSet]);
   const filteredQuestions = useMemo(() => {
     if (activeModule === "all") {
       return setQuestions;
@@ -92,8 +227,25 @@ function App() {
 
   const currentQuestion = filteredQuestions[questionIndex] ?? filteredQuestions[0];
   const answeredCount = setQuestions.filter((question) => completed[question.id]).length;
-  const progressPercent = Math.round((answeredCount / setQuestions.length) * 100);
+  const progressPercent = setQuestions.length
+    ? Math.round((answeredCount / setQuestions.length) * 100)
+    : 0;
   const currentNumber = questionIndex + 1;
+  const totalAnsweredCount = allLiveQuestions.filter((question) => completed[question.id]).length;
+  const filteredTopics = useMemo(() => {
+    const normalizedFilter = cleanText(topicFilter).toLowerCase();
+
+    if (!normalizedFilter) {
+      return topicCatalog;
+    }
+
+    return topicCatalog.filter((topic) =>
+      [topic.title, topic.label, topic.description]
+        .join(" ")
+        .toLowerCase()
+        .includes(normalizedFilter)
+    );
+  }, [topicFilter]);
 
   function resetQuestionState() {
     setChoice(null);
@@ -116,6 +268,23 @@ function App() {
     resetQuestionState();
   }
 
+  function openTopic(topic) {
+    const track = tracks[topic.id];
+
+    if (track) {
+      setActiveTopic(track.id);
+      setActiveSet(track.defaultSet);
+      setActiveModule("all");
+      setQuestionIndex(0);
+      setTopicNotice("");
+      setView("quiz");
+      resetQuestionState();
+      return;
+    }
+
+    setTopicNotice(`${topic.title} is planned. We will attach its question sets when that curriculum is built.`);
+  }
+
   function saveCompletion(questionId, value) {
     const nextCompleted = { ...completed, [questionId]: value };
     setCompleted(nextCompleted);
@@ -123,19 +292,18 @@ function App() {
   }
 
   function resetProgress() {
-    if (activeSet === "all") {
-      setCompleted({});
-      localStorage.removeItem(STORAGE_KEY);
-      return;
-    }
-
-    const currentSetIds = new Set(setQuestions.map((question) => question.id));
+    const resetQuestions = isAllSet ? activeTrack.questions : setQuestions;
+    const currentSetIds = new Set(resetQuestions.map((question) => question.id));
     const nextCompleted = Object.fromEntries(
       Object.entries(completed).filter(([questionId]) => !currentSetIds.has(questionId))
     );
 
     setCompleted(nextCompleted);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(nextCompleted));
+    if (Object.keys(nextCompleted).length) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(nextCompleted));
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
+    }
   }
 
   function validateAnswer() {
@@ -201,16 +369,90 @@ function App() {
         ? currentQuestion.blanks.every((_, index) => cleanText(fillAnswers[index] ?? ""))
         : cleanText(codeAnswer);
 
+  if (view === "topics") {
+    return (
+      <main className="topic-page">
+        <section className="topic-hero" aria-labelledby="topic-title">
+          <div className="topic-hero-copy">
+            <p className="eyebrow">Concept Academy</p>
+            <h1 id="topic-title">Choose a learning track</h1>
+            <p>
+              A growing practice library for programming, data, systems, and frontend development.
+              React and Python are live now; the other tracks are ready as planned curriculum panels.
+            </p>
+          </div>
+
+          <div className="topic-stats" aria-label="Current platform stats">
+            <div>
+              <strong>{allLiveQuestions.length}</strong>
+              <span>Live questions</span>
+            </div>
+            <div>
+              <strong>{allLiveModules.length}</strong>
+              <span>Live modules</span>
+            </div>
+            <div>
+              <strong>{totalAnsweredCount}</strong>
+              <span>Completed</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="topic-toolbar" aria-label="Topic controls">
+          <div>
+            <p className="eyebrow">Library</p>
+            <h2>Select a topic</h2>
+          </div>
+          <label className="topic-search">
+            <span>Filter topics</span>
+            <input
+              value={topicFilter}
+              onChange={(event) => setTopicFilter(event.target.value)}
+              placeholder="Search topics..."
+            />
+          </label>
+        </section>
+
+        {topicNotice && <p className="topic-notice">{topicNotice}</p>}
+
+        <section className="topic-grid" aria-label="Available and planned topics">
+          {filteredTopics.map((topic) => (
+            <button
+              className={tracks[topic.id] ? "topic-card available" : "topic-card"}
+              key={topic.id}
+              onClick={() => openTopic(topic)}
+              style={{ "--topic-accent": topic.accent }}
+            >
+              <span className="topic-status">{topic.status}</span>
+              <span className="topic-mark" aria-hidden="true">
+                {topic.mark}
+              </span>
+              <span className="topic-title">{topic.title}</span>
+              <span className="topic-label">{topic.label}</span>
+              <span className="topic-description">{topic.description}</span>
+              <span className="topic-action">
+                {tracks[topic.id] ? "Open questions" : "Coming soon"}
+              </span>
+            </button>
+          ))}
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="app-shell">
       <aside className="sidebar" aria-label="Question modules">
         <div className="brand-block">
           <p className="eyebrow">{activeSetMeta.title}</p>
-          <h1>React Zero to Hero</h1>
+          <h1>{activeTrack.title}</h1>
+          <button className="topic-back-button" onClick={() => setView("topics")}>
+            Back to topics
+          </button>
         </div>
 
         <div className="set-switcher" aria-label="Curriculum sets">
-          {curriculumSets.map((set) => (
+          {activeTrack.sets.map((set) => (
             <button
               className={activeSet === set.id ? "set-button active" : "set-button"}
               key={set.id}
@@ -240,7 +482,7 @@ function App() {
             className={activeModule === "all" ? "module-button active" : "module-button"}
             onClick={() => selectModule("all")}
           >
-            <span>{activeSet === "all" ? "All Questions" : activeSetMeta.label}</span>
+            <span>{isAllSet ? "All Questions" : activeSetMeta.label}</span>
             <span>{setQuestions.length}</span>
           </button>
 
