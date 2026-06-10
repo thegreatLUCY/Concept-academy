@@ -8,11 +8,11 @@
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white&labelColor=20232a)
 ![Pyodide](https://img.shields.io/badge/Python-Pyodide_in--browser-f0bd35?logo=python&logoColor=white&labelColor=20232a)
 ![AI Tutor](https://img.shields.io/badge/AI_Tutor-OpenRouter-8a2be2?labelColor=20232a)
-![Questions](https://img.shields.io/badge/questions-2426-15b77f?labelColor=20232a)
+![Questions](https://img.shields.io/badge/questions-2706-15b77f?labelColor=20232a)
 ![Tracks](https://img.shields.io/badge/tracks-10_live-15b77f?labelColor=20232a)
 ![License](https://img.shields.io/badge/license-MIT-blue?labelColor=20232a)
 
-An open-source W3Schools/LabEx-style teaching platform: **2,400+ questions across 10 languages**, module lessons, **real Python running in the browser**, step-verified projects, exams with printable certificates, spaced-repetition review, and a Socratic AI tutor. **No backend, no accounts** — everything runs client-side.
+An open-source W3Schools/LabEx-style teaching platform: **2,700+ questions across 10 languages**, module lessons, **real Python running in the browser**, step-verified projects, exams with printable certificates, spaced-repetition review, and a Socratic AI tutor. **No backend, no accounts** — everything runs client-side.
 
 </div>
 
@@ -50,9 +50,9 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 
 | Track | Content | Code execution |
 | --- | --- | :---: |
-| 🐍 **Python** | 4 sets · 74 modules · 740 questions — files & syntax to OOP, generators, decorators, testing, regex | ✅ Pyodide |
+| 🐍 **Python** | 5 sets · 92 modules · 920 questions — files & syntax through OOP, async, itertools, typing, performance, packaging | ✅ Pyodide |
 | ⚛️ **React** | 5 sets · 84 modules · 886 questions — JSX to hooks, routing, server state, architecture | — |
-| 🗄️ **SQL** | 10 modules · 100 questions — SELECT to joins, GROUP BY, table design | — |
+| 🗄️ **SQL** | 2 sets · 20 modules · 200 questions — SELECT to window functions, transactions, indexes, schema design | — |
 | 🔷 **TypeScript** | 10 modules · 100 questions — annotations to narrowing, generics, strict mode | — |
 | 💲 **Bash** | 10 modules · 100 questions — navigation to pipes, scripts, permissions | — |
 | 🐧 **Linux** | 10 modules · 100 questions — filesystem to systemd, networking, logs | — |
@@ -74,7 +74,7 @@ Every module in every track ships with a **lesson** (summary, key points, exampl
 - 🔁 **Review queue** — wrong/revealed answers resurface on a 3-stage Leitner schedule
 - 🏆 **Exams + certificates** — 25 sampled questions, no reveals, 70% to pass, printable certificate
 - 🤖 **AI tutor** — sees your question, attempt, and run output; hints before answers; escalates when you're stuck twice ([free OpenRouter key](https://openrouter.ai/keys), stored only in your browser)
-- 🔎 **Concept search** — find any module across all 2,400+ questions from the landing page
+- 🔎 **Concept search** — find any module across all 2,700+ questions from the landing page
 - ▶️ **Resume** — continue exactly where you left off
 - 🌗 **Light / dark / system themes**
 - 🛡️ **Honest scoring** — seeded choice shuffling, no credit for revealed answers, attempt tracking
@@ -94,7 +94,7 @@ npm run dev      # → http://localhost:5173
 | --- | --- |
 | `npm run dev` | Start the dev server |
 | `npm run build` | Production build |
-| `npm run audit` | Validate all 2,426 questions, lessons, and projects |
+| `npm run audit` | Validate all 2,706 questions, lessons, and projects |
 | `node scripts/screenshots.mjs` | Regenerate README screenshots (needs dev server + Playwright) |
 
 > First Python execution downloads the Pyodide runtime (~10 MB) from CDN, then it's cached.
@@ -108,7 +108,7 @@ src/
   App.jsx                  # tracks registry, quiz engine, progress, review, search
   components/              # QuestionBody, ExamMode, ProjectsView, PythonPlayground, AiTutor
   lib/                     # pyodideRunner, pythonGrader (execution grading), shuffle
-  data/                    # 17 question sets, 114 lessons, 3 guided projects
+  data/                    # 19 question sets, 142 lessons, 3 guided projects
 scripts/
   audit-data.mjs           # structural + balance audit (runs in CI)
   screenshots.mjs          # Playwright capture for this README

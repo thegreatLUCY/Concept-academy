@@ -14,9 +14,11 @@ import { pythonSet1Modules, pythonSet1Questions } from "./data/pythonSet1Questio
 import { pythonSet2Modules, pythonSet2Questions } from "./data/pythonSet2Questions.js";
 import { pythonSet3Modules, pythonSet3Questions } from "./data/pythonSet3Questions.js";
 import { pythonSet4Modules, pythonSet4Questions } from "./data/pythonSet4Questions.js";
+import { pythonSet5Modules, pythonSet5Questions, pythonSet5Lessons } from "./data/pythonSet5Questions.js";
 import { pythonLessons } from "./data/pythonLessons.js";
 import { reactLessons } from "./data/reactLessons.js";
 import { sqlSet1Modules, sqlSet1Questions, sqlSet1Lessons } from "./data/sqlSet1Questions.js";
+import { sqlSet2Modules, sqlSet2Questions, sqlSet2Lessons } from "./data/sqlSet2Questions.js";
 import { tsSet1Modules, tsSet1Questions, tsSet1Lessons } from "./data/tsSet1Questions.js";
 import { bashSet1Modules, bashSet1Questions, bashSet1Lessons } from "./data/bashSet1Questions.js";
 import { linuxSet1Modules, linuxSet1Questions, linuxSet1Lessons } from "./data/linuxSet1Questions.js";
@@ -58,19 +60,22 @@ const pythonCurriculumSets = [
   { id: "python-set2", title: "Set 2", label: "Control Flow + Collections" },
   { id: "python-set3", title: "Set 3", label: "Functions, Errors, Files" },
   { id: "python-set4", title: "Set 4", label: "OOP + Professional Python" },
+  { id: "python-set5", title: "Set 5", label: "Advanced Python" },
   { id: "python-all", title: "All Sets", label: "Everything" }
 ];
 const pythonModules = [
   ...pythonSet1Modules,
   ...pythonSet2Modules,
   ...pythonSet3Modules,
-  ...pythonSet4Modules
+  ...pythonSet4Modules,
+  ...pythonSet5Modules
 ];
 const pythonQuestions = [
   ...pythonSet1Questions,
   ...pythonSet2Questions,
   ...pythonSet3Questions,
-  ...pythonSet4Questions
+  ...pythonSet4Questions,
+  ...pythonSet5Questions
 ].map((question, order) => ({ ...question, order }));
 // Single-set tracks share one constructor shape.
 function makeTrack({ id, title, setId, setLabel, modules, questions }) {
@@ -105,7 +110,19 @@ const tracks = {
     modules: pythonModules,
     questions: pythonQuestions
   },
-  sql: makeTrack({ id: "sql", title: "SQL", setId: "sql-set1", setLabel: "SQL Foundations", modules: sqlSet1Modules, questions: sqlSet1Questions }),
+  sql: {
+    id: "sql",
+    title: "SQL Zero to Hero",
+    setTitle: "SQL",
+    defaultSet: "sql-set1",
+    sets: [
+      { id: "sql-set1", title: "Set 1", label: "SQL Foundations" },
+      { id: "sql-set2", title: "Set 2", label: "Intermediate SQL" },
+      { id: "sql-all", title: "All Sets", label: "Everything" }
+    ],
+    modules: [...sqlSet1Modules, ...sqlSet2Modules],
+    questions: [...sqlSet1Questions, ...sqlSet2Questions].map((question, order) => ({ ...question, order }))
+  },
   typescript: makeTrack({ id: "typescript", title: "TypeScript", setId: "ts-set1", setLabel: "TypeScript Foundations", modules: tsSet1Modules, questions: tsSet1Questions }),
   bash: makeTrack({ id: "bash", title: "Bash", setId: "bash-set1", setLabel: "Shell Foundations", modules: bashSet1Modules, questions: bashSet1Questions }),
   linux: makeTrack({ id: "linux", title: "Linux", setId: "linux-set1", setLabel: "Linux Foundations", modules: linuxSet1Modules, questions: linuxSet1Questions }),
@@ -119,6 +136,8 @@ const lessonsByModule = {
   ...reactLessons,
   ...pythonLessons,
   ...sqlSet1Lessons,
+  ...sqlSet2Lessons,
+  ...pythonSet5Lessons,
   ...tsSet1Lessons,
   ...bashSet1Lessons,
   ...linuxSet1Lessons,

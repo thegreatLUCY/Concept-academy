@@ -9,9 +9,11 @@ import { pythonSet1Modules, pythonSet1Questions } from "../src/data/pythonSet1Qu
 import { pythonSet2Modules, pythonSet2Questions } from "../src/data/pythonSet2Questions.js";
 import { pythonSet3Modules, pythonSet3Questions } from "../src/data/pythonSet3Questions.js";
 import { pythonSet4Modules, pythonSet4Questions } from "../src/data/pythonSet4Questions.js";
+import { pythonSet5Modules, pythonSet5Questions, pythonSet5Lessons } from "../src/data/pythonSet5Questions.js";
 import { pythonLessons } from "../src/data/pythonLessons.js";
 import { reactLessons } from "../src/data/reactLessons.js";
 import { sqlSet1Modules, sqlSet1Questions, sqlSet1Lessons } from "../src/data/sqlSet1Questions.js";
+import { sqlSet2Modules, sqlSet2Questions, sqlSet2Lessons } from "../src/data/sqlSet2Questions.js";
 import { tsSet1Modules, tsSet1Questions, tsSet1Lessons } from "../src/data/tsSet1Questions.js";
 import { bashSet1Modules, bashSet1Questions, bashSet1Lessons } from "../src/data/bashSet1Questions.js";
 import { linuxSet1Modules, linuxSet1Questions, linuxSet1Lessons } from "../src/data/linuxSet1Questions.js";
@@ -32,7 +34,9 @@ const sets = [
   ["python-set2", pythonSet2Modules, pythonSet2Questions],
   ["python-set3", pythonSet3Modules, pythonSet3Questions],
   ["python-set4", pythonSet4Modules, pythonSet4Questions],
+  ["python-set5", pythonSet5Modules, pythonSet5Questions],
   ["sql-set1", sqlSet1Modules, sqlSet1Questions],
+  ["sql-set2", sqlSet2Modules, sqlSet2Questions],
   ["ts-set1", tsSet1Modules, tsSet1Questions],
   ["bash-set1", bashSet1Modules, bashSet1Questions],
   ["linux-set1", linuxSet1Modules, linuxSet1Questions],
@@ -145,6 +149,8 @@ const allLessons = {
   ...pythonLessons,
   ...reactLessons,
   ...sqlSet1Lessons,
+  ...sqlSet2Lessons,
+  ...pythonSet5Lessons,
   ...tsSet1Lessons,
   ...bashSet1Lessons,
   ...linuxSet1Lessons,
@@ -168,6 +174,26 @@ for (const project of pythonProjects) {
   }
 }
 console.log(`info: ${pythonProjects.length} guided projects`);
+
+// Duplicate prompts: identical wording inside one set is almost always a paste error.
+const promptMap = new Map();
+for (const [setId, , questions] of sets) {
+  for (const question of questions) {
+    const key = `${setId}::${String(question.prompt).trim().toLowerCase()}::${question.snippet ?? ""}`;
+    if (promptMap.has(key)) {
+      warn(`duplicate prompt in ${setId}: "${String(question.prompt).slice(0, 70)}" (${promptMap.get(key)} and ${question.id})`);
+    } else {
+      promptMap.set(key, question.id);
+    }
+  }
+}
+
+// Lesson coverage: which modules still teach nothing before testing.
+const lessonedModuleIds = new Set(Object.keys(allLessons));
+const uncovered = sets.flatMap(([setId, modules]) =>
+  modules.filter((m) => !lessonedModuleIds.has(m.id)).map((m) => `${setId}/${m.id}`)
+);
+console.log(`info: lesson coverage ${Math.round((lessonedModuleIds.size / allModuleIds.size) * 100)}% (${uncovered.length} modules without lessons)`);
 
 console.log(`\ntotal questions: ${totalQuestions}`);
 console.log(failures ? `${failures} FAILURES, ${warnings} warnings` : `ALL CHECKS PASSED (${warnings} warnings)`);
