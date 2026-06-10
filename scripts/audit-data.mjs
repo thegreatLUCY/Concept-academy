@@ -21,6 +21,9 @@ import { jquerySet1Modules, jquerySet1Questions, jquerySet1Lessons } from "../sr
 import { numpySet1Modules, numpySet1Questions, numpySet1Lessons } from "../src/data/numpySet1Questions.js";
 import { pandasSet1Modules, pandasSet1Questions, pandasSet1Lessons } from "../src/data/pandasSet1Questions.js";
 import { matplotlibSet1Modules, matplotlibSet1Questions, matplotlibSet1Lessons } from "../src/data/matplotlibSet1Questions.js";
+import { cyberSet1Modules, cyberSet1Questions, cyberSet1Lessons } from "../src/data/cyberSet1Questions.js";
+import { cyberSet2Modules, cyberSet2Questions, cyberSet2Lessons } from "../src/data/cyberSet2Questions.js";
+import { cyberSet3Modules, cyberSet3Questions, cyberSet3Lessons } from "../src/data/cyberSet3Questions.js";
 import { pythonProjects } from "../src/data/pythonProjects.js";
 
 // React set 1 predates setId-in-data; the app injects it, so the audit does too.
@@ -43,7 +46,10 @@ const sets = [
   ["jquery-set1", jquerySet1Modules, jquerySet1Questions],
   ["numpy-set1", numpySet1Modules, numpySet1Questions],
   ["pandas-set1", pandasSet1Modules, pandasSet1Questions],
-  ["matplotlib-set1", matplotlibSet1Modules, matplotlibSet1Questions]
+  ["matplotlib-set1", matplotlibSet1Modules, matplotlibSet1Questions],
+  ["cyber-set1", cyberSet1Modules, cyberSet1Questions],
+  ["cyber-set2", cyberSet2Modules, cyberSet2Questions],
+  ["cyber-set3", cyberSet3Modules, cyberSet3Questions]
 ];
 
 let failures = 0;
@@ -157,7 +163,10 @@ const allLessons = {
   ...jquerySet1Lessons,
   ...numpySet1Lessons,
   ...pandasSet1Lessons,
-  ...matplotlibSet1Lessons
+  ...matplotlibSet1Lessons,
+  ...cyberSet1Lessons,
+  ...cyberSet2Lessons,
+  ...cyberSet3Lessons
 };
 for (const [moduleId, lesson] of Object.entries(allLessons)) {
   if (!allModuleIds.has(moduleId)) fail(`lesson references unknown module ${moduleId}`);

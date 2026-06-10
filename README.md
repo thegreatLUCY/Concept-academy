@@ -8,11 +8,11 @@
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white&labelColor=20232a)
 ![Pyodide](https://img.shields.io/badge/Python-Pyodide_in--browser-f0bd35?logo=python&logoColor=white&labelColor=20232a)
 ![AI Tutor](https://img.shields.io/badge/AI_Tutor-OpenRouter-8a2be2?labelColor=20232a)
-![Questions](https://img.shields.io/badge/questions-2706-15b77f?labelColor=20232a)
-![Tracks](https://img.shields.io/badge/tracks-10_live-15b77f?labelColor=20232a)
+![Questions](https://img.shields.io/badge/questions-3006-15b77f?labelColor=20232a)
+![Tracks](https://img.shields.io/badge/tracks-11_live-15b77f?labelColor=20232a)
 ![License](https://img.shields.io/badge/license-MIT-blue?labelColor=20232a)
 
-An open-source W3Schools/LabEx-style teaching platform: **2,700+ questions across 10 languages**, module lessons, **real Python running in the browser**, step-verified projects, exams with printable certificates, spaced-repetition review, and a Socratic AI tutor. **No backend, no accounts** — everything runs client-side.
+An open-source W3Schools/LabEx-style teaching platform: **3,000+ questions across 11 tracks**, module lessons, **real Python running in the browser**, step-verified projects, exams with printable certificates, spaced-repetition review, and a Socratic AI tutor. **No backend, no accounts** — everything runs client-side.
 
 </div>
 
@@ -42,7 +42,7 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 
 | Guided Projects | Set Exams | Multi-language |
 | :---: | :---: | :---: |
-| ![Step-verified guided project](docs/screenshots/projects.png) | ![Exam mode with certificate](docs/screenshots/exam.png) | ![SQL track with lessons](docs/screenshots/sql-quiz.png) |
+| ![Step-verified guided project](docs/screenshots/projects.png) | ![Exam mode with certificate](docs/screenshots/exam.png) | ![Cybersecurity track with lessons](docs/screenshots/cyber-quiz.png) |
 
 ---
 
@@ -56,6 +56,7 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 | 🔷 **TypeScript** | 10 modules · 100 questions — annotations to narrowing, generics, strict mode | — |
 | 💲 **Bash** | 10 modules · 100 questions — navigation to pipes, scripts, permissions | — |
 | 🐧 **Linux** | 10 modules · 100 questions — filesystem to systemd, networking, logs | — |
+| 🛡️ **Cybersecurity** | 3 sets · 30 modules · 300 questions — CIA triad & crypto to web defense, OWASP, threat modeling, blue team, forensics, ethics | — |
 | 💛 **jQuery** | 10 modules · 100 questions — selectors to AJAX, plus vanilla-JS migration | — |
 | 🔢 **NumPy** | 10 modules · 100 questions — arrays to broadcasting, masking, views vs copies | — |
 | 🐼 **Pandas** | 10 modules · 100 questions — DataFrames to groupby, merging, cleanup | — |
@@ -74,7 +75,7 @@ Every module in every track ships with a **lesson** (summary, key points, exampl
 - 🔁 **Review queue** — wrong/revealed answers resurface on a 3-stage Leitner schedule
 - 🏆 **Exams + certificates** — 25 sampled questions, no reveals, 70% to pass, printable certificate
 - 🤖 **AI tutor** — sees your question, attempt, and run output; hints before answers; escalates when you're stuck twice ([free OpenRouter key](https://openrouter.ai/keys), stored only in your browser)
-- 🔎 **Concept search** — find any module across all 2,700+ questions from the landing page
+- 🔎 **Concept search** — find any module across all 3,000+ questions from the landing page
 - ▶️ **Resume** — continue exactly where you left off
 - 🌗 **Light / dark / system themes**
 - 🛡️ **Honest scoring** — seeded choice shuffling, no credit for revealed answers, attempt tracking
@@ -94,7 +95,7 @@ npm run dev      # → http://localhost:5173
 | --- | --- |
 | `npm run dev` | Start the dev server |
 | `npm run build` | Production build |
-| `npm run audit` | Validate all 2,706 questions, lessons, and projects |
+| `npm run audit` | Validate all 3,006 questions, lessons, and projects |
 | `node scripts/screenshots.mjs` | Regenerate README screenshots (needs dev server + Playwright) |
 
 > First Python execution downloads the Pyodide runtime (~10 MB) from CDN, then it's cached.
@@ -108,7 +109,7 @@ src/
   App.jsx                  # tracks registry, quiz engine, progress, review, search
   components/              # QuestionBody, ExamMode, ProjectsView, PythonPlayground, AiTutor
   lib/                     # pyodideRunner, pythonGrader (execution grading), shuffle
-  data/                    # 19 question sets, 142 lessons, 3 guided projects
+  data/                    # 22 question sets, 172 lessons, 3 guided projects
 scripts/
   audit-data.mjs           # structural + balance audit (runs in CI)
   screenshots.mjs          # Playwright capture for this README

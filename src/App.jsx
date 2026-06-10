@@ -26,6 +26,9 @@ import { jquerySet1Modules, jquerySet1Questions, jquerySet1Lessons } from "./dat
 import { numpySet1Modules, numpySet1Questions, numpySet1Lessons } from "./data/numpySet1Questions.js";
 import { pandasSet1Modules, pandasSet1Questions, pandasSet1Lessons } from "./data/pandasSet1Questions.js";
 import { matplotlibSet1Modules, matplotlibSet1Questions, matplotlibSet1Lessons } from "./data/matplotlibSet1Questions.js";
+import { cyberSet1Modules, cyberSet1Questions, cyberSet1Lessons } from "./data/cyberSet1Questions.js";
+import { cyberSet2Modules, cyberSet2Questions, cyberSet2Lessons } from "./data/cyberSet2Questions.js";
+import { cyberSet3Modules, cyberSet3Questions, cyberSet3Lessons } from "./data/cyberSet3Questions.js";
 import { gradePythonCode, gradeCodeByString } from "./lib/pythonGrader.js";
 import { cleanCode, cleanText } from "./lib/textUtils.js";
 
@@ -129,7 +132,21 @@ const tracks = {
   jquery: makeTrack({ id: "jquery", title: "jQuery", setId: "jquery-set1", setLabel: "jQuery + Migration", modules: jquerySet1Modules, questions: jquerySet1Questions }),
   numpy: makeTrack({ id: "numpy", title: "NumPy", setId: "numpy-set1", setLabel: "Array Foundations", modules: numpySet1Modules, questions: numpySet1Questions }),
   pandas: makeTrack({ id: "pandas", title: "Pandas", setId: "pandas-set1", setLabel: "DataFrame Foundations", modules: pandasSet1Modules, questions: pandasSet1Questions }),
-  matplotlib: makeTrack({ id: "matplotlib", title: "Matplotlib", setId: "matplotlib-set1", setLabel: "Visualization Foundations", modules: matplotlibSet1Modules, questions: matplotlibSet1Questions })
+  matplotlib: makeTrack({ id: "matplotlib", title: "Matplotlib", setId: "matplotlib-set1", setLabel: "Visualization Foundations", modules: matplotlibSet1Modules, questions: matplotlibSet1Questions }),
+  cybersecurity: {
+    id: "cybersecurity",
+    title: "Cybersecurity Zero to Hero",
+    setTitle: "Cybersecurity",
+    defaultSet: "cyber-set1",
+    sets: [
+      { id: "cyber-set1", title: "Set 1", label: "Security Foundations" },
+      { id: "cyber-set2", title: "Set 2", label: "Defending Systems & Networks" },
+      { id: "cyber-set3", title: "Set 3", label: "Offensive-Minded Defense" },
+      { id: "cyber-all", title: "All Sets", label: "Everything" }
+    ],
+    modules: [...cyberSet1Modules, ...cyberSet2Modules, ...cyberSet3Modules],
+    questions: [...cyberSet1Questions, ...cyberSet2Questions, ...cyberSet3Questions].map((question, order) => ({ ...question, order }))
+  }
 };
 
 const lessonsByModule = {
@@ -144,7 +161,10 @@ const lessonsByModule = {
   ...jquerySet1Lessons,
   ...numpySet1Lessons,
   ...pandasSet1Lessons,
-  ...matplotlibSet1Lessons
+  ...matplotlibSet1Lessons,
+  ...cyberSet1Lessons,
+  ...cyberSet2Lessons,
+  ...cyberSet3Lessons
 };
 const allLiveQuestions = Object.values(tracks).flatMap((track) => track.questions);
 const allLiveModules = Object.values(tracks).flatMap((track) => track.modules);
@@ -248,6 +268,15 @@ const topicCatalog = [
     description: "Filesystem, permissions, processes, users, packages, services, and troubleshooting.",
     mark: "LX",
     accent: "#ea580c",
+    status: "Available"
+  },
+  {
+    id: "cybersecurity",
+    title: "Cybersecurity",
+    label: "Defensive security & ethics",
+    description: "CIA triad, threats and risk, crypto, web defense (XSS, SQLi, CSRF), OWASP, threat modeling, blue team, forensics, and authorized testing ethics.",
+    mark: "Sec",
+    accent: "#e11d48",
     status: "Available"
   }
 ];
