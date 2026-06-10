@@ -15,6 +15,15 @@ import { pythonSet2Modules, pythonSet2Questions } from "./data/pythonSet2Questio
 import { pythonSet3Modules, pythonSet3Questions } from "./data/pythonSet3Questions.js";
 import { pythonSet4Modules, pythonSet4Questions } from "./data/pythonSet4Questions.js";
 import { pythonLessons } from "./data/pythonLessons.js";
+import { reactLessons } from "./data/reactLessons.js";
+import { sqlSet1Modules, sqlSet1Questions, sqlSet1Lessons } from "./data/sqlSet1Questions.js";
+import { tsSet1Modules, tsSet1Questions, tsSet1Lessons } from "./data/tsSet1Questions.js";
+import { bashSet1Modules, bashSet1Questions, bashSet1Lessons } from "./data/bashSet1Questions.js";
+import { linuxSet1Modules, linuxSet1Questions, linuxSet1Lessons } from "./data/linuxSet1Questions.js";
+import { jquerySet1Modules, jquerySet1Questions, jquerySet1Lessons } from "./data/jquerySet1Questions.js";
+import { numpySet1Modules, numpySet1Questions, numpySet1Lessons } from "./data/numpySet1Questions.js";
+import { pandasSet1Modules, pandasSet1Questions, pandasSet1Lessons } from "./data/pandasSet1Questions.js";
+import { matplotlibSet1Modules, matplotlibSet1Questions, matplotlibSet1Lessons } from "./data/matplotlibSet1Questions.js";
 import { gradePythonCode, gradeCodeByString } from "./lib/pythonGrader.js";
 import { cleanCode, cleanText } from "./lib/textUtils.js";
 
@@ -63,12 +72,26 @@ const pythonQuestions = [
   ...pythonSet3Questions,
   ...pythonSet4Questions
 ].map((question, order) => ({ ...question, order }));
+// Single-set tracks share one constructor shape.
+function makeTrack({ id, title, setId, setLabel, modules, questions }) {
+  return {
+    id,
+    title: `${title} Zero to Hero`,
+    setTitle: title,
+    defaultSet: setId,
+    sets: [{ id: setId, title: "Set 1", label: setLabel }],
+    modules,
+    questions: questions.map((question, order) => ({ ...question, order }))
+  };
+}
+
 const tracks = {
   react: {
     id: "react",
     title: "React Zero to Hero",
     setTitle: "React",
-    defaultSet: "set5",
+    // learners land at the start of the teaching path, not the hardest set
+    defaultSet: "set1",
     sets: reactCurriculumSets,
     modules: reactModules,
     questions: reactQuestions
@@ -81,7 +104,28 @@ const tracks = {
     sets: pythonCurriculumSets,
     modules: pythonModules,
     questions: pythonQuestions
-  }
+  },
+  sql: makeTrack({ id: "sql", title: "SQL", setId: "sql-set1", setLabel: "SQL Foundations", modules: sqlSet1Modules, questions: sqlSet1Questions }),
+  typescript: makeTrack({ id: "typescript", title: "TypeScript", setId: "ts-set1", setLabel: "TypeScript Foundations", modules: tsSet1Modules, questions: tsSet1Questions }),
+  bash: makeTrack({ id: "bash", title: "Bash", setId: "bash-set1", setLabel: "Shell Foundations", modules: bashSet1Modules, questions: bashSet1Questions }),
+  linux: makeTrack({ id: "linux", title: "Linux", setId: "linux-set1", setLabel: "Linux Foundations", modules: linuxSet1Modules, questions: linuxSet1Questions }),
+  jquery: makeTrack({ id: "jquery", title: "jQuery", setId: "jquery-set1", setLabel: "jQuery + Migration", modules: jquerySet1Modules, questions: jquerySet1Questions }),
+  numpy: makeTrack({ id: "numpy", title: "NumPy", setId: "numpy-set1", setLabel: "Array Foundations", modules: numpySet1Modules, questions: numpySet1Questions }),
+  pandas: makeTrack({ id: "pandas", title: "Pandas", setId: "pandas-set1", setLabel: "DataFrame Foundations", modules: pandasSet1Modules, questions: pandasSet1Questions }),
+  matplotlib: makeTrack({ id: "matplotlib", title: "Matplotlib", setId: "matplotlib-set1", setLabel: "Visualization Foundations", modules: matplotlibSet1Modules, questions: matplotlibSet1Questions })
+};
+
+const lessonsByModule = {
+  ...reactLessons,
+  ...pythonLessons,
+  ...sqlSet1Lessons,
+  ...tsSet1Lessons,
+  ...bashSet1Lessons,
+  ...linuxSet1Lessons,
+  ...jquerySet1Lessons,
+  ...numpySet1Lessons,
+  ...pandasSet1Lessons,
+  ...matplotlibSet1Lessons
 };
 const allLiveQuestions = Object.values(tracks).flatMap((track) => track.questions);
 const allLiveModules = Object.values(tracks).flatMap((track) => track.modules);
@@ -103,7 +147,7 @@ const topicCatalog = [
     label: "Frontend UI development",
     description: "Components, hooks, routing, forms, server state, architecture, and production workflows.",
     mark: "Rx",
-    accent: "#48c9f2",
+    accent: "#0891b2",
     status: "Available"
   },
   {
@@ -112,8 +156,8 @@ const topicCatalog = [
     label: "Relational data querying",
     description: "Tables, joins, aggregation, filtering, schema reasoning, and real query practice.",
     mark: "SQL",
-    accent: "#4f7cff",
-    status: "Planned"
+    accent: "#4f46e5",
+    status: "Available"
   },
   {
     id: "jquery",
@@ -121,8 +165,8 @@ const topicCatalog = [
     label: "Legacy DOM workflows",
     description: "Selectors, events, DOM updates, AJAX, plugins, and migration thinking.",
     mark: "jQ",
-    accent: "#1d77c3",
-    status: "Planned"
+    accent: "#0369a1",
+    status: "Available"
   },
   {
     id: "python",
@@ -130,7 +174,7 @@ const topicCatalog = [
     label: "Programming fundamentals",
     description: "Files, terminal workflow, syntax, input, variables, data types, strings, and beginner errors.",
     mark: "Py",
-    accent: "#f0bd35",
+    accent: "#b45309",
     status: "Available"
   },
   {
@@ -139,8 +183,8 @@ const topicCatalog = [
     label: "Typed JavaScript",
     description: "Types, interfaces, unions, generics, narrowing, API types, and React typing.",
     mark: "TS",
-    accent: "#3178c6",
-    status: "Planned"
+    accent: "#2563eb",
+    status: "Available"
   },
   {
     id: "matplotlib",
@@ -148,8 +192,8 @@ const topicCatalog = [
     label: "Python visualization",
     description: "Figures, axes, plots, labels, styling, subplots, and chart interpretation.",
     mark: "plt",
-    accent: "#6c63ff",
-    status: "Planned"
+    accent: "#c026d3",
+    status: "Available"
   },
   {
     id: "numpy",
@@ -157,8 +201,8 @@ const topicCatalog = [
     label: "Numerical arrays",
     description: "Arrays, shapes, slicing, broadcasting, vectorized operations, and statistics.",
     mark: "NP",
-    accent: "#4dabcf",
-    status: "Planned"
+    accent: "#0d9488",
+    status: "Available"
   },
   {
     id: "pandas",
@@ -166,8 +210,8 @@ const topicCatalog = [
     label: "Data analysis tables",
     description: "Series, DataFrames, filtering, grouping, joins, cleanup, and analysis workflows.",
     mark: "pd",
-    accent: "#150458",
-    status: "Planned"
+    accent: "#7c3aed",
+    status: "Available"
   },
   {
     id: "bash",
@@ -175,8 +219,8 @@ const topicCatalog = [
     label: "Shell scripting",
     description: "Commands, pipes, variables, loops, scripts, permissions, and automation.",
     mark: "$_",
-    accent: "#20b486",
-    status: "Planned"
+    accent: "#16a34a",
+    status: "Available"
   },
   {
     id: "linux",
@@ -184,8 +228,8 @@ const topicCatalog = [
     label: "Operating system basics",
     description: "Filesystem, permissions, processes, users, packages, services, and troubleshooting.",
     mark: "LX",
-    accent: "#f6b92b",
-    status: "Planned"
+    accent: "#ea580c",
+    status: "Available"
   }
 ];
 
@@ -401,6 +445,11 @@ function App() {
       );
     }
   }, [view, activeTopic, activeSet, activeModule, questionIndex, isReviewMode]);
+
+  useEffect(() => {
+    const accent = topicCatalog.find((topic) => topic.id === activeTopic)?.accent ?? "#15b77f";
+    document.documentElement.style.setProperty("--track-accent", accent);
+  }, [activeTopic]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -649,42 +698,68 @@ function App() {
         </div>
         <section className="topic-hero" aria-labelledby="topic-title">
           <div className="topic-hero-copy">
-            <p className="eyebrow">Practice-first learning</p>
-            <h1 id="topic-title">Choose a learning track</h1>
-            <p>
-              Build steady confidence with focused lessons, runnable exercises, review queues, and
-              progress that follows you across React, Python, and the upcoming data and systems tracks.
+            <p className="eyebrow">Free &amp; open source · No sign-up · Runs entirely in your browser</p>
+            <h1 id="topic-title">
+              Learn it. Code it. <em>Run it. Own it.</em>
+            </h1>
+            <p className="topic-hero-lead">
+              Concept Academy is a coding school that fits in a browser tab. Short lessons teach
+              each concept, {allLiveQuestions.length.toLocaleString()} hand-built questions make it
+              stick, your Python answers run on a real interpreter, and an AI tutor coaches you
+              through every mistake — from your first print() to professional patterns.
             </p>
-            {resumeTrack && (
-              <button className="continue-button" onClick={() => continueLearning(resumePoint)}>
-                Continue learning: {resumeTrack.title}
+            <div className="hero-actions">
+              <button
+                className="hero-cta"
+                onClick={() => openTopic(topicCatalog.find((topic) => topic.id === "python"))}
+              >
+                Start with Python
               </button>
-            )}
+              <a className="hero-secondary" href="#topic-grid">
+                Browse all {Object.keys(tracks).length} tracks
+              </a>
+              {resumeTrack && (
+                <button className="hero-secondary" onClick={() => continueLearning(resumePoint)}>
+                  Continue: {resumeTrack.setTitle}
+                </button>
+              )}
+            </div>
+            <ul className="hero-features" aria-label="What you get">
+              <li>Lesson-first modules</li>
+              <li>Real code execution</li>
+              <li>AI tutor on every track</li>
+              <li>Exams &amp; certificates</li>
+              <li>Spaced review</li>
+            </ul>
           </div>
 
           <div className="topic-stats" aria-label="Current platform stats">
             <div>
-              <strong>{allLiveQuestions.length}</strong>
-              <span>Live questions</span>
+              <strong>{allLiveQuestions.length.toLocaleString()}</strong>
+              <span>practice questions, written by hand</span>
+            </div>
+            <div>
+              <strong>{Object.keys(tracks).length}</strong>
+              <span>languages &amp; tools, zero to mastery</span>
             </div>
             <div>
               <strong>{allLiveModules.length}</strong>
-              <span>Live modules</span>
+              <span>modules, each with its own lesson</span>
             </div>
             <div>
               <strong>{totalAnsweredCount}</strong>
-              <span>Completed</span>
+              <span>questions you have conquered</span>
             </div>
           </div>
         </section>
 
         <section className="topic-toolbar" aria-label="Topic controls">
           <div>
-            <p className="eyebrow">Library</p>
-            <h2>Select a topic</h2>
+            <p className="eyebrow">The library</p>
+            <h2>Pick your track</h2>
           </div>
           <label className="topic-search">
-            <span>Search topics, modules, and concepts</span>
+            <span>Search every module and concept</span>
             <input
               value={topicFilter}
               onChange={(event) => setTopicFilter(event.target.value)}
@@ -712,7 +787,7 @@ function App() {
 
         {topicNotice && <p className="topic-notice">{topicNotice}</p>}
 
-        <section className="topic-grid" aria-label="Available and planned topics">
+        <section className="topic-grid" id="topic-grid" aria-label="Available and planned topics">
           {filteredTopics.map((topic) => (
             <button
               className={tracks[topic.id] ? "topic-card available" : "topic-card"}
@@ -728,11 +803,18 @@ function App() {
               <span className="topic-label">{topic.label}</span>
               <span className="topic-description">{topic.description}</span>
               <span className="topic-action">
-                {tracks[topic.id] ? "Open questions" : "Coming soon"}
+                {tracks[topic.id] ? "Start learning →" : "Coming soon"}
               </span>
             </button>
           ))}
         </section>
+
+        <footer className="topic-footer">
+          <p>
+            Open source under the MIT license. Every question, lesson, and track is contributable —
+            help the next learner.
+          </p>
+        </footer>
       </main>
     );
   }
@@ -758,8 +840,7 @@ function App() {
   }
 
   const isPythonTrack = activeTrack.id === "python";
-  const lesson =
-    isPythonTrack && currentQuestion ? pythonLessons[currentQuestion.moduleId] : null;
+  const lesson = currentQuestion ? lessonsByModule[currentQuestion.moduleId] : null;
   const lessonModuleId = currentQuestion?.moduleId;
   const modulePassedCount = currentQuestion
     ? activeTrack.questions.filter(
@@ -932,7 +1013,7 @@ function App() {
                     {lesson.example && (
                       <div className="lesson-example">
                         <pre>{lesson.example}</pre>
-                        <PythonRunPanel code={lesson.example} />
+                        {isPythonTrack && <PythonRunPanel code={lesson.example} />}
                       </div>
                     )}
                   </div>
@@ -1021,24 +1102,23 @@ function App() {
               </button>
             </div>
 
-            {isPythonTrack && wrongStreak >= 2 && (
+            {wrongStreak >= 2 && (
               <p className="tutor-nudge">
                 Stuck on this one? The AI tutor below can give you a hint without spoiling the answer.
               </p>
             )}
 
-            {isPythonTrack && (
-              <AiTutor
-                context={{
-                  mode: "quiz",
-                  question: currentQuestion,
-                  learnerAnswer,
-                  runOutput: lastRunText,
-                  attempts,
-                  wrongStreak
-                }}
-              />
-            )}
+            <AiTutor
+              context={{
+                mode: "quiz",
+                language: activeTrack.setTitle,
+                question: currentQuestion,
+                learnerAnswer,
+                runOutput: lastRunText,
+                attempts,
+                wrongStreak
+              }}
+            />
           </>
         )}
       </section>

@@ -438,12 +438,13 @@ export const questions = [
     level: "Typed Code",
     type: "code",
     prompt: "Write an import statement for Header from ./components/Header.jsx.",
-    starter: "import ",
+    starter: "",
     expected: "import Header from \"./components/Header.jsx\";",
     accepted: [
       "import Header from \"./components/Header.jsx\";",
       "import Header from './components/Header.jsx';"
     ],
+    required: ["import Header from", "./components/Header.jsx"],
     explanation: "A default export can be imported with any local name, and ./ starts from the current folder."
   },
   {

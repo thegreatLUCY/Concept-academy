@@ -16,11 +16,15 @@ function withStarter(question, source) {
 }
 
 function stringMatch(question, answer) {
-  const normalized = cleanCode(answer);
+  // caseInsensitive supports command/keyword answers (SQL, shell) where
+  // SELECT and select are equally correct.
+  const fold = (value) =>
+    question.caseInsensitive ? cleanCode(value).toLowerCase() : cleanCode(value);
+  const normalized = fold(answer);
   const accepted = question.accepted ?? [question.expected];
-  const exactMatch = accepted.some((candidate) => cleanCode(candidate) === normalized);
+  const exactMatch = accepted.some((candidate) => fold(candidate) === normalized);
   const requiredMatch = question.required?.every((snippet) =>
-    normalized.includes(cleanCode(snippet))
+    normalized.includes(fold(snippet))
   );
 
   return exactMatch || Boolean(requiredMatch);

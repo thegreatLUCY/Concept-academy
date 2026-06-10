@@ -10,6 +10,15 @@ import { pythonSet2Modules, pythonSet2Questions } from "../src/data/pythonSet2Qu
 import { pythonSet3Modules, pythonSet3Questions } from "../src/data/pythonSet3Questions.js";
 import { pythonSet4Modules, pythonSet4Questions } from "../src/data/pythonSet4Questions.js";
 import { pythonLessons } from "../src/data/pythonLessons.js";
+import { reactLessons } from "../src/data/reactLessons.js";
+import { sqlSet1Modules, sqlSet1Questions, sqlSet1Lessons } from "../src/data/sqlSet1Questions.js";
+import { tsSet1Modules, tsSet1Questions, tsSet1Lessons } from "../src/data/tsSet1Questions.js";
+import { bashSet1Modules, bashSet1Questions, bashSet1Lessons } from "../src/data/bashSet1Questions.js";
+import { linuxSet1Modules, linuxSet1Questions, linuxSet1Lessons } from "../src/data/linuxSet1Questions.js";
+import { jquerySet1Modules, jquerySet1Questions, jquerySet1Lessons } from "../src/data/jquerySet1Questions.js";
+import { numpySet1Modules, numpySet1Questions, numpySet1Lessons } from "../src/data/numpySet1Questions.js";
+import { pandasSet1Modules, pandasSet1Questions, pandasSet1Lessons } from "../src/data/pandasSet1Questions.js";
+import { matplotlibSet1Modules, matplotlibSet1Questions, matplotlibSet1Lessons } from "../src/data/matplotlibSet1Questions.js";
 import { pythonProjects } from "../src/data/pythonProjects.js";
 
 // React set 1 predates setId-in-data; the app injects it, so the audit does too.
@@ -22,7 +31,15 @@ const sets = [
   ["python-set1", pythonSet1Modules, pythonSet1Questions],
   ["python-set2", pythonSet2Modules, pythonSet2Questions],
   ["python-set3", pythonSet3Modules, pythonSet3Questions],
-  ["python-set4", pythonSet4Modules, pythonSet4Questions]
+  ["python-set4", pythonSet4Modules, pythonSet4Questions],
+  ["sql-set1", sqlSet1Modules, sqlSet1Questions],
+  ["ts-set1", tsSet1Modules, tsSet1Questions],
+  ["bash-set1", bashSet1Modules, bashSet1Questions],
+  ["linux-set1", linuxSet1Modules, linuxSet1Questions],
+  ["jquery-set1", jquerySet1Modules, jquerySet1Questions],
+  ["numpy-set1", numpySet1Modules, numpySet1Questions],
+  ["pandas-set1", pandasSet1Modules, pandasSet1Questions],
+  ["matplotlib-set1", matplotlibSet1Modules, matplotlibSet1Questions]
 ];
 
 let failures = 0;
@@ -123,13 +140,24 @@ if (trueShare > 80 || trueShare < 20) {
 }
 
 // Lessons must map to real modules.
-const pythonModuleIds = new Set(
-  [pythonSet1Modules, pythonSet2Modules, pythonSet3Modules, pythonSet4Modules].flat().map((m) => m.id)
-);
-for (const moduleId of Object.keys(pythonLessons)) {
-  if (!pythonModuleIds.has(moduleId)) fail(`lesson references unknown module ${moduleId}`);
+const allModuleIds = new Set(sets.flatMap(([, modules]) => modules.map((m) => m.id)));
+const allLessons = {
+  ...pythonLessons,
+  ...reactLessons,
+  ...sqlSet1Lessons,
+  ...tsSet1Lessons,
+  ...bashSet1Lessons,
+  ...linuxSet1Lessons,
+  ...jquerySet1Lessons,
+  ...numpySet1Lessons,
+  ...pandasSet1Lessons,
+  ...matplotlibSet1Lessons
+};
+for (const [moduleId, lesson] of Object.entries(allLessons)) {
+  if (!allModuleIds.has(moduleId)) fail(`lesson references unknown module ${moduleId}`);
+  if (!lesson.summary || !lesson.example) fail(`lesson ${moduleId} missing summary or example`);
 }
-console.log(`info: ${Object.keys(pythonLessons).length} module lessons`);
+console.log(`info: ${Object.keys(allLessons).length} module lessons`);
 
 // Projects must have complete steps.
 for (const project of pythonProjects) {

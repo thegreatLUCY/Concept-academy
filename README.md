@@ -1,62 +1,133 @@
-# Concept Academy
+<div align="center">
 
-An open-source, browser-only teaching platform for programming — a W3Schools/LabEx-style learning app with **1,600+ questions**, **real in-browser Python execution**, **guided projects**, **exams with certificates**, and an **AI tutor**. No backend, no accounts: everything runs client-side and progress lives in your browser.
+# 🎓 Concept Academy
 
-## Live tracks
+### Learn to code from zero to mastery — lessons, real code execution, and an AI tutor, all in your browser.
 
-| Track | Content |
-| --- | --- |
-| **Python Zero to Hero** | 4 sets, 74 modules, 740 questions — from "what is a .py file" through OOP, generators, decorators, testing, regex, and Pythonic style. Plus module lessons, guided projects, and a playground. |
-| **React Zero to Hero** | 5 sets, 84 modules, 886 questions — from JSX basics through hooks, architecture, routing, server state, and production workflows. |
+![React](https://img.shields.io/badge/React-19-48c9f2?logo=react&logoColor=white&labelColor=20232a)
+![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white&labelColor=20232a)
+![Pyodide](https://img.shields.io/badge/Python-Pyodide_in--browser-f0bd35?logo=python&logoColor=white&labelColor=20232a)
+![AI Tutor](https://img.shields.io/badge/AI_Tutor-OpenRouter-8a2be2?labelColor=20232a)
+![Questions](https://img.shields.io/badge/questions-2426-15b77f?labelColor=20232a)
+![Tracks](https://img.shields.io/badge/tracks-10_live-15b77f?labelColor=20232a)
+![License](https://img.shields.io/badge/license-MIT-blue?labelColor=20232a)
 
-SQL, TypeScript, NumPy, Pandas, Bash, Linux, and more are planned topic panels awaiting curricula.
+An open-source W3Schools/LabEx-style teaching platform: **2,400+ questions across 10 languages**, module lessons, **real Python running in the browser**, step-verified projects, exams with printable certificates, spaced-repetition review, and a Socratic AI tutor. **No backend, no accounts** — everything runs client-side.
 
-## What makes it a teaching app, not just a quiz
+</div>
 
-- **Lessons before questions** — modules open with a short lesson, key points, and a runnable example (W3Schools-style "try it yourself", but with a real interpreter).
-- **Execution-based grading** — Python code answers are *run*, not string-matched. Output is compared against the reference solution's output, or hidden tests (asserts) are executed. Any correct approach passes; broken code that merely "looks right" fails.
-- **Real Python in the browser** — [Pyodide](https://pyodide.org) powers a playground with a REPL, a Run button on every Python code question, and `input()` support.
-- **Honest progress** — multiple-choice options are shuffled at render time, revealed answers earn no credit, and every attempt is recorded.
-- **Review queue (spaced repetition lite)** — wrong or revealed answers resurface on a 3-stage Leitner schedule until you clear them.
-- **Exams and certificates** — each set has a 25-question sampled exam (no reveals, graded at the end, 70% to pass) with a printable certificate.
-- **Guided projects** — LabEx-style multi-step builds (word frequency analyzer, bank account class, JSON grade book) where each step is verified by running your code against hidden tests.
-- **AI tutor** — an OpenRouter-powered Socratic tutor that sees the current question, your attempt, and your run output. It hints before it answers, and escalates help when you are stuck. Bring your own free API key from [openrouter.ai/keys](https://openrouter.ai/keys); it is stored only in your browser.
-- **Search** — find any module or concept from the landing page and jump straight to it.
-- **Resume** — pick up exactly where you left off.
+---
 
-## Getting started
+## 💡 What this does
+
+Most quiz sites test you without teaching you, and grade code by string-matching — so wrong code passes and correct code fails. Concept Academy fixes both:
+
+- 📖 **Every module teaches first** — a short lesson with key points and a runnable example sits above the questions.
+- ⚡ **Python answers are *executed*, not pattern-matched.** Your code runs in a real interpreter (Pyodide); its output is compared against the reference solution's output, or hidden tests verify your functions. Any correct approach passes. Broken code that merely "looks right" fails.
+- 🧠 **Progress is honest.** Multiple-choice options shuffle per question, revealed answers earn no credit, and missed questions resurface on a Leitner review schedule until you truly know them.
+
+> 🟢 Answer a code question any valid way — `while` loop, `for` loop, comprehension — execution grading accepts it.
+>
+> 🟡 Peek at an answer? It's marked *revealed* and returns in your review queue.
+>
+> 🔴 Paste-the-keywords cheese? It doesn't run, so it doesn't pass.
+
+---
+
+## 📸 Screenshots
+
+| Landing | Lesson + Quiz | Playground |
+| :---: | :---: | :---: |
+| ![Landing page with 10 tracks and search](docs/screenshots/landing.png) | ![Python quiz with module lesson and Run Code](docs/screenshots/python-quiz.png) | ![Python playground with live execution](docs/screenshots/playground.png) |
+
+| Guided Projects | Set Exams | Multi-language |
+| :---: | :---: | :---: |
+| ![Step-verified guided project](docs/screenshots/projects.png) | ![Exam mode with certificate](docs/screenshots/exam.png) | ![SQL track with lessons](docs/screenshots/sql-quiz.png) |
+
+---
+
+## 🗺️ Live tracks
+
+| Track | Content | Code execution |
+| --- | --- | :---: |
+| 🐍 **Python** | 4 sets · 74 modules · 740 questions — files & syntax to OOP, generators, decorators, testing, regex | ✅ Pyodide |
+| ⚛️ **React** | 5 sets · 84 modules · 886 questions — JSX to hooks, routing, server state, architecture | — |
+| 🗄️ **SQL** | 10 modules · 100 questions — SELECT to joins, GROUP BY, table design | — |
+| 🔷 **TypeScript** | 10 modules · 100 questions — annotations to narrowing, generics, strict mode | — |
+| 💲 **Bash** | 10 modules · 100 questions — navigation to pipes, scripts, permissions | — |
+| 🐧 **Linux** | 10 modules · 100 questions — filesystem to systemd, networking, logs | — |
+| 💛 **jQuery** | 10 modules · 100 questions — selectors to AJAX, plus vanilla-JS migration | — |
+| 🔢 **NumPy** | 10 modules · 100 questions — arrays to broadcasting, masking, views vs copies | — |
+| 🐼 **Pandas** | 10 modules · 100 questions — DataFrames to groupby, merging, cleanup | — |
+| 📊 **Matplotlib** | 10 modules · 100 questions — figures to subplots, chart literacy | — |
+
+Every module in every track ships with a **lesson** (summary, key points, example). Every track gets the **AI tutor**, **review queue**, **exams**, and **search**.
+
+---
+
+## ✨ Features
+
+- 📖 **Lessons before questions** — W3Schools-style "learn, then try", with a real interpreter behind Python examples
+- ⚡ **Execution-based grading** — output comparison + hidden assert tests via Pyodide
+- 🐍 **Python playground** — editor, console, and REPL with persistent session and `input()` support
+- 🛠️ **Guided projects** — LabEx-style multi-step builds (word analyzer, bank account, JSON grade book), each step verified by running your code against hidden tests
+- 🔁 **Review queue** — wrong/revealed answers resurface on a 3-stage Leitner schedule
+- 🏆 **Exams + certificates** — 25 sampled questions, no reveals, 70% to pass, printable certificate
+- 🤖 **AI tutor** — sees your question, attempt, and run output; hints before answers; escalates when you're stuck twice ([free OpenRouter key](https://openrouter.ai/keys), stored only in your browser)
+- 🔎 **Concept search** — find any module across all 2,400+ questions from the landing page
+- ▶️ **Resume** — continue exactly where you left off
+- 🌗 **Light / dark / system themes**
+- 🛡️ **Honest scoring** — seeded choice shuffling, no credit for revealed answers, attempt tracking
+
+---
+
+## 🚀 Quick start
 
 ```bash
+git clone https://github.com/thegreatLUCY/Concept-academy.git
+cd Concept-academy
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # production build
-npm run audit    # validate all question data
+npm run dev      # → http://localhost:5173
 ```
 
-The first Python execution downloads the Pyodide runtime (~10 MB) from a CDN; it is cached afterward.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run audit` | Validate all 2,426 questions, lessons, and projects |
+| `node scripts/screenshots.mjs` | Regenerate README screenshots (needs dev server + Playwright) |
 
-## Project structure
+> First Python execution downloads the Pyodide runtime (~10 MB) from CDN, then it's cached.
+
+---
+
+## 🏗️ Project structure
 
 ```
 src/
-  App.jsx                  # app shell: tracks, quiz engine, progress, review, search
-  components/              # QuestionBody, ExamMode, ProjectsView, PythonPlayground, AiTutor...
-  lib/                     # pyodideRunner, pythonGrader (execution grading), shuffle, textUtils
-  data/                    # question sets, lessons, projects
-scripts/audit-data.mjs     # structural + balance audit for all content (runs in CI)
+  App.jsx                  # tracks registry, quiz engine, progress, review, search
+  components/              # QuestionBody, ExamMode, ProjectsView, PythonPlayground, AiTutor
+  lib/                     # pyodideRunner, pythonGrader (execution grading), shuffle
+  data/                    # 17 question sets, 114 lessons, 3 guided projects
+scripts/
+  audit-data.mjs           # structural + balance audit (runs in CI)
+  screenshots.mjs          # Playwright capture for this README
+.github/workflows/ci.yml   # audit + build on every push/PR
 ```
 
-## Contributing
+---
 
-Content contributions (questions, lessons, projects, new tracks) are the most valuable thing you can add. See [CONTRIBUTING.md](CONTRIBUTING.md) for the question schema, authoring rules, and the audit workflow.
+## 🤝 Contributing
 
-## Roadmap
+Content is the most valuable contribution — questions, lessons, projects, new tracks. The data formats and authoring rules (difficulty ramps, trap questions, balance requirements) are documented in [CONTRIBUTING.md](CONTRIBUTING.md). `npm run audit` must pass; CI enforces it.
 
-- In-browser React/JS runner so the React track gets execution-based grading too
+## 🧭 Roadmap
+
+- In-browser JS/React runner so the React track gets execution grading too
+- SQL execution via sql.js; NumPy/Pandas execution via Pyodide packages
+- Guided projects for every track
 - Full spaced-repetition scheduling
-- More tracks: SQL (sql.js), TypeScript, NumPy/Pandas (via Pyodide packages)
-- Lesson coverage for every module
 
-## License
+## 📄 License
 
-[MIT](LICENSE)
+[MIT](LICENSE) — free to use, learn from, and build on.
