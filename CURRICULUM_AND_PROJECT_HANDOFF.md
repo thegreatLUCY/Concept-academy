@@ -11,8 +11,8 @@ The project is a Vite + React teaching quiz app called Concept Academy. It began
 - Current app default view: topic landing page
 - Current live quiz panels: React and Python
 - Current React quiz default set after opening React: `Set 5`
-- Current Python quiz default set after opening Python: `Set 1`
-- Current total curriculum size: `1086` questions
+- Current Python quiz default set after opening Python: `Set 1` (intentional: the Python track is a zero-to-mastery path, so learners land at the start)
+- Current total curriculum size: `1626` questions
 - Current React data sets:
   - React Set 1: `136` questions
   - React Set 2: `190` questions
@@ -21,8 +21,28 @@ The project is a Vite + React teaching quiz app called Concept Academy. It began
   - React Set 5: `200` questions
 - Current Python data sets:
   - Python Set 1: `200` questions
+  - Python Set 2: `180` questions
+  - Python Set 3: `180` questions
+  - Python Set 4: `180` questions
 - Local development URL used during work: `http://127.0.0.1:5173/`
 - Production build command: `npm run build`
+- Python track extras: in-browser Python execution via Pyodide (CDN), a Python Playground with editor + console + REPL, a Run Code button on Python typed-code questions, and an OpenRouter-powered AI tutor (user-supplied free API key stored in localStorage)
+
+## Teaching Engine (added after the curriculum build-out)
+
+- Progress model: localStorage records are `{ status: "passed"|"failed"|"revealed", attempts, box, due, updatedAt }` per question. Old boolean records migrate automatically in `loadProgress()`. Only `status === "passed"` counts toward progress.
+- Anti-gaming: MCQ choices are shuffled at render time with a seeded shuffle (`src/lib/shuffle.js`, seeded by question id) because ~99% of authored data lists the answer first. Revealed answers record `status: "revealed"` and a subsequent correct check earns NO credit (the session tracks a `revealed` flag).
+- Execution-based grading (`src/lib/pythonGrader.js`): Python typed-code answers are graded by behavior. Order: exact/accepted string match → hidden `tests` (asserts appended to learner code) → input()-based questions fall back to string matching → references that error or print nothing (commands, filenames, file-writes) fall back to string matching → random-based references require a clean run + required snippets → otherwise both learner and reference (`starter` + `expected`) run in Pyodide and normalized stdout is compared. Reference runs are cached per question id. Wrong answers show your-output vs expected-output or the traceback.
+- Review queue (Leitner-lite): questions with status failed/revealed, or passed with box < 3 and due <= now, appear in a "Review mistakes" pseudo-module (`activeModule === "__review__"`). The queue is snapshotted when opened so questions do not vanish mid-review. Correct answers increment box (graduate at 3, due +1 day at 2); wrong answers reset box to 1.
+- Resume: last quiz position saved under `concept-academy-resume`; the landing page shows a "Continue learning" button.
+- Search: the landing filter (2+ chars) also searches module titles and question prompts across all tracks and jumps straight to the module.
+- Lessons: `src/data/pythonLessons.js` maps moduleId → { summary, points, example }. Rendered as a collapsible panel above questions (auto-open when the module has no passed questions). Examples are runnable via PythonRunPanel. Currently covers all 20 Python Set 1 modules.
+- Exams + certificates (`src/components/ExamMode.jsx`): per-set, 25 randomly sampled questions, no reveals or feedback until submit, Python code answers graded by execution, 70% to pass. Results show missed questions with explanations. Passing unlocks a printable certificate (print CSS isolates `.certificate`). Best scores stored under `concept-academy-exams`.
+- Guided projects (`src/components/ProjectsView.jsx` + `src/data/pythonProjects.js`): LabEx-style step-verified builds. Each step has instructions, starter, hidden assert tests (run after learner code in a fresh namespace), and a hint. Per-step code and completion persist under `concept-academy-projects`. Three projects: Word Frequency Analyzer, Bank Account Class, Grade Book with JSON Storage. All 15 steps verified against reference solutions with real Python.
+- AI tutor upgrades: context now includes attempts and wrongStreak; after 2 wrong checks a nudge banner points to the tutor and the system prompt asks for a stronger, misconception-targeted hint.
+- QuestionBody/AnswerBlock moved to `src/components/QuestionBody.jsx` (shared by quiz and exam). Code-question Run button now prepends `starter` so starter-dependent code runs correctly.
+- Repo hygiene: README.md, MIT LICENSE, CONTRIBUTING.md (question schema + authoring rules), `scripts/audit-data.mjs` (npm run audit — all 9 sets, structural checks, self-consistency of model answers, TF balance warnings, lesson/project checks), and GitHub Actions CI (`.github/workflows/ci.yml`) running audit + build.
+- Known content debt: True/False answers are 75% True across the catalog (audit reports it); rebalance when sets are next edited. React track still uses string grading (needs a JS runner).
 
 ## App Structure
 
@@ -77,6 +97,28 @@ The app is intentionally simple. The complexity belongs in the curriculum, not i
   - Set 5 question data.
 - `src/data/pythonSet1Questions.js`
   - Python Set 1 question data.
+- `src/data/pythonSet2Questions.js`
+  - Python Set 2 question data (Control Flow + Collections).
+- `src/data/pythonSet3Questions.js`
+  - Python Set 3 question data (Functions, Errors, Files).
+- `src/data/pythonSet4Questions.js`
+  - Python Set 4 question data (OOP + Professional Python).
+- `src/lib/pyodideRunner.js`
+  - Lazy-loads Pyodide v0.26.4 from the jsDelivr CDN (~10 MB, first run only, cached after).
+  - Captures stdout/stderr, formats Python tracebacks, serializes concurrent runs.
+  - Patches `builtins.input` so `input()` opens a browser prompt and echoes the answer to the console.
+  - Question runs use a fresh namespace; the playground uses a persistent session namespace with `runInSession`/`resetSession`.
+- `src/components/PythonRunPanel.jsx`
+  - Run Code button + terminal-style output, rendered under the answer textarea for Python typed-code questions.
+  - Reports the last run result up to `App` so the AI tutor can see it.
+- `src/components/PythonPlayground.jsx`
+  - Full playground view: editor, Run/Clear/Reset Session toolbar, scrolling console, and a `>>>` REPL line that evaluates in the persistent session.
+  - Opened from the Python track sidebar via "Open Python Playground" (`view === "playground"`).
+- `src/components/AiTutor.jsx`
+  - Collapsible chat panel shown on the Python quiz view and in the playground.
+  - Calls the OpenRouter chat completions API directly from the browser; the user pastes their own free OpenRouter key (settings panel, stored in localStorage under `concept-academy-openrouter-key`).
+  - Default model `meta-llama/llama-3.3-70b-instruct:free`; model is editable with a datalist of free options (`concept-academy-openrouter-model`).
+  - System prompt includes the current question, the secret correct answer, the learner's attempt, and the latest run output, with Socratic hint-first rules so it teaches instead of revealing answers.
 - `PYTHON_SOURCE_QUESTIONS.md`
   - Captures the user-fed Python reference screenshots and observed pacing.
 - `dist/`
@@ -408,6 +450,81 @@ User-added concepts included in Python Set 1:
 - expression vs statement
 - operator precedence
 
+### Python Set 2: Control Flow and Collections
+
+Python Set 2 moves from single statements into program logic and data structures. It mirrors the "Interactive React" stage: every module starts with recognition and output-prediction questions, then ends with typed code. Hard questions deliberately target classic traps: list aliasing (b = a), string sorting of numbers, {} creating a dict not a set, duplicate dict keys, sort() returning None, and continue-before-increment infinite loops.
+
+Modules:
+
+- Conditions and Comparisons: truthiness, falsy values, chained comparisons, and/or/not, short-circuit evaluation.
+- if, elif, and else: branch ordering, first-true-wins, else without conditions, grade-ladder programs.
+- Nested Logic and Ternary Expressions: conditional expressions, or-defaults, nesting readability.
+- while Loops: conditions, counters, infinite loop causes, countdowns.
+- for Loops and range(): range start/stop/step, iterating strings and lists, accumulators, empty ranges.
+- break, continue, and pass: early exit, skipping iterations, loop-else, nested loop scope of break.
+- List Basics: indexing, negative indexes, mutation, IndexError, mixed types, reference aliasing.
+- List Methods: append, insert, remove, pop, extend, index, count, clear, append-vs-extend.
+- Slicing, Sorting, and Copies: slice semantics, step, reversed copies, sort vs sorted, copy-then-mutate.
+- Tuples: immutability, single-item tuples, packing/unpacking, tuple vs list choice.
+- Sets: uniqueness, add/remove/discard, union/intersection, {} trap, fast membership.
+- Dictionary Basics: access, KeyError, get with defaults, add/overwrite/pop, duplicate-key literals.
+- Dictionary Loops and Nesting: keys/values/items, nested dicts, lists of dicts, get-counting pattern.
+- String Methods: upper/strip/replace/split/join/startswith/find, immutability of strings.
+- String Slicing and Formatting: slices, reverse, in, f-string format specs, string repetition traps.
+- Membership and Identity: in/not in, is vs ==, is None idiom, dict membership checks keys.
+- List Comprehensions: transform, filter, equivalence to loops, building from strings/ranges.
+- Loop Mini Programs: typed programs — sum 1..100, vowel counting, FizzBuzz, max without max(), filtering evens, reversal, dict printing, dedupe, times tables.
+
+### Python Set 3: Functions, Errors, and Files
+
+Python Set 3 mirrors the "JavaScript Maturity" stage: it makes the learner capable of structuring real programs. Hard questions include the mutable default argument trap, UnboundLocalError, print returning None, banker's rounding, dump vs dumps, and unenforced type hints.
+
+Modules:
+
+- Function Basics: def, calling vs referencing, return vs print, body indentation.
+- Parameters and Arguments: positional, keyword, defaults, required-before-default ordering.
+- *args and **kwargs: collecting, call-site unpacking with * and **, parameter ordering rules.
+- Return Values: None default, multiple returns as tuples, unpacking, guard clauses, early return.
+- Scope: Local, Global, nonlocal: LEGB behavior, shadowing, global keyword, closures, UnboundLocalError.
+- Lambda and Higher-Order Functions: lambda, map, filter, sorted key functions, functions as values.
+- Advanced Comprehensions: dict/set comprehensions, if-filter vs if/else-transform, flattening, generator expressions.
+- Recursion: base cases, recursive steps, factorial, RecursionError, recursion vs loops.
+- Modules and Imports: import, from-import, aliases, own modules, __name__ guard, import side effects.
+- Standard Library Tour: random (randint inclusivity, choice), math (floor/ceil), datetime, os, time.sleep, round(2.5).
+- try, except, else, finally: handling, specific exceptions, else/finally semantics, safe input pattern.
+- raise and Custom Exceptions: raising, messages, custom exception classes, except-as, exception tuples.
+- Reading Files: open modes, read/readlines, with-statement, line iteration, FileNotFoundError, strip.
+- Writing Files: w vs a, file creation, write without newlines, write needs strings, writelines.
+- JSON Data: dumps/loads, dump/load, JSON booleans and string keys, why JSON matters for APIs.
+- Docstrings and Type Hints: docstrings, help(), __doc__, annotations, hints not enforced, -> None.
+- Debugging and Defensive Code: traceback reading, guard clauses, assert, fail-fast validation, NameError.
+- Function Mini Programs: typed programs — word counter, safe average, file sum, higher-order apply_twice, converters, JSON saving, recursive sum, FileNotFoundError handling, parse_age validator, plus the mutable-default trap.
+
+### Python Set 4: OOP and Professional Python
+
+Python Set 4 mirrors the "React Architecture" stage: it teaches the learner to design programs, not just write lines, and finishes the path toward independent development. Hard questions include shared mutable class attributes, identity-based default __eq__, decorator definition-time execution, name mangling, and generator laziness.
+
+Modules:
+
+- Classes and Objects: class, __init__, self, instances, per-instance state.
+- Methods and Attributes: methods, class vs instance attributes, shadowing, stateful Counter objects.
+- __str__, __repr__, and Dunder Methods: printable objects, repr for debugging, __len__, __eq__, default identity equality.
+- Inheritance and super(): subclassing, inherited members, overriding, super().__init__, execution order.
+- Polymorphism and Duck Typing: same-interface loops, duck typing, isinstance (including subclasses), hasattr.
+- Encapsulation and Properties: underscore conventions, name mangling, @property, setters with validation, read-only properties.
+- Class and Static Methods: cls, @classmethod alternative constructors, @staticmethod utilities, class-level counters.
+- Dataclasses: @dataclass, field annotations, generated __init__/__repr__/__eq__, defaults, when to use.
+- Iterators and Generators: yield, lazy bodies, next/StopIteration, preserved state, generator expressions, memory benefits.
+- Decorators: wrapping, @ as sugar, *args/**kwargs wrappers, returning wrapper, passing results through.
+- Context Managers: __enter__/__exit__, with guarantees, as binding, @contextmanager, real lifecycles.
+- The collections Module: Counter, most_common, defaultdict factories, namedtuple, deque vs list.
+- Packages and Program Structure: packages, dotted imports, __main__ guard, import side effects, circular imports, project layout.
+- Virtual Environments and pip: venv creation/activation, pip install, requirements.txt, pip freeze, isolation rationale.
+- Testing Basics: assert, pytest discovery conventions, edge-case coverage, arrange-act-assert, pytest.raises.
+- Regular Expressions Intro: re.search/findall, \\d and +, raw strings, match objects and group(), None guards.
+- Pythonic Style: PEP 8, enumerate, zip, tuple swap, EAFP, truthiness emptiness checks.
+- OOP Mini Programs: typed capstones — BankAccount, Rectangle property, inheritance with overrides, dataclass filtering, generators, Counter analytics, custom exceptions, __str__, TodoList, plus the shared mutable class attribute trap.
+
 ## Current Module Inventory
 
 Set 1:
@@ -531,6 +648,18 @@ Python Set 1:
 - Operators and Precedence: 10
 - Scope and Global Variables: 10
 - Beginner Errors and Mini Programs: 10
+
+Python Set 2 (18 modules, 10 questions each, 180 total):
+
+- Conditions and Comparisons, if/elif/else, Nested Logic and Ternary Expressions, while Loops, for Loops and range(), break/continue/pass, List Basics, List Methods, Slicing/Sorting/Copies, Tuples, Sets, Dictionary Basics, Dictionary Loops and Nesting, String Methods, String Slicing and Formatting, Membership and Identity, List Comprehensions, Loop Mini Programs.
+
+Python Set 3 (18 modules, 10 questions each, 180 total):
+
+- Function Basics, Parameters and Arguments, *args and **kwargs, Return Values, Scope (Local/Global/nonlocal), Lambda and Higher-Order Functions, Advanced Comprehensions, Recursion, Modules and Imports, Standard Library Tour, try/except/else/finally, raise and Custom Exceptions, Reading Files, Writing Files, JSON Data, Docstrings and Type Hints, Debugging and Defensive Code, Function Mini Programs.
+
+Python Set 4 (18 modules, 10 questions each, 180 total):
+
+- Classes and Objects, Methods and Attributes, Dunder Methods, Inheritance and super(), Polymorphism and Duck Typing, Encapsulation and Properties, Class and Static Methods, Dataclasses, Iterators and Generators, Decorators, Context Managers, collections Module, Packages and Program Structure, Virtual Environments and pip, Testing Basics, Regular Expressions Intro, Pythonic Style, OOP Mini Programs.
 
 ## How New Sets Should Be Added
 
