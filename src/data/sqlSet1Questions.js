@@ -176,7 +176,7 @@ export const sqlSet1Lessons = {
       "NOT NULL and UNIQUE are guardrails — use them liberally."
     ],
     example: code(
-      "CREATE TABLE users (",
+      "CREATE TABLE members (",
       "  id INTEGER PRIMARY KEY,",
       "  name TEXT NOT NULL,",
       "  email TEXT UNIQUE",
@@ -304,6 +304,6 @@ export const sqlSet1Questions = [
     mcq("What is a FOREIGN KEY?", ["A column that references the primary key of another table", "A backup key", "An encrypted column"], "A column that references the primary key of another table", "orders.user_id referencing users.id is what makes joins trustworthy."),
     mcq("Why give the email column UNIQUE NOT NULL?", ["Every user must have an email and no two can share one", "It speeds up SELECT *", "It encrypts the email"], "Every user must have an email and no two can share one", "Constraints push data quality into the database itself."),
     fill("Forbid missing names.", "name TEXT __1__ NULL", [{ label: "__1__", answers: ["NOT", "not"] }], "NOT NULL makes the column required."),
-    typed("Create a table named books with an INTEGER PRIMARY KEY column id and a TEXT NOT NULL column title.", "", "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT NOT NULL);", ["CREATE TABLE books", "id INTEGER PRIMARY KEY", "title TEXT NOT NULL"], "Each column is 'name TYPE constraints', comma-separated inside parentheses.")
+    typed("Create a table named articles with an INTEGER PRIMARY KEY column id and a TEXT NOT NULL column title.", "", "CREATE TABLE articles (id INTEGER PRIMARY KEY, title TEXT NOT NULL);", ["CREATE TABLE articles", "id INTEGER PRIMARY KEY", "title TEXT NOT NULL"], "Each column is 'name TYPE constraints', comma-separated inside parentheses.")
   ])
 ];

@@ -40,6 +40,14 @@ The project is a Vite + React teaching quiz app called Concept Academy. It began
 - Production build command: `npm run build`
 - Python track extras: in-browser Python execution via Pyodide (CDN), a Python Playground with editor + console + REPL, a Run Code button on Python typed-code questions, and an OpenRouter-powered AI tutor (user-supplied free API key stored in localStorage)
 
+## Execution Runtimes (per-track hands-on)
+
+- Each track has a `runtime` field in App.jsx: `"python"` (python, numpy, pandas), `"sql"` (sql), or null (others). Code-question grading, the lesson Run button, and the question Run panel all dispatch on it.
+- Python family (`runtime: "python"`): NumPy and Pandas now execute via the existing Pyodide runtime. `src/lib/pyodideRunner.js` calls `pyodide.loadPackagesFromImports(code)` before every run, so `import numpy`/`import pandas` auto-load the packages on first use (cached after). Grading reuses `gradePythonCode` (stdout comparison / hidden tests; read_csv-style examples with no file fall back to string match).
+- SQL (`runtime: "sql"`): real in-browser SQLite via sql.js (CDN, lazy-loaded). `src/lib/sqlRunner.js` exports SEED_SQL (a seeded schema: users, products, orders, customers, suppliers, employees, players, authors, books, sales, monthly_sales/monthly, accounts, students, courses) and `runSql` (each run gets a FRESH seeded DB so DML never leaks). `src/lib/sqlGrader.js` `gradeSql`: runs the learner's query; for SELECT/WITH it compares the result set to the reference query's (order-insensitive unless ORDER BY/window), otherwise runs-clean + string match for DML/DDL. `src/components/SqlRunPanel.jsx` renders results as a table.
+- Seed/question collision rule: tables a CREATE-TABLE question or lesson creates must NOT be in the seed. Fixed instances: sql1-tables question creates `articles` (not seeded), its lesson creates `members`; sql2-schema-design lesson creates `clients`/`purchases`; student_courses removed from the seed. All 19 SQL reference queries + 20 SQL lesson examples verified to run against the seed (SQLite).
+- Bash, Linux, jQuery, TypeScript, Matplotlib, Cybersecurity stay string-graded (no runtime). The JS runner for React/TS/jQuery is deferred (see memory note).
+
 ## Teaching Engine (added after the curriculum build-out)
 
 - Progress model: localStorage records are `{ status: "passed"|"failed"|"revealed", attempts, box, due, updatedAt }` per question. Old boolean records migrate automatically in `loadProgress()`. Only `status === "passed"` counts toward progress.

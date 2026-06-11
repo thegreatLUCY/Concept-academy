@@ -87,7 +87,7 @@ export const sqlSet2Lessons = {
       "    WHEN score >= 80 THEN 'B'",
       "    ELSE 'C'",
       "  END AS grade",
-      "FROM students;"
+      "FROM players;"
     )
   },
   "sql2-functions": {
@@ -101,8 +101,8 @@ export const sqlSet2Lessons = {
     example: code(
       "SELECT",
       "  UPPER(name) AS shout,",
-      "  COALESCE(nickname, name) AS display_name,",
-      "  ROUND(price * 1.2, 2) AS taxed",
+      "  COALESCE(email, 'no email') AS contact,",
+      "  LENGTH(name) AS name_len",
       "FROM users;"
     )
   },
@@ -188,15 +188,15 @@ export const sqlSet2Lessons = {
       "Many-to-many needs a junction table (student_courses)."
     ],
     example: code(
-      "-- instead of orders(customer_name, customer_city, ...)",
-      "CREATE TABLE customers (",
+      "-- one fact, one place: split the repeated customer info out",
+      "CREATE TABLE clients (",
       "  id INTEGER PRIMARY KEY,",
       "  name TEXT NOT NULL,",
       "  city TEXT",
       ");",
-      "CREATE TABLE orders (",
+      "CREATE TABLE purchases (",
       "  id INTEGER PRIMARY KEY,",
-      "  customer_id INTEGER REFERENCES customers(id),",
+      "  client_id INTEGER REFERENCES clients(id),",
       "  total REAL",
       ");"
     )

@@ -2205,3 +2205,49 @@ textarea,
     transition: none;
   }
 }
+
+/* SQL result table (sql.js execution) */
+.sql-result {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: #0b1420;
+  padding: 14px 16px;
+  max-height: 360px;
+  overflow: auto;
+}
+
+.sql-table-wrap {
+  display: grid;
+  gap: 8px;
+}
+
+.sql-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9rem;
+  color: #d7e3ef;
+}
+
+.sql-table th,
+.sql-table td {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  text-align: left;
+}
+
+.sql-table th {
+  background: rgba(255, 255, 255, 0.06);
+  color: #8fd3ff;
+  font-weight: 700;
+}
+
+.sql-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.sql-rowcount {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}

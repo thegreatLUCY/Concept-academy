@@ -72,6 +72,15 @@ function formatPythonError(error) {
 
 async function executePython(code, namespace) {
   const pyodide = await loadPython();
+
+  // Auto-load any imported packages (numpy, pandas, ...) on demand, cached after
+  // the first use. Wrapped so a package that cannot be resolved never blocks a run.
+  try {
+    await pyodide.loadPackagesFromImports(code);
+  } catch {
+    // ignore: the run itself will report a clear ImportError if a package is missing
+  }
+
   const outputLines = [];
   pyodide.setStdout({ batched: (line) => outputLines.push(line) });
   pyodide.setStderr({ batched: (line) => outputLines.push(line) });

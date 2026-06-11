@@ -52,14 +52,14 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 | --- | --- | :---: |
 | 🐍 **Python** | 5 sets · 92 modules · 920 questions — files & syntax through OOP, async, itertools, typing, performance, packaging | ✅ Pyodide |
 | ⚛️ **React** | 5 sets · 84 modules · 886 questions — JSX to hooks, routing, server state, architecture | — |
-| 🗄️ **SQL** | 2 sets · 20 modules · 200 questions — SELECT to window functions, transactions, indexes, schema design | — |
+| 🗄️ **SQL** | 2 sets · 20 modules · 200 questions — SELECT to window functions, transactions, indexes, schema design | ✅ sql.js |
 | 🔷 **TypeScript** | 10 modules · 100 questions — annotations to narrowing, generics, strict mode | — |
 | 💲 **Bash** | 10 modules · 100 questions — navigation to pipes, scripts, permissions | — |
 | 🐧 **Linux** | 10 modules · 100 questions — filesystem to systemd, networking, logs | — |
 | 🛡️ **Cybersecurity** | 3 sets · 30 modules · 300 questions — CIA triad & crypto to web defense, OWASP, threat modeling, blue team, forensics, ethics | — |
 | 💛 **jQuery** | 10 modules · 100 questions — selectors to AJAX, plus vanilla-JS migration | — |
-| 🔢 **NumPy** | 10 modules · 100 questions — arrays to broadcasting, masking, views vs copies | — |
-| 🐼 **Pandas** | 10 modules · 100 questions — DataFrames to groupby, merging, cleanup | — |
+| 🔢 **NumPy** | 10 modules · 100 questions — arrays to broadcasting, masking, views vs copies | ✅ Pyodide |
+| 🐼 **Pandas** | 10 modules · 100 questions — DataFrames to groupby, merging, cleanup | ✅ Pyodide |
 | 📊 **Matplotlib** | 10 modules · 100 questions — figures to subplots, chart literacy | — |
 
 **Every one of the 296 modules ships with a lesson** (summary, key points, runnable/read-along example) shown before its questions. Every track gets the **AI tutor**, **review queue**, **exams**, and **search**.
@@ -69,7 +69,7 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 ## ✨ Features
 
 - 📖 **Lessons before questions** — W3Schools-style "learn, then try", with a real interpreter behind Python examples
-- ⚡ **Execution-based grading** — output comparison + hidden assert tests via Pyodide
+- ⚡ **Execution-based grading** — Python/NumPy/Pandas run in Pyodide (output comparison + hidden tests); **SQL runs in a real in-browser SQLite (sql.js)** and is graded by comparing result sets
 - 🐍 **Python playground** — editor, console, and REPL with persistent session and `input()` support
 - 🛠️ **Guided projects** — LabEx-style multi-step builds (word analyzer, bank account, JSON grade book), each step verified by running your code against hidden tests
 - 🔁 **Review queue** — wrong/revealed answers resurface on a 3-stage Leitner schedule
@@ -124,8 +124,7 @@ Content is the most valuable contribution — questions, lessons, projects, new 
 
 ## 🧭 Roadmap
 
-- In-browser JS/React runner so the React track gets execution grading too
-- SQL execution via sql.js; NumPy/Pandas execution via Pyodide packages
+- In-browser JS/React runner so the React/TypeScript/jQuery tracks get execution grading too
 - Guided projects for every track
 - Full spaced-repetition scheduling
 

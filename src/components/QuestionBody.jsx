@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { seededShuffle } from "../lib/shuffle.js";
 import PythonRunPanel from "./PythonRunPanel.jsx";
+import SqlRunPanel from "./SqlRunPanel.jsx";
 
 export function QuestionBody({
   question,
@@ -10,7 +11,7 @@ export function QuestionBody({
   updateFillAnswer,
   codeAnswer,
   setCodeAnswer,
-  pythonRunnable,
+  runtime,
   onRunResult
 }) {
   // Authored data overwhelmingly lists the correct answer first, so options
@@ -91,9 +92,10 @@ export function QuestionBody({
         spellCheck="false"
         rows={9}
       />
-      {pythonRunnable && (
+      {runtime === "python" && (
         <PythonRunPanel code={codeAnswer.trim() ? runnableCode : ""} onResult={onRunResult} />
       )}
+      {runtime === "sql" && <SqlRunPanel sql={codeAnswer} onResult={onRunResult} />}
     </div>
   );
 }

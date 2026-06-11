@@ -4,6 +4,7 @@ import ExamMode from "./components/ExamMode.jsx";
 import ProjectsView from "./components/ProjectsView.jsx";
 import PythonPlayground from "./components/PythonPlayground.jsx";
 import PythonRunPanel from "./components/PythonRunPanel.jsx";
+import SqlRunPanel from "./components/SqlRunPanel.jsx";
 import { AnswerBlock, QuestionBody } from "./components/QuestionBody.jsx";
 import { modules as set1Modules, questions as set1Questions } from "./data/questions.js";
 import { set2Modules, set2Questions } from "./data/set2Questions.js";
@@ -31,6 +32,7 @@ import { cyberSet1Modules, cyberSet1Questions, cyberSet1Lessons } from "./data/c
 import { cyberSet2Modules, cyberSet2Questions, cyberSet2Lessons } from "./data/cyberSet2Questions.js";
 import { cyberSet3Modules, cyberSet3Questions, cyberSet3Lessons } from "./data/cyberSet3Questions.js";
 import { gradePythonCode, gradeCodeByString } from "./lib/pythonGrader.js";
+import { gradeSql } from "./lib/sqlGrader.js";
 import { cleanCode, cleanText } from "./lib/textUtils.js";
 
 const STORAGE_KEY = "react-zero-to-hero-progress";
@@ -82,12 +84,13 @@ const pythonQuestions = [
   ...pythonSet5Questions
 ].map((question, order) => ({ ...question, order }));
 // Single-set tracks share one constructor shape.
-function makeTrack({ id, title, setId, setLabel, modules, questions }) {
+function makeTrack({ id, title, setId, setLabel, modules, questions, runtime = null }) {
   return {
     id,
     title: `${title} Zero to Hero`,
     setTitle: title,
     defaultSet: setId,
+    runtime,
     sets: [{ id: setId, title: "Set 1", label: setLabel }],
     modules,
     questions: questions.map((question, order) => ({ ...question, order }))
@@ -109,6 +112,7 @@ const tracks = {
     id: "python",
     title: "Python Zero to Hero",
     setTitle: "Python",
+    runtime: "python",
     defaultSet: "python-set1",
     sets: pythonCurriculumSets,
     modules: pythonModules,
@@ -118,6 +122,7 @@ const tracks = {
     id: "sql",
     title: "SQL Zero to Hero",
     setTitle: "SQL",
+    runtime: "sql",
     defaultSet: "sql-set1",
     sets: [
       { id: "sql-set1", title: "Set 1", label: "SQL Foundations" },
@@ -131,8 +136,8 @@ const tracks = {
   bash: makeTrack({ id: "bash", title: "Bash", setId: "bash-set1", setLabel: "Shell Foundations", modules: bashSet1Modules, questions: bashSet1Questions }),
   linux: makeTrack({ id: "linux", title: "Linux", setId: "linux-set1", setLabel: "Linux Foundations", modules: linuxSet1Modules, questions: linuxSet1Questions }),
   jquery: makeTrack({ id: "jquery", title: "jQuery", setId: "jquery-set1", setLabel: "jQuery + Migration", modules: jquerySet1Modules, questions: jquerySet1Questions }),
-  numpy: makeTrack({ id: "numpy", title: "NumPy", setId: "numpy-set1", setLabel: "Array Foundations", modules: numpySet1Modules, questions: numpySet1Questions }),
-  pandas: makeTrack({ id: "pandas", title: "Pandas", setId: "pandas-set1", setLabel: "DataFrame Foundations", modules: pandasSet1Modules, questions: pandasSet1Questions }),
+  numpy: makeTrack({ id: "numpy", title: "NumPy", setId: "numpy-set1", setLabel: "Array Foundations", modules: numpySet1Modules, questions: numpySet1Questions, runtime: "python" }),
+  pandas: makeTrack({ id: "pandas", title: "Pandas", setId: "pandas-set1", setLabel: "DataFrame Foundations", modules: pandasSet1Modules, questions: pandasSet1Questions, runtime: "python" }),
   matplotlib: makeTrack({ id: "matplotlib", title: "Matplotlib", setId: "matplotlib-set1", setLabel: "Visualization Foundations", modules: matplotlibSet1Modules, questions: matplotlibSet1Questions }),
   cybersecurity: {
     id: "cybersecurity",
@@ -282,6 +287,21 @@ const topicCatalog = [
     status: "Available"
   }
 ];
+
+// Compact text view of a SQL result set, for the AI tutor context and feedback.
+function sqlResultToText(run) {
+  if (!run || !run.columns?.length) {
+    return "(no rows)";
+  }
+
+  const header = run.columns.join(" | ");
+  const body = run.rows
+    .slice(0, 10)
+    .map((row) => row.map((cell) => (cell === null ? "NULL" : String(cell))).join(" | "))
+    .join("\n");
+
+  return `${header}\n${body}`;
+}
 
 // Progress records: { status: "passed"|"failed"|"revealed", attempts, box, due, updatedAt }.
 // box is a 3-stage Leitner level — questions below box 3 resurface in the review queue.
@@ -668,11 +688,23 @@ function App() {
     }
 
     if (currentQuestion.type === "code") {
-      if (activeTrack.id === "python") {
+      if (activeTrack.runtime === "python") {
         setChecking(true);
 
         try {
           detail = await gradePythonCode(currentQuestion, codeAnswer);
+          correct = detail.correct;
+        } catch {
+          correct = gradeCodeByString(currentQuestion, codeAnswer);
+          detail = null;
+        } finally {
+          setChecking(false);
+        }
+      } else if (activeTrack.runtime === "sql") {
+        setChecking(true);
+
+        try {
+          detail = await gradeSql(currentQuestion, codeAnswer);
           correct = detail.correct;
         } catch {
           correct = gradeCodeByString(currentQuestion, codeAnswer);
@@ -890,6 +922,7 @@ function App() {
   }
 
   const isPythonTrack = activeTrack.id === "python";
+  const runtime = activeTrack.runtime;
   const lesson = currentQuestion ? lessonsByModule[currentQuestion.moduleId] : null;
   const lessonModuleId = currentQuestion?.moduleId;
   const modulePassedCount = currentQuestion
@@ -909,9 +942,11 @@ function App() {
           ? ""
           : String(choice)
     : "";
-  const lastRunText = lastRun
-    ? [lastRun.output, lastRun.result, lastRun.error].filter(Boolean).join("\n")
-    : "";
+  const lastRunText = !lastRun
+    ? ""
+    : runtime === "sql"
+      ? lastRun.error || sqlResultToText(lastRun)
+      : [lastRun.output, lastRun.result, lastRun.error].filter(Boolean).join("\n");
   const attempts = currentQuestion ? progress[currentQuestion.id]?.attempts ?? 0 : 0;
 
   return (
@@ -1063,7 +1098,8 @@ function App() {
                     {lesson.example && (
                       <div className="lesson-example">
                         <pre>{lesson.example}</pre>
-                        {isPythonTrack && <PythonRunPanel code={lesson.example} />}
+                        {runtime === "python" && <PythonRunPanel code={lesson.example} />}
+                        {runtime === "sql" && <SqlRunPanel sql={lesson.example} />}
                       </div>
                     )}
                   </div>
@@ -1079,7 +1115,7 @@ function App() {
               updateFillAnswer={updateFillAnswer}
               codeAnswer={codeAnswer}
               setCodeAnswer={setCodeAnswer}
-              pythonRunnable={isPythonTrack}
+              runtime={runtime}
               onRunResult={setLastRun}
             />
 
@@ -1094,9 +1130,14 @@ function App() {
                       ? "Answer revealed — this question joins your review queue"
                       : "Review"}
                 </strong>
-                {isCorrect && gradeDetail?.method === "execution" && (
+                {isCorrect && gradeDetail?.method === "execution" && runtime === "python" && (
                   <p className="grade-method">Verified by running your code in Python.</p>
                 )}
+                {isCorrect &&
+                  (gradeDetail?.method === "execution" || gradeDetail?.method === "execution-clean") &&
+                  runtime === "sql" && (
+                    <p className="grade-method">Verified by running your query against the database.</p>
+                  )}
                 {isCorrect && gradeDetail?.method === "tests" && (
                   <p className="grade-method">Verified: your code passed the hidden tests.</p>
                 )}
@@ -1105,6 +1146,7 @@ function App() {
                   <pre className="py-error">{gradeDetail.detail}</pre>
                 )}
                 {!isCorrect &&
+                  runtime === "python" &&
                   gradeDetail?.method === "execution" &&
                   gradeDetail.expectedOutput != null &&
                   !gradeDetail.detail && (
@@ -1116,6 +1158,21 @@ function App() {
                       <div>
                         <span>Expected output</span>
                         <pre>{gradeDetail.expectedOutput}</pre>
+                      </div>
+                    </div>
+                  )}
+                {!isCorrect &&
+                  runtime === "sql" &&
+                  gradeDetail?.expectedRun &&
+                  !gradeDetail.detail && (
+                    <div className="grade-compare">
+                      <div>
+                        <span>Your result</span>
+                        <pre>{sqlResultToText(gradeDetail.learner)}</pre>
+                      </div>
+                      <div>
+                        <span>Expected result</span>
+                        <pre>{sqlResultToText(gradeDetail.expectedRun)}</pre>
                       </div>
                     </div>
                   )}
