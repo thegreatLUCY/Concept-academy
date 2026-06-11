@@ -726,7 +726,14 @@ h2 {
 
 .module-list {
   display: grid;
+  /* minmax(0,…) lets long module titles ellipsize instead of pushing the
+     question counts out of the sidebar */
+  grid-template-columns: minmax(0, 1fr);
   gap: 8px;
+}
+
+.module-button {
+  min-width: 0;
 }
 
 .module-button,

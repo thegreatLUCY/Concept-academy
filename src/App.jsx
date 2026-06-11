@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AiTutor from "./components/AiTutor.jsx";
 import ExamMode from "./components/ExamMode.jsx";
 import ProjectsView from "./components/ProjectsView.jsx";
@@ -419,6 +419,34 @@ function App() {
   const [activeSet, setActiveSet] = useState(tracks.react.defaultSet);
   const [activeModule, setActiveModule] = useState("all");
   const [questionIndex, setQuestionIndex] = useState(0);
+  const isPopNavigation = useRef(false);
+
+  // Browser Back returns to the previous screen (track → landing page)
+  // instead of leaving the site: each view change pushes a history entry.
+  useEffect(() => {
+    if (!window.history.state) {
+      window.history.replaceState({ view: "topics" }, "");
+    }
+
+    const onPop = (event) => {
+      isPopNavigation.current = true;
+      setView(event.state?.view ?? "topics");
+    };
+
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  useEffect(() => {
+    if (isPopNavigation.current) {
+      isPopNavigation.current = false;
+      return;
+    }
+
+    if (view !== "topics") {
+      window.history.pushState({ view }, "");
+    }
+  }, [view]);
   const [choice, setChoice] = useState(null);
   const [fillAnswers, setFillAnswers] = useState({});
   const [codeAnswer, setCodeAnswer] = useState("");
