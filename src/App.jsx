@@ -9,6 +9,7 @@ import JsRunPanel from "./components/JsRunPanel.jsx";
 import SqlPlayground from "./components/SqlPlayground.jsx";
 import JsPlayground from "./components/JsPlayground.jsx";
 import ReferenceView from "./components/ReferenceView.jsx";
+import PlacementQuiz from "./components/PlacementQuiz.jsx";
 import { AnswerBlock, QuestionBody } from "./components/QuestionBody.jsx";
 import { modules as set1Modules, questions as set1Questions } from "./data/questions.js";
 import { set2Modules, set2Questions } from "./data/set2Questions.js";
@@ -308,6 +309,14 @@ const learningPaths = [
       { id: "numpy", note: "Fast numeric arrays — take after Python sets 1–3" },
       { id: "pandas", note: "DataFrames for messy real-world data — builds on NumPy" },
       { id: "matplotlib", note: "Chart what you analyzed — best after NumPy and Pandas" }
+    ],
+    placement: [
+      { trackId: "python", setId: "python-set1", label: "Python Set 1 — Foundations", reason: "Lock in syntax, variables, strings, and types first; everything else in this path leans on them." },
+      { trackId: "python", setId: "python-set2", label: "Python Set 2 — Control Flow + Collections", reason: "You know the syntax — now master loops, conditions, lists, and dictionaries." },
+      { trackId: "python", setId: "python-set3", label: "Python Set 3 — Functions, Errors, Files", reason: "Comfortable with collections — time for functions, exceptions, and real file work." },
+      { trackId: "python", setId: "python-set4", label: "Python Set 4 — OOP + Professional Python", reason: "You write working Python — level up to classes and professional patterns." },
+      { trackId: "sql", setId: "sql-set1", label: "SQL Set 1 — Foundations", reason: "Your Python is solid; add querying so you can work with data where it lives." },
+      { trackId: "numpy", setId: "numpy-set1", label: "NumPy — Array Foundations", reason: "Python and SQL are covered — start the data-analysis stack with arrays." }
     ]
   },
   {
@@ -318,6 +327,14 @@ const learningPaths = [
       { id: "react", note: "Start here — components, hooks, and whole apps from scratch" },
       { id: "typescript", note: "Add a type system once you can build with React" },
       { id: "jquery", note: "Optional — read and migrate the legacy code you'll meet at work" }
+    ],
+    placement: [
+      { trackId: "react", setId: "set1", label: "React Set 1 — Foundations", reason: "Start with JSX, components, and props — the vocabulary every later set assumes." },
+      { trackId: "react", setId: "set2", label: "React Set 2 — Interactive React", reason: "You can read JSX — now make it interactive with state, events, and effects." },
+      { trackId: "react", setId: "set3", label: "React Set 3 — JavaScript Maturity", reason: "Solid on hooks basics — strengthen the JavaScript that powers real apps." },
+      { trackId: "react", setId: "set4", label: "React Set 4 — React Architecture", reason: "You build features — learn to structure whole applications." },
+      { trackId: "react", setId: "set5", label: "React Set 5 — Routing + Server Data", reason: "Architecture is in place — connect routing and server state." },
+      { trackId: "typescript", setId: "ts-set1", label: "TypeScript — Foundations", reason: "Your React is strong; add the type system professional teams expect." }
     ]
   },
   {
@@ -328,6 +345,13 @@ const learningPaths = [
       { id: "linux", note: "Start here — the operating system everything runs on" },
       { id: "bash", note: "Automate the system you now understand" },
       { id: "cybersecurity", note: "Defend it all — builds on Linux, networking, and the web" }
+    ],
+    placement: [
+      { trackId: "linux", setId: "linux-set1", label: "Linux — Foundations", reason: "Learn the filesystem, permissions, and processes before automating or defending anything." },
+      { trackId: "bash", setId: "bash-set1", label: "Bash — Shell Foundations", reason: "You know your way around Linux — automate it with the shell." },
+      { trackId: "cybersecurity", setId: "cyber-set1", label: "Cybersecurity Set 1 — Security Foundations", reason: "With systems skills in place, start defensive security from the CIA triad up." },
+      { trackId: "cybersecurity", setId: "cyber-set2", label: "Cybersecurity Set 2", reason: "Foundations are solid — move into web defense and OWASP territory." },
+      { trackId: "cybersecurity", setId: "cyber-set3", label: "Cybersecurity Set 3", reason: "You think like a defender — finish with blue team, forensics, and ethics." }
     ]
   }
 ];
@@ -423,6 +447,7 @@ function App() {
   const [activeModule, setActiveModule] = useState("all");
   const [questionIndex, setQuestionIndex] = useState(0);
   const isPopNavigation = useRef(false);
+  const [placementPath, setPlacementPath] = useState(null);
 
   // Browser Back returns to the previous screen (track → landing page)
   // instead of leaving the site: each view change pushes a history entry.
@@ -968,6 +993,12 @@ function App() {
                 <header className="path-header">
                   <h3>{path.title}</h3>
                   <p>{path.tagline}</p>
+                  <button
+                    className="placement-trigger"
+                    onClick={() => setPlacementPath(path)}
+                  >
+                    Not sure where to start? Take the 2-minute placement →
+                  </button>
                 </header>
                 <ol className="path-steps">
                   {path.steps.map((step, index) => {
@@ -1038,6 +1069,18 @@ function App() {
             help the next learner.
           </p>
         </footer>
+
+        {placementPath && (
+          <PlacementQuiz
+            path={placementPath}
+            tracks={tracks}
+            onClose={() => setPlacementPath(null)}
+            onStart={(trackId, setId) => {
+              setPlacementPath(null);
+              continueLearning({ topic: trackId, set: setId });
+            }}
+          />
+        )}
       </main>
     );
   }
