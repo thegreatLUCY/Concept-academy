@@ -2817,3 +2817,22 @@ textarea,
   gap: 10px;
   margin-top: 6px;
 }
+
+/* Blank tokens (__1__) referenced in prompt text, styled like the fill slots */
+.prompt-blank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4em;
+  margin: 0 0.12em;
+  padding: 0 0.45em;
+  border: 1.5px dashed color-mix(in srgb, var(--track-accent, var(--accent)), var(--line) 35%);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--track-accent, var(--accent)), transparent 90%);
+  color: color-mix(in srgb, var(--track-accent, var(--accent)), var(--ink-mix-color) var(--ink-mix-amount));
+  font-family: var(--font-body);
+  font-size: 0.55em;
+  font-weight: 700;
+  vertical-align: 0.18em;
+  letter-spacing: 0;
+}

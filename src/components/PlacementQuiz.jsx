@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { seededShuffle } from "../lib/shuffle.js";
+import { PromptText } from "./QuestionBody.jsx";
 
 // Adaptive placement: walk the path's stages in curriculum order, asking two
 // quick questions per stage. Clear a stage (2/2) to advance; the first stage
@@ -125,7 +126,7 @@ function PlacementQuiz({ path, tracks, onClose, onStart }) {
               </span>
             </div>
 
-            <p className="placement-prompt">{question.prompt}</p>
+            <p className="placement-prompt"><PromptText text={question.prompt} /></p>
             {question.snippet && <pre className="placement-snippet">{question.snippet}</pre>}
 
             <div className="choice-list">

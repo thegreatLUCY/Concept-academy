@@ -10,7 +10,7 @@ import SqlPlayground from "./components/SqlPlayground.jsx";
 import JsPlayground from "./components/JsPlayground.jsx";
 import ReferenceView from "./components/ReferenceView.jsx";
 import PlacementQuiz from "./components/PlacementQuiz.jsx";
-import { AnswerBlock, QuestionBody } from "./components/QuestionBody.jsx";
+import { AnswerBlock, PromptText, QuestionBody } from "./components/QuestionBody.jsx";
 import { modules as set1Modules, questions as set1Questions } from "./data/questions.js";
 import { set2Modules, set2Questions } from "./data/set2Questions.js";
 import { set3Modules, set3Questions } from "./data/set3Questions.js";
@@ -1321,7 +1321,7 @@ function App() {
                   {isReviewMode ? "Review · " : ""}
                   {moduleLookup[currentQuestion.moduleId]?.title}
                 </p>
-                <h2>{currentQuestion.prompt}</h2>
+                <h2><PromptText text={currentQuestion.prompt} /></h2>
               </div>
               <div className="question-meta">
                 <span>{currentQuestion.level}</span>

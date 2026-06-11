@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { gradeCodeByString, gradePythonCode } from "../lib/pythonGrader.js";
 import { cleanCode } from "../lib/textUtils.js";
-import { AnswerBlock, QuestionBody } from "./QuestionBody.jsx";
+import { AnswerBlock, PromptText, QuestionBody } from "./QuestionBody.jsx";
 
 const EXAMS_KEY = "concept-academy-exams";
 const EXAM_SIZE = 25;
@@ -168,7 +168,7 @@ function ExamMode({ trackTitle, setMeta, questions, isPython, onExit }) {
         <header className="exam-topbar">
           <div>
             <p className="eyebrow">Exam · {setMeta.label}</p>
-            <h2>{current.prompt}</h2>
+            <h2><PromptText text={current.prompt} /></h2>
           </div>
           <div className="question-meta">
             <span>{current.level}</span>
@@ -266,7 +266,7 @@ function ExamMode({ trackTitle, setMeta, questions, isPython, onExit }) {
             <h2>Review your misses ({misses.length})</h2>
             {misses.map(({ question }) => (
               <div className="exam-miss" key={question.id}>
-                <strong>{question.prompt}</strong>
+                <strong><PromptText text={question.prompt} /></strong>
                 {question.snippet && <pre>{question.snippet}</pre>}
                 <p>{question.explanation}</p>
                 <AnswerBlock question={question} />

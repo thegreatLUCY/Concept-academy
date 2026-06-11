@@ -5,6 +5,30 @@ import SqlRunPanel from "./SqlRunPanel.jsx";
 import JsRunPanel from "./JsRunPanel.jsx";
 import { isJsRuntime } from "../lib/jsRunner.js";
 
+// Prompts sometimes reference blanks ("...is a __1__"). Render those tokens
+// as the same styled slot the fill UI uses, instead of raw underscores.
+export function PromptText({ text }) {
+  const parts = String(text ?? "").split(/(__\d+__)/g);
+
+  if (parts.length === 1) {
+    return text;
+  }
+
+  return parts.map((part, index) => {
+    const match = part.match(/^__(\d+)__$/);
+
+    if (!match) {
+      return <span key={index}>{part}</span>;
+    }
+
+    return (
+      <span className="prompt-blank" key={index} aria-label={`blank ${match[1]}`}>
+        {match[1]}
+      </span>
+    );
+  });
+}
+
 export function QuestionBody({
   question,
   choice,
