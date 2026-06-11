@@ -38,7 +38,7 @@ The project is a Vite + React teaching quiz app called Concept Academy. It began
   - Python Set 4: `180` questions
 - Local development URL used during work: `http://127.0.0.1:5173/`
 - Production build command: `npm run build`
-- Python track extras: in-browser Python execution via Pyodide (CDN), a Python Playground with editor + console + REPL, a Run Code button on Python typed-code questions, and an OpenRouter-powered AI tutor (user-supplied free API key stored in localStorage)
+- Python track extras: in-browser Python execution via Pyodide (CDN), a Python Playground with editor + console + REPL, a Run Code button on Python typed-code questions, and an OpenRouter-powered AI tutor (site-wide key from VITE_OPENROUTER_API_KEY, model nex-agi/nex-n2-pro:free, panel always visible — no settings UI)
 
 ## Execution Runtimes (per-track hands-on)
 

@@ -1,22 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
-const KEY_STORAGE = "concept-academy-openrouter-key";
-const MODEL_STORAGE = "concept-academy-openrouter-model";
-const DEFAULT_MODEL = "meta-llama/llama-3.3-70b-instruct:free";
-const FREE_MODELS = [
-  "meta-llama/llama-3.3-70b-instruct:free",
-  "deepseek/deepseek-chat-v3-0324:free",
-  "google/gemini-2.0-flash-exp:free",
-  "qwen/qwen-2.5-coder-32b-instruct:free"
-];
-
-function readStorage(key, fallback) {
-  try {
-    return localStorage.getItem(key) ?? fallback;
-  } catch {
-    return fallback;
-  }
-}
+// The tutor ships with the site's own OpenRouter key (set VITE_OPENROUTER_API_KEY
+// in .env locally and in the Vercel project's environment variables).
+const API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY ?? "";
+const MODEL = "nex-agi/nex-n2-pro:free";
 
 function buildSystemPrompt(context) {
   const language = context?.language ?? "Python";
@@ -121,10 +108,6 @@ function MessageBody({ text }) {
 }
 
 function AiTutor({ context }) {
-  const [open, setOpen] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [apiKey, setApiKey] = useState(() => readStorage(KEY_STORAGE, ""));
-  const [model, setModel] = useState(() => readStorage(MODEL_STORAGE, DEFAULT_MODEL));
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
@@ -135,15 +118,6 @@ function AiTutor({ context }) {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
   }, [messages, busy]);
 
-  function saveSettings(nextKey, nextModel) {
-    try {
-      localStorage.setItem(KEY_STORAGE, nextKey);
-      localStorage.setItem(MODEL_STORAGE, nextModel || DEFAULT_MODEL);
-    } catch {
-      // localStorage unavailable; settings stay in memory for this session
-    }
-  }
-
   async function sendMessage(presetText) {
     const text = (presetText ?? draft).trim();
 
@@ -151,9 +125,8 @@ function AiTutor({ context }) {
       return;
     }
 
-    if (!apiKey) {
-      setShowSettings(true);
-      setError("Add your free OpenRouter API key first.");
+    if (!API_KEY) {
+      setError("The tutor is not configured on this deployment yet.");
       return;
     }
 
@@ -167,13 +140,13 @@ function AiTutor({ context }) {
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${API_KEY}`,
           "Content-Type": "application/json",
           "HTTP-Referer": window.location.origin,
           "X-Title": "Concept Academy"
         },
         body: JSON.stringify({
-          model: model || DEFAULT_MODEL,
+          model: MODEL,
           messages: [
             { role: "system", content: buildSystemPrompt(context) },
             ...history.slice(-12)
@@ -182,12 +155,8 @@ function AiTutor({ context }) {
       });
 
       if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error("OpenRouter rejected the API key. Check it in settings.");
-        }
-
         if (response.status === 429) {
-          throw new Error("Rate limited by the free model. Wait a moment or pick another free model in settings.");
+          throw new Error("The tutor is briefly rate-limited — wait a few seconds and try again.");
         }
 
         throw new Error(`OpenRouter request failed (status ${response.status}).`);
@@ -197,7 +166,7 @@ function AiTutor({ context }) {
       const reply = data.choices?.[0]?.message?.content?.trim();
 
       if (!reply) {
-        throw new Error("The model returned an empty reply. Try again or switch models.");
+        throw new Error("The tutor returned an empty reply — try asking again.");
       }
 
       setMessages([...history, { role: "assistant", content: reply }]);
@@ -208,67 +177,19 @@ function AiTutor({ context }) {
     }
   }
 
-  if (!open) {
-    return (
-      <button className="tutor-toggle" onClick={() => setOpen(true)}>
-        Ask the AI Tutor
-      </button>
-    );
-  }
-
   return (
-    <section className="tutor-panel" aria-label="AI Python tutor">
+    <section className="tutor-panel" aria-label="AI tutor">
       <header className="tutor-header">
         <div>
           <p className="eyebrow">AI Tutor</p>
-          <strong>Py Tutor</strong>
+          <strong>{context?.language ?? "Code"} Tutor</strong>
         </div>
         <div className="tutor-header-actions">
-          <button className="ghost-button" onClick={() => setShowSettings((value) => !value)}>
-            {showSettings ? "Close Settings" : "Settings"}
-          </button>
           <button className="ghost-button" onClick={() => setMessages([])} disabled={!messages.length}>
             Clear
           </button>
-          <button className="ghost-button" onClick={() => setOpen(false)}>
-            Hide
-          </button>
         </div>
       </header>
-
-      {showSettings && (
-        <div className="tutor-settings">
-          <label>
-            <span>OpenRouter API key (free at openrouter.ai/keys, stored only in this browser)</span>
-            <input
-              type="password"
-              value={apiKey}
-              onChange={(event) => {
-                setApiKey(event.target.value.trim());
-                saveSettings(event.target.value.trim(), model);
-              }}
-              placeholder="sk-or-v1-..."
-              autoComplete="off"
-            />
-          </label>
-          <label>
-            <span>Model (free models listed)</span>
-            <input
-              list="tutor-free-models"
-              value={model}
-              onChange={(event) => {
-                setModel(event.target.value);
-                saveSettings(apiKey, event.target.value);
-              }}
-            />
-            <datalist id="tutor-free-models">
-              {FREE_MODELS.map((freeModel) => (
-                <option key={freeModel} value={freeModel} />
-              ))}
-            </datalist>
-          </label>
-        </div>
-      )}
 
       <div className="tutor-log" ref={logRef}>
         {!messages.length && (

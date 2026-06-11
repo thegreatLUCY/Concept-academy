@@ -76,7 +76,7 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 - 🛠️ **Guided projects** — LabEx-style multi-step builds (word analyzer, bank account, JSON grade book), each step verified by running your code against hidden tests
 - 🔁 **Review queue** — wrong/revealed answers resurface on a 3-stage Leitner schedule
 - 🏆 **Exams + certificates** — 25 sampled questions, no reveals, 70% to pass, printable certificate
-- 🤖 **AI tutor** — sees your question, attempt, and run output; hints before answers; escalates when you're stuck twice ([free OpenRouter key](https://openrouter.ai/keys), stored only in your browser)
+- 🤖 **AI tutor, always on** — open on every exercise; sees your question, attempt, and run output; hints before answers; escalates when you're stuck twice. Powered by OpenRouter (set `VITE_OPENROUTER_API_KEY`, see `.env.example`)
 - 🔎 **Concept search** — find any module across all 2,900+ questions from the landing page
 - ▶️ **Resume** — continue exactly where you left off
 - 🌗 **Light / dark / system themes**
