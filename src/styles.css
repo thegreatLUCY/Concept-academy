@@ -2439,3 +2439,75 @@ textarea,
 .path-step:hover .path-step-go {
   transform: translateX(3px);
 }
+
+/* Fill-in-the-blank: the inputs live inline in the code, not in a form below */
+.fill-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--code);
+  overflow: hidden;
+}
+
+.fill-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line), transparent 30%);
+  background: color-mix(in srgb, var(--track-accent, #15b77f), transparent 92%);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.fill-progress {
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--track-accent, #15b77f), var(--ink-mix-color) var(--ink-mix-amount));
+}
+
+.fill-snippet {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 18px 16px;
+  line-height: 2.1;
+  overflow-x: auto;
+}
+
+.fill-blank {
+  display: inline-block;
+  box-sizing: content-box;
+  min-width: 6ch;
+  margin: 0 2px;
+  padding: 1px 8px;
+  border: 1.5px dashed color-mix(in srgb, var(--track-accent, #15b77f), var(--line) 35%);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--track-accent, #15b77f), transparent 90%);
+  color: inherit;
+  font: inherit;
+  text-align: center;
+  caret-color: var(--track-accent, #15b77f);
+  transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+}
+
+.fill-blank::placeholder {
+  color: color-mix(in srgb, var(--muted), transparent 35%);
+  font-size: 0.85em;
+}
+
+.fill-blank:focus {
+  outline: none;
+  border-style: solid;
+  border-color: var(--track-accent, #15b77f);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--track-accent, #15b77f), transparent 78%);
+  background: color-mix(in srgb, var(--track-accent, #15b77f), transparent 85%);
+}
+
+.fill-blank.filled {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--track-accent, #15b77f), var(--line) 25%);
+  background: color-mix(in srgb, var(--track-accent, #15b77f), transparent 86%);
+}

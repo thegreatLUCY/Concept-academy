@@ -64,6 +64,56 @@ export function QuestionBody({
   }
 
   if (question.type === "fill") {
+    const labelToIndex = new Map(question.blanks.map((blank, index) => [blank.label, index]));
+    const parts = String(question.snippet ?? "").split(/(__\d+__)/g);
+    const hasInlineBlanks = parts.some((part) => labelToIndex.has(part));
+    const filledCount = question.blanks.filter((_, index) =>
+      (fillAnswers[index] ?? "").trim()
+    ).length;
+
+    // Type directly into the code: each __N__ token becomes a live slot.
+    if (hasInlineBlanks) {
+      return (
+        <div className="code-task">
+          <div className="fill-card">
+            <div className="fill-card-head">
+              <span>Fill in the blank{question.blanks.length > 1 ? "s" : ""}</span>
+              <span className="fill-progress">
+                {filledCount}/{question.blanks.length} filled
+              </span>
+            </div>
+            <pre className="fill-snippet">
+              {parts.map((part, partIndex) => {
+                const blankIndex = labelToIndex.get(part);
+
+                if (blankIndex === undefined) {
+                  return <span key={partIndex}>{part}</span>;
+                }
+
+                const value = fillAnswers[blankIndex] ?? "";
+
+                return (
+                  <input
+                    key={partIndex}
+                    className={value.trim() ? "fill-blank filled" : "fill-blank"}
+                    style={{ width: `${Math.max(value.length + 1, 6)}ch` }}
+                    value={value}
+                    onChange={(event) => updateFillAnswer(blankIndex, event.target.value)}
+                    placeholder={String(blankIndex + 1)}
+                    aria-label={`Blank ${blankIndex + 1}`}
+                    spellCheck="false"
+                    autoComplete="off"
+                    autoCapitalize="off"
+                  />
+                );
+              })}
+            </pre>
+          </div>
+        </div>
+      );
+    }
+
+    // Rare snippets without inline tokens keep the labelled-input layout.
     return (
       <div className="code-task">
         <pre>{question.snippet}</pre>

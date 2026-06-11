@@ -95,6 +95,53 @@ export const questions = [
     explanation: "A function component returns JSX."
   },
   {
+    id: "react-orientation-7",
+    moduleId: "react-orientation",
+    level: "MCQ",
+    type: "mcq",
+    prompt: "What does React do when the data a component uses changes?",
+    choices: [
+      "Re-renders that component so the screen matches the new data",
+      "Edits the HTML file on disk",
+      "Reloads the whole browser page"
+    ],
+    answer: "Re-renders that component so the screen matches the new data",
+    explanation: "React's core job is keeping the UI in sync with data by re-rendering components."
+  },
+  {
+    id: "react-orientation-8",
+    moduleId: "react-orientation",
+    level: "True/False",
+    type: "tf",
+    prompt: "A React function component is a regular JavaScript function that returns JSX.",
+    answer: true,
+    explanation: "Components are plain functions; what makes them components is returning UI."
+  },
+  {
+    id: "react-orientation-9",
+    moduleId: "react-orientation",
+    level: "MCQ",
+    type: "mcq",
+    prompt: "Which name is valid for a React component?",
+    choices: ["UserCard", "userCard", "user-card"],
+    answer: "UserCard",
+    explanation: "Component names must start with a capital letter so JSX can tell them apart from HTML tags."
+  },
+  {
+    id: "react-orientation-10",
+    moduleId: "react-orientation",
+    level: "Complete",
+    type: "fill",
+    prompt: "Components must start with a capital letter. Complete this component so it is named Profile.",
+    snippet: code(
+      "function __1__() {",
+      "  return <p>Hi</p>;",
+      "}"
+    ),
+    blanks: [{ label: "__1__", answers: ["Profile"] }],
+    explanation: "Lowercase names are treated as HTML tags; capitalized names are components."
+  },
+  {
     id: "npm-vite-1",
     moduleId: "npm-vite",
     level: "MCQ",
@@ -178,16 +225,6 @@ export const questions = [
     explanation: "dependencies are packages the app relies on. React belongs there in most Vite React apps."
   },
   {
-    id: "npm-vite-8",
-    moduleId: "npm-vite",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which package.json section is meant for tools mainly used while developing or building?",
-    choices: ["devDependencies", "node_modules", "main"],
-    answer: "devDependencies",
-    explanation: "devDependencies commonly hold tooling like linters, test tools, or build-only packages."
-  },
-  {
     id: "npm-vite-9",
     moduleId: "npm-vite",
     level: "True/False",
@@ -223,19 +260,6 @@ export const questions = [
     ],
     answer: "Lock exact dependency versions for repeatable installs",
     explanation: "package-lock.json records the exact dependency tree npm installed."
-  },
-  {
-    id: "npm-vite-12",
-    moduleId: "npm-vite",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the command that runs the build script from package.json.",
-    snippet: "npm __1__ __2__",
-    blanks: [
-      { label: "__1__", answers: ["run"] },
-      { label: "__2__", answers: ["build"] }
-    ],
-    explanation: "npm run build runs the build command defined in package.json scripts."
   },
   {
     id: "structure-rendering-1",
@@ -448,6 +472,29 @@ export const questions = [
     explanation: "A default export can be imported with any local name, and ./ starts from the current folder."
   },
   {
+    id: "relative-imports-9",
+    moduleId: "relative-imports",
+    level: "MCQ",
+    type: "mcq",
+    prompt: "Which import loads a package from node_modules instead of one of your own files?",
+    choices: [
+      "import { useState } from \"react\";",
+      "import { useState } from \"./react.js\";",
+      "import { useState } from \"../react\";"
+    ],
+    answer: "import { useState } from \"react\";",
+    explanation: "No ./ or ../ prefix means the bundler resolves the name in node_modules."
+  },
+  {
+    id: "relative-imports-10",
+    moduleId: "relative-imports",
+    level: "True/False",
+    type: "tf",
+    prompt: "In a Vite project, import \"./styles.css\" is a valid import that loads a CSS file.",
+    answer: true,
+    explanation: "Bundlers extend imports beyond JavaScript — importing CSS attaches those styles to the app."
+  },
+  {
     id: "jsx-1",
     moduleId: "jsx",
     level: "MCQ",
@@ -502,24 +549,6 @@ export const questions = [
     choices: ["<>...</>", "<div>...</div>", "<body>...</body>"],
     answer: "<>...</>",
     explanation: "A React Fragment groups JSX without creating an extra element in the DOM."
-  },
-  {
-    id: "jsx-6",
-    moduleId: "jsx",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete this fragment.",
-    snippet: code(
-      "__1__",
-      "  <h1>Hello</h1>",
-      "  <p>Welcome</p>",
-      "__2__"
-    ),
-    blanks: [
-      { label: "__1__", answers: ["<>"] },
-      { label: "__2__", answers: ["</>"] }
-    ],
-    explanation: "The short fragment syntax is <> and </>."
   },
   {
     id: "jsx-7",
@@ -577,16 +606,6 @@ export const questions = [
     explanation: "Function calls and calculations can be used inside JSX braces when they produce a value."
   },
   {
-    id: "jsx-11",
-    moduleId: "jsx",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the JSX attribute for a CSS class.",
-    snippet: "<section __1__=\"hero\">Welcome</section>",
-    blanks: [{ label: "__1__", answers: ["className"] }],
-    explanation: "Use className in JSX."
-  },
-  {
     id: "jsx-12",
     moduleId: "jsx",
     level: "Typed Code",
@@ -615,16 +634,6 @@ export const questions = [
     choices: ["var", "let", "const"],
     answer: "const",
     explanation: "const prevents reassignment of the variable binding."
-  },
-  {
-    id: "variables-functions-2",
-    moduleId: "variables-functions",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which word is not a JavaScript variable declaration keyword?",
-    choices: ["let", "const", "make"],
-    answer: "make",
-    explanation: "JavaScript has var, let, and const, but not make."
   },
   {
     id: "variables-functions-3",
@@ -725,15 +734,6 @@ export const questions = [
     choices: ["items.map(item => ...)", "items.loop(item -> ...)", "items.each = item"],
     answer: "items.map(item => ...)",
     explanation: "React list rendering commonly uses map with an arrow function callback."
-  },
-  {
-    id: "variables-functions-12",
-    moduleId: "variables-functions",
-    level: "True/False",
-    type: "tf",
-    prompt: "Arrow functions can receive parameters.",
-    answer: true,
-    explanation: "Example: const greet = name => `Hello ${name}`."
   },
   {
     id: "objects-classes-1",
@@ -1055,16 +1055,6 @@ export const questions = [
     explanation: "Rest syntax collects remaining values."
   },
   {
-    id: "destructuring-modern-js-8",
-    moduleId: "destructuring-modern-js",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which character wraps a JavaScript template literal?",
-    choices: ["Backticks (`)", "Single quotes (')", "Forward slash (/)"],
-    answer: "Backticks (`)",
-    explanation: "Template literals are wrapped in backticks."
-  },
-  {
     id: "destructuring-modern-js-9",
     moduleId: "destructuring-modern-js",
     level: "MCQ",
@@ -1087,20 +1077,6 @@ export const questions = [
       { label: "__3__", answers: ["`"] }
     ],
     explanation: "Use backticks around the whole template and ${name} inside."
-  },
-  {
-    id: "destructuring-modern-js-11",
-    moduleId: "destructuring-modern-js",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which is the correct ternary shape?",
-    choices: [
-      "condition ? valueIfTrue : valueIfFalse",
-      "condition : valueIfTrue ? valueIfFalse",
-      "condition = valueIfTrue : valueIfFalse"
-    ],
-    answer: "condition ? valueIfTrue : valueIfFalse",
-    explanation: "The question mark separates the condition from the true expression, and the colon separates true from false."
   },
   {
     id: "destructuring-modern-js-12",
@@ -1224,6 +1200,25 @@ export const questions = [
     explanation: "Multiple named imports share one pair of curly braces."
   },
   {
+    id: "modules-9",
+    moduleId: "modules",
+    level: "Complete",
+    type: "fill",
+    prompt: "Rename the imported total to sum.",
+    snippet: "import { total __1__ sum } from \"./math.js\";",
+    blanks: [{ label: "__1__", answers: ["as"] }],
+    explanation: "The as keyword renames a named import locally without touching the exporting file."
+  },
+  {
+    id: "modules-10",
+    moduleId: "modules",
+    level: "True/False",
+    type: "tf",
+    prompt: "One file can have several named exports and a default export at the same time.",
+    answer: true,
+    explanation: "Files commonly mix many named exports with one default export — only multiple defaults are forbidden."
+  },
+  {
     id: "components-props-1",
     moduleId: "components-props",
     level: "MCQ",
@@ -1246,20 +1241,6 @@ export const questions = [
     snippet: "<Welcome __1__=\"Sara\" />",
     blanks: [{ label: "__1__", answers: ["name"] }],
     explanation: "JSX attributes become props."
-  },
-  {
-    id: "components-props-3",
-    moduleId: "components-props",
-    level: "Complete",
-    type: "fill",
-    prompt: "Receive props as one object.",
-    snippet: code(
-      "function Welcome(__1__) {",
-      "  return <h1>Hello {props.name}</h1>;",
-      "}"
-    ),
-    blanks: [{ label: "__1__", answers: ["props"] }],
-    explanation: "React passes props as the first argument to a function component."
   },
   {
     id: "components-props-4",
@@ -1307,20 +1288,6 @@ export const questions = [
     choices: ["<Header />", "Header()", "<header-component>"],
     answer: "<Header />",
     explanation: "React components in JSX are written like custom tags and usually start with uppercase letters."
-  },
-  {
-    id: "components-props-8",
-    moduleId: "components-props",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete a parent component using a child component.",
-    snippet: code(
-      "function App() {",
-      "  return <__1__ title=\"Dashboard\" />;",
-      "}"
-    ),
-    blanks: [{ label: "__1__", answers: ["Header"] }],
-    explanation: "The prop title is passed to Header."
   },
   {
     id: "components-props-9",
@@ -1477,6 +1444,31 @@ export const questions = [
     explanation: "The && pattern is concise for a single optional element."
   },
   {
+    id: "conditional-rendering-9",
+    moduleId: "conditional-rendering",
+    level: "MCQ",
+    type: "mcq",
+    prompt: "What does {count && <p>{count}</p>} render when count is 0?",
+    choices: ["The number 0", "Nothing at all", "<p>0</p>"],
+    answer: "The number 0",
+    explanation: "0 is falsy, so && short-circuits and JSX renders the 0 itself — a classic gotcha. Use count > 0 && ... instead."
+  },
+  {
+    id: "conditional-rendering-10",
+    moduleId: "conditional-rendering",
+    level: "Complete",
+    type: "fill",
+    prompt: "Render nothing when the panel is not visible.",
+    snippet: code(
+      "function Panel({ visible }) {",
+      "  if (!visible) return __1__;",
+      "  return <div>Details</div>;",
+      "}"
+    ),
+    blanks: [{ label: "__1__", answers: ["null"] }],
+    explanation: "Returning null from a component renders nothing — the early-return pattern for hiding UI."
+  },
+  {
     id: "events-1",
     moduleId: "events",
     level: "MCQ",
@@ -1568,6 +1560,30 @@ export const questions = [
     ],
     required: ["function handleClick", "console.log", "Clicked"],
     explanation: "Before state, logging is a simple way to verify event flow."
+  },
+  {
+    id: "events-9",
+    moduleId: "events",
+    level: "MCQ",
+    type: "mcq",
+    prompt: "Which onClick passes the item id to the handler without calling it during render?",
+    choices: [
+      "onClick={() => removeItem(id)}",
+      "onClick={removeItem(id)}",
+      "onClick={removeItem id}"
+    ],
+    answer: "onClick={() => removeItem(id)}",
+    explanation: "Wrapping the call in an arrow function defers it until the click; removeItem(id) would run immediately."
+  },
+  {
+    id: "events-10",
+    moduleId: "events",
+    level: "Complete",
+    type: "fill",
+    prompt: "Read what the user typed inside an input change handler.",
+    snippet: "<input onChange={(e) => setName(__1__)} />",
+    blanks: [{ label: "__1__", answers: ["e.target.value"] }],
+    explanation: "The change event's target is the input element, and value is its current text."
   },
   {
     id: "typed-practice-1",
@@ -1708,5 +1724,35 @@ export const questions = [
     ),
     required: ["function Notification", "{ message }", "message &&", "<p>{message}</p>"],
     explanation: "This combines props, fragments, JSX expressions, and && conditional rendering."
-  }
+  },
+  {
+    id: "typed-practice-9",
+    moduleId: "typed-practice",
+    level: "Typed Code",
+    type: "code",
+    prompt: "Write a Price component that receives an amount prop and renders <p>Total: {amount}</p>.",
+    starter: "function Price",
+    expected: code(
+      "function Price({ amount }) {",
+      "  return <p>Total: {amount}</p>;",
+      "}"
+    ),
+    required: ["function Price", "amount", "<p>Total: {amount}</p>"],
+    explanation: "Destructure the prop in the parameter list and embed it with curly braces."
+  },
+  {
+    id: "typed-practice-10",
+    moduleId: "typed-practice",
+    level: "Typed Code",
+    type: "code",
+    prompt: "Write a LogoutButton component that renders a button with the text Logout and calls onLogout when clicked.",
+    starter: "function LogoutButton",
+    expected: code(
+      "function LogoutButton({ onLogout }) {",
+      "  return <button onClick={onLogout}>Logout</button>;",
+      "}"
+    ),
+    required: ["function LogoutButton", "onLogout", "onClick={onLogout}", "Logout"],
+    explanation: "Callback props connect child events to parent logic — pass the function itself to onClick."
+  },
 ];

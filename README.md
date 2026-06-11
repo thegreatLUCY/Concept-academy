@@ -12,7 +12,7 @@
 ![Tracks](https://img.shields.io/badge/tracks-11_live-15b77f?labelColor=20232a)
 ![License](https://img.shields.io/badge/license-MIT-blue?labelColor=20232a)
 
-An open-source W3Schools/LabEx-style teaching platform: **3,000+ questions across 11 tracks**, module lessons, **real Python running in the browser**, step-verified projects, exams with printable certificates, spaced-repetition review, and a Socratic AI tutor. **No backend, no accounts** — everything runs client-side.
+An open-source W3Schools/LabEx-style teaching platform: **2,900+ questions across 11 tracks**, module lessons, **real Python running in the browser**, step-verified projects, exams with printable certificates, spaced-repetition review, and a Socratic AI tutor. **No backend, no accounts** — everything runs client-side.
 
 </div>
 
@@ -51,7 +51,7 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 | Track | Content | Code execution |
 | --- | --- | :---: |
 | 🐍 **Python** | 5 sets · 92 modules · 920 questions — files & syntax through OOP, async, itertools, typing, performance, packaging | ✅ Pyodide |
-| ⚛️ **React** | 5 sets · 84 modules · 886 questions — JSX to hooks, routing, server state, architecture | ✅ Babel + React |
+| ⚛️ **React** | 5 sets · 84 modules · 840 questions — JSX to hooks, routing, server state, architecture | ✅ Babel + React |
 | 🗄️ **SQL** | 2 sets · 20 modules · 200 questions — SELECT to window functions, transactions, indexes, schema design | ✅ sql.js |
 | 🔷 **TypeScript** | 10 modules · 100 questions — annotations to narrowing, generics, strict mode | ✅ Babel |
 | 💲 **Bash** | 10 modules · 100 questions — navigation to pipes, scripts, permissions | — |
@@ -76,7 +76,7 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 - 🔁 **Review queue** — wrong/revealed answers resurface on a 3-stage Leitner schedule
 - 🏆 **Exams + certificates** — 25 sampled questions, no reveals, 70% to pass, printable certificate
 - 🤖 **AI tutor** — sees your question, attempt, and run output; hints before answers; escalates when you're stuck twice ([free OpenRouter key](https://openrouter.ai/keys), stored only in your browser)
-- 🔎 **Concept search** — find any module across all 3,000+ questions from the landing page
+- 🔎 **Concept search** — find any module across all 2,900+ questions from the landing page
 - ▶️ **Resume** — continue exactly where you left off
 - 🌗 **Light / dark / system themes**
 - 🛡️ **Honest scoring** — seeded choice shuffling, no credit for revealed answers, attempt tracking
@@ -96,7 +96,7 @@ npm run dev      # → http://localhost:5173
 | --- | --- |
 | `npm run dev` | Start the dev server |
 | `npm run build` | Production build |
-| `npm run audit` | Validate all 3,006 questions, lessons, and projects |
+| `npm run audit` | Validate all 2,960 questions, lessons, and projects |
 | `node scripts/screenshots.mjs` | Regenerate README screenshots (needs dev server + Playwright) |
 
 > First Python execution downloads the Pyodide runtime (~10 MB) from CDN, then it's cached.

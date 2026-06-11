@@ -118,6 +118,31 @@ export const set2Questions = [
     explanation: "The hook is called at the top level of the component body."
   },
   {
+    id: "set2-hooks-rules-9",
+    setId: "set2",
+    moduleId: "set2-hooks-rules",
+    level: "MCQ",
+    type: "mcq",
+    prompt: "Between renders, how does React know which useState call matches which stored state value?",
+    choices: [
+      "By the order the hooks are called in",
+      "By the variable names you assign the state to",
+      "By a string id you pass to useState"
+    ],
+    answer: "By the order the hooks are called in",
+    explanation: "React tracks hooks by call order — that is exactly why hooks must never run conditionally."
+  },
+  {
+    id: "set2-hooks-rules-10",
+    setId: "set2",
+    moduleId: "set2-hooks-rules",
+    level: "True/False",
+    type: "tf",
+    prompt: "You may call useState inside an onClick handler as long as the component has already rendered once.",
+    answer: false,
+    explanation: "Hooks only run at the top level of a component or custom hook during render — never inside handlers."
+  },
+  {
     id: "set2-state-basics-1",
     setId: "set2",
     moduleId: "set2-state-basics",
@@ -205,17 +230,6 @@ export const set2Questions = [
     explanation: "The event handler calls the setter to request a state update."
   },
   {
-    id: "set2-state-basics-8",
-    setId: "set2",
-    moduleId: "set2-state-basics",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "If count is 2 and you render <p>{count}</p>, what does the user see?",
-    choices: ["2", "count", "{count}"],
-    answer: "2",
-    explanation: "JSX braces evaluate the JavaScript expression."
-  },
-  {
     id: "set2-state-basics-9",
     setId: "set2",
     moduleId: "set2-state-basics",
@@ -224,17 +238,6 @@ export const set2Questions = [
     prompt: "The setter function returned by useState replaces the old state value with a new one.",
     answer: true,
     explanation: "For primitive state, the setter receives the next value. For objects and arrays, you still provide a new object or array."
-  },
-  {
-    id: "set2-state-basics-10",
-    setId: "set2",
-    moduleId: "set2-state-basics",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which initial state type best matches a show/hide toggle?",
-    choices: ["boolean", "array", "HTMLElement"],
-    answer: "boolean",
-    explanation: "A toggle usually needs true or false."
   },
   {
     id: "set2-state-basics-11",
@@ -308,21 +311,6 @@ export const set2Questions = [
     explanation: "The updater function receives the latest pending state value."
   },
   {
-    id: "set2-batching-stale-4",
-    setId: "set2",
-    moduleId: "set2-batching-stale",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which set of three updates reliably adds 3?",
-    choices: [
-      "setCount(c => c + 1); setCount(c => c + 1); setCount(c => c + 1);",
-      "setCount(count + 1); setCount(count + 1); setCount(count + 1);",
-      "count++; count++; count++;"
-    ],
-    answer: "setCount(c => c + 1); setCount(c => c + 1); setCount(c => c + 1);",
-    explanation: "Each functional update receives the latest queued value."
-  },
-  {
     id: "set2-batching-stale-5",
     setId: "set2",
     moduleId: "set2-batching-stale",
@@ -348,21 +336,6 @@ export const set2Questions = [
     explanation: "Closures can hold onto values from the render in which they were created."
   },
   {
-    id: "set2-batching-stale-7",
-    setId: "set2",
-    moduleId: "set2-batching-stale",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which interval update avoids stale count?",
-    choices: [
-      "setCount(c => c + 1)",
-      "setCount(count + 1)",
-      "count = count + 1"
-    ],
-    answer: "setCount(c => c + 1)",
-    explanation: "The updater receives the latest state, even when the callback runs later."
-  },
-  {
     id: "set2-batching-stale-8",
     setId: "set2",
     moduleId: "set2-batching-stale",
@@ -376,16 +349,6 @@ export const set2Questions = [
     ),
     blanks: [{ label: "__1__", answers: ["prev", "c", "n"] }],
     explanation: "Use a functional update inside delayed callbacks like timers."
-  },
-  {
-    id: "set2-batching-stale-9",
-    setId: "set2",
-    moduleId: "set2-batching-stale",
-    level: "True/False",
-    type: "tf",
-    prompt: "Calling setState immediately changes the state variable in the current render.",
-    answer: false,
-    explanation: "State updates affect the next render. The current render's variables do not change."
   },
   {
     id: "set2-batching-stale-10",
@@ -412,21 +375,6 @@ export const set2Questions = [
     snippet: "setScore(__1__ => __1__ + points);",
     blanks: [{ label: "__1__", answers: ["prev", "s", "score"] }],
     explanation: "The parameter represents the previous pending state."
-  },
-  {
-    id: "set2-batching-stale-12",
-    setId: "set2",
-    moduleId: "set2-batching-stale",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which situation is most likely to need a functional update?",
-    choices: [
-      "Incrementing based on the previous count",
-      "Replacing a title with a fixed string",
-      "Rendering a static paragraph"
-    ],
-    answer: "Incrementing based on the previous count",
-    explanation: "When the next value depends on the previous value, use the updater form."
   },
   {
     id: "set2-batching-stale-13",
@@ -568,31 +516,6 @@ export const set2Questions = [
     explanation: "Functional updates are safe when incrementing from the previous value."
   },
   {
-    id: "set2-events-state-9",
-    setId: "set2",
-    moduleId: "set2-events-state",
-    level: "True/False",
-    type: "tf",
-    prompt: "Inline arrow handlers are always wrong in React.",
-    answer: false,
-    explanation: "They are valid and often useful, especially when passing arguments."
-  },
-  {
-    id: "set2-events-state-10",
-    setId: "set2",
-    moduleId: "set2-events-state",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "What is the event object commonly used for in input handlers?",
-    choices: [
-      "Reading details like event.target.value",
-      "Installing dependencies",
-      "Creating a new component file"
-    ],
-    answer: "Reading details like event.target.value",
-    explanation: "Event objects describe what happened and where."
-  },
-  {
     id: "set2-events-state-11",
     setId: "set2",
     moduleId: "set2-events-state",
@@ -682,35 +605,6 @@ export const set2Questions = [
     explanation: "A controlled select receives a value prop and an onChange handler."
   },
   {
-    id: "set2-controlled-forms-6",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the controlled select.",
-    snippet: "<select value={role} onChange={e => __1__(e.target.__2__)}>",
-    blanks: [
-      { label: "__1__", answers: ["setRole"] },
-      { label: "__2__", answers: ["value"] }
-    ],
-    explanation: "Select elements use value just like text inputs."
-  },
-  {
-    id: "set2-controlled-forms-7",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "How is a textarea usually controlled in React?",
-    choices: [
-      "<textarea value={bio} onChange={...} />",
-      "<textarea checked={bio} />",
-      "<textarea><value>{bio}</value></textarea>"
-    ],
-    answer: "<textarea value={bio} onChange={...} />",
-    explanation: "React controls textarea text with the value prop."
-  },
-  {
     id: "set2-controlled-forms-8",
     setId: "set2",
     moduleId: "set2-controlled-forms",
@@ -747,47 +641,6 @@ export const set2Questions = [
     explanation: "A form's onSubmit catches Enter key submission and submit button clicks."
   },
   {
-    id: "set2-controlled-forms-11",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "Complete",
-    type: "fill",
-    prompt: "Clear a controlled name field after submit.",
-    snippet: code(
-      "function handleSubmit(e) {",
-      "  e.preventDefault();",
-      "  __1__(\"\");",
-      "}"
-    ),
-    blanks: [{ label: "__1__", answers: ["setName"] }],
-    explanation: "Changing state clears the controlled input because value comes from state."
-  },
-  {
-    id: "set2-controlled-forms-12",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which state shape is reasonable for a form with email and password?",
-    choices: [
-      "Two separate useState calls or one form object",
-      "Only a global variable",
-      "A package-lock entry"
-    ],
-    answer: "Two separate useState calls or one form object",
-    explanation: "Both approaches are common. The important part is updating state predictably."
-  },
-  {
-    id: "set2-controlled-forms-13",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "True/False",
-    type: "tf",
-    prompt: "A validation error message can be rendered conditionally from state.",
-    answer: true,
-    explanation: "For example, {error && <p>{error}</p>}."
-  },
-  {
     id: "set2-controlled-forms-14",
     setId: "set2",
     moduleId: "set2-controlled-forms",
@@ -797,30 +650,6 @@ export const set2Questions = [
     choices: ["event.target.value", "event.value.target", "input.valueFromReact"],
     answer: "event.target.value",
     explanation: "The DOM input element is event.target, and its text is value."
-  },
-  {
-    id: "set2-controlled-forms-15",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "Typed Code",
-    type: "code",
-    prompt: "Write a controlled input for email state.",
-    starter: "<input ",
-    expected: "<input value={email} onChange={e => setEmail(e.target.value)} />",
-    required: ["<input", "value={email}", "onChange", "setEmail", "e.target.value"],
-    explanation: "The input displays email and updates email state on every change."
-  },
-  {
-    id: "set2-controlled-forms-16",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "Typed Code",
-    type: "code",
-    prompt: "Write a controlled checkbox for accepted state.",
-    starter: "<input type=\"checkbox\" ",
-    expected: "<input type=\"checkbox\" checked={accepted} onChange={e => setAccepted(e.target.checked)} />",
-    required: ["type=\"checkbox\"", "checked={accepted}", "onChange", "setAccepted", "e.target.checked"],
-    explanation: "Checkboxes use checked instead of value."
   },
   {
     id: "set2-object-array-state-1",
@@ -896,21 +725,6 @@ export const set2Questions = [
     explanation: "map can return a changed item for one id and unchanged items for the rest."
   },
   {
-    id: "set2-object-array-state-7",
-    setId: "set2",
-    moduleId: "set2-object-array-state",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete a toggle update inside map.",
-    snippet: code(
-      "setTodos(todos.map(todo =>",
-      "  todo.id === id ? { ...todo, done: __1__todo.done } : todo",
-      "));"
-    ),
-    blanks: [{ label: "__1__", answers: ["!"] }],
-    explanation: "The updated todo is copied and receives the opposite done value."
-  },
-  {
     id: "set2-object-array-state-8",
     setId: "set2",
     moduleId: "set2-object-array-state",
@@ -926,17 +740,6 @@ export const set2Questions = [
     explanation: "State updates should provide a new array reference."
   },
   {
-    id: "set2-object-array-state-9",
-    setId: "set2",
-    moduleId: "set2-object-array-state",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete a form object field update using a dynamic field name.",
-    snippet: "setForm({ ...form, [event.target.__1__]: event.target.value });",
-    blanks: [{ label: "__1__", answers: ["name"] }],
-    explanation: "The input's name attribute can choose which object property to update."
-  },
-  {
     id: "set2-object-array-state-10",
     setId: "set2",
     moduleId: "set2-object-array-state",
@@ -950,49 +753,6 @@ export const set2Questions = [
     ],
     answer: "setItems(items => [...items, newItem]);",
     explanation: "It combines immutability with a functional update."
-  },
-  {
-    id: "set2-object-array-state-11",
-    setId: "set2",
-    moduleId: "set2-object-array-state",
-    level: "True/False",
-    type: "tf",
-    prompt: "Nested state updates may require copying each nested level you change.",
-    answer: true,
-    explanation: "If you update user.address.city, copy user and address before replacing city."
-  },
-  {
-    id: "set2-object-array-state-12",
-    setId: "set2",
-    moduleId: "set2-object-array-state",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete a nested city update.",
-    snippet: "setUser({ ...user, address: { ...user.address, city: __1__ } });",
-    blanks: [{ label: "__1__", answers: ["city", "newCity"] }],
-    explanation: "The outer user and nested address are both copied."
-  },
-  {
-    id: "set2-object-array-state-13",
-    setId: "set2",
-    moduleId: "set2-object-array-state",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which method returns a new array without matching items?",
-    choices: ["filter", "splice", "push"],
-    answer: "filter",
-    explanation: "filter is ideal for delete-by-id state updates."
-  },
-  {
-    id: "set2-object-array-state-14",
-    setId: "set2",
-    moduleId: "set2-object-array-state",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which method returns a new array of transformed items?",
-    choices: ["map", "sort in place", "push"],
-    answer: "map",
-    explanation: "map is the standard immutable update tool for changing items."
   },
   {
     id: "set2-object-array-state-15",
@@ -1109,30 +869,6 @@ export const set2Questions = [
     ],
     answer: "{isLoading ? <Spinner /> : <Content />}",
     explanation: "Use a ternary when both branches have UI."
-  },
-  {
-    id: "set2-derived-conditional-8",
-    setId: "set2",
-    moduleId: "set2-derived-conditional",
-    level: "True/False",
-    type: "tf",
-    prompt: "Show/hide password can be represented with boolean state.",
-    answer: true,
-    explanation: "A boolean like showPassword can choose the input type and button label."
-  },
-  {
-    id: "set2-derived-conditional-9",
-    setId: "set2",
-    moduleId: "set2-derived-conditional",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the input type toggle.",
-    snippet: "<input type={showPassword ? \"__1__\" : \"__2__\"} />",
-    blanks: [
-      { label: "__1__", answers: ["text"] },
-      { label: "__2__", answers: ["password"] }
-    ],
-    explanation: "A ternary can switch attributes as well as elements."
   },
   {
     id: "set2-derived-conditional-10",
@@ -1338,17 +1074,6 @@ export const set2Questions = [
     explanation: "The child does not delete by itself; it calls the function it received."
   },
   {
-    id: "set2-callbacks-lifting-3",
-    setId: "set2",
-    moduleId: "set2-callbacks-lifting",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which prop name clearly communicates a child event?",
-    choices: ["onSelect", "selectNowPleaseMaybe", "data"],
-    answer: "onSelect",
-    explanation: "Event callback props are commonly named with onSomething."
-  },
-  {
     id: "set2-callbacks-lifting-4",
     setId: "set2",
     moduleId: "set2-callbacks-lifting",
@@ -1423,17 +1148,6 @@ export const set2Questions = [
     prompt: "Props are read-only from the receiving component's perspective.",
     answer: true,
     explanation: "A child should not assign to props. It asks the parent to change data through callbacks."
-  },
-  {
-    id: "set2-callbacks-lifting-10",
-    setId: "set2",
-    moduleId: "set2-callbacks-lifting",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete a child callback call with an id argument.",
-    snippet: "<button onClick={() => onDelete(__1__)}>Delete</button>",
-    blanks: [{ label: "__1__", answers: ["id", "todo.id"] }],
-    explanation: "The child can pass details back to the parent callback."
   },
   {
     id: "set2-callbacks-lifting-11",
@@ -1543,32 +1257,6 @@ export const set2Questions = [
     explanation: "Keys affect how React matches old and new children."
   },
   {
-    id: "set2-lists-keys-reset-8",
-    setId: "set2",
-    moduleId: "set2-lists-keys-reset",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which delete handler keeps all todos except the clicked id?",
-    choices: [
-      "setTodos(todos => todos.filter(todo => todo.id !== id));",
-      "setTodos(todos => todos.map(todo => todo.id !== id));",
-      "todos.splice(id);"
-    ],
-    answer: "setTodos(todos => todos.filter(todo => todo.id !== id));",
-    explanation: "filter returns a new array without the deleted item."
-  },
-  {
-    id: "set2-lists-keys-reset-9",
-    setId: "set2",
-    moduleId: "set2-lists-keys-reset",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete a completed toggle by id.",
-    snippet: "setTodos(todos => todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : __1__));",
-    blanks: [{ label: "__1__", answers: ["todo"] }],
-    explanation: "Unchanged items should be returned as they were."
-  },
-  {
     id: "set2-lists-keys-reset-10",
     setId: "set2",
     moduleId: "set2-lists-keys-reset",
@@ -1623,17 +1311,6 @@ export const set2Questions = [
     explanation: "External systems include browser APIs, timers, network requests, subscriptions, and localStorage."
   },
   {
-    id: "set2-effects-2",
-    setId: "set2",
-    moduleId: "set2-effects",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the useEffect import.",
-    snippet: "import { useState, __1__ } from \"react\";",
-    blanks: [{ label: "__1__", answers: ["useEffect"] }],
-    explanation: "useEffect is imported from react."
-  },
-  {
     id: "set2-effects-3",
     setId: "set2",
     moduleId: "set2-effects",
@@ -1677,16 +1354,6 @@ export const set2Questions = [
     ),
     blanks: [{ label: "__1__", answers: ["query"] }],
     explanation: "Reactive values used by the effect should be listed as dependencies."
-  },
-  {
-    id: "set2-effects-6",
-    setId: "set2",
-    moduleId: "set2-effects",
-    level: "True/False",
-    type: "tf",
-    prompt: "The dependency array controls when React re-runs an effect.",
-    answer: true,
-    explanation: "React compares dependency values between renders."
   },
   {
     id: "set2-effects-7",
@@ -1745,31 +1412,6 @@ export const set2Questions = [
     choices: ["clearInterval(id)", "setInterval(id)", "delete useEffect"],
     answer: "clearInterval(id)",
     explanation: "Cleanup stops the interval when the component unmounts or before the effect re-runs."
-  },
-  {
-    id: "set2-effects-11",
-    setId: "set2",
-    moduleId: "set2-effects",
-    level: "True/False",
-    type: "tf",
-    prompt: "Effects run during rendering before JSX is returned.",
-    answer: false,
-    explanation: "Effects run after React has rendered and committed updates."
-  },
-  {
-    id: "set2-effects-12",
-    setId: "set2",
-    moduleId: "set2-effects",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which is a reasonable useEffect job?",
-    choices: [
-      "Subscribing to window resize and cleaning up the listener",
-      "Adding two numbers for display",
-      "Choosing which JSX tag to return"
-    ],
-    answer: "Subscribing to window resize and cleaning up the listener",
-    explanation: "Browser event subscriptions are external-system synchronization."
   },
   {
     id: "set2-effects-13",
@@ -1845,17 +1487,6 @@ export const set2Questions = [
     explanation: "fullName is derived from existing state, so calculate it directly."
   },
   {
-    id: "set2-effects-escape-4",
-    setId: "set2",
-    moduleId: "set2-effects-escape",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the derived value that avoids unnecessary effect state.",
-    snippet: "const visibleItems = items.__1__(item => item.name.includes(query));",
-    blanks: [{ label: "__1__", answers: ["filter"] }],
-    explanation: "Filtering from current state during render is usually enough."
-  },
-  {
     id: "set2-effects-escape-5",
     setId: "set2",
     moduleId: "set2-effects-escape",
@@ -1869,16 +1500,6 @@ export const set2Questions = [
     ],
     answer: "React intentionally checks whether setup and cleanup are safe",
     explanation: "StrictMode can re-run effects in development to reveal cleanup bugs."
-  },
-  {
-    id: "set2-effects-escape-6",
-    setId: "set2",
-    moduleId: "set2-effects-escape",
-    level: "True/False",
-    type: "tf",
-    prompt: "StrictMode double effect behavior in development means production is definitely broken.",
-    answer: false,
-    explanation: "It is a development check. Proper cleanup makes effects safe."
   },
   {
     id: "set2-effects-escape-7",
@@ -1925,27 +1546,6 @@ export const set2Questions = [
     ],
     answer: "Inside the click handler",
     explanation: "If logic happens because of a specific event, put it in that event handler."
-  },
-  {
-    id: "set2-effects-escape-10",
-    setId: "set2",
-    moduleId: "set2-effects-escape",
-    level: "True/False",
-    type: "tf",
-    prompt: "Using useEffect to copy props into state is always required.",
-    answer: false,
-    explanation: "Often you can use props directly or derive values from props during render."
-  },
-  {
-    id: "set2-effects-escape-11",
-    setId: "set2",
-    moduleId: "set2-effects-escape",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which example is an external system?",
-    choices: ["localStorage", "A variable calculated from props", "A JSX ternary"],
-    answer: "localStorage",
-    explanation: "localStorage is a browser API outside React."
   },
   {
     id: "set2-effects-escape-12",
@@ -2021,24 +1621,6 @@ export const set2Questions = [
     explanation: "Create and call an async function inside the effect."
   },
   {
-    id: "set2-fetch-storage-3",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the loading state setup around a fetch.",
-    snippet: code(
-      "setLoading(__1__);",
-      "const res = await fetch(url);",
-      "setLoading(__2__);"
-    ),
-    blanks: [
-      { label: "__1__", answers: ["true"] },
-      { label: "__2__", answers: ["false"] }
-    ],
-    explanation: "Loading is true while the request is in progress and false after it finishes."
-  },
-  {
     id: "set2-fetch-storage-4",
     setId: "set2",
     moduleId: "set2-fetch-storage",
@@ -2052,16 +1634,6 @@ export const set2Questions = [
     ],
     answer: "data, loading, error",
     explanation: "These states let the UI show progress, failure, and success."
-  },
-  {
-    id: "set2-fetch-storage-5",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "True/False",
-    type: "tf",
-    prompt: "A fetch request can finish after the component that started it has unmounted.",
-    answer: true,
-    explanation: "That is why cleanup or an ignore flag can be useful."
   },
   {
     id: "set2-fetch-storage-6",
@@ -2098,16 +1670,6 @@ export const set2Questions = [
     explanation: "When userId changes quickly, an older slower response can arrive last."
   },
   {
-    id: "set2-fetch-storage-8",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "True/False",
-    type: "tf",
-    prompt: "The ignore cleanup pattern is a beginner-friendly way to avoid setting state from an outdated request.",
-    answer: true,
-    explanation: "It is not the only technique, but it teaches the race condition clearly."
-  },
-  {
     id: "set2-fetch-storage-9",
     setId: "set2",
     moduleId: "set2-fetch-storage",
@@ -2117,21 +1679,6 @@ export const set2Questions = [
     choices: ["localStorage", "useState only", "createRoot"],
     answer: "localStorage",
     explanation: "localStorage persists string data in the browser."
-  },
-  {
-    id: "set2-fetch-storage-10",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "Complete",
-    type: "fill",
-    prompt: "Save notes to localStorage when notes changes.",
-    snippet: code(
-      "useEffect(() => {",
-      "  localStorage.__1__(\"notes\", JSON.stringify(notes));",
-      "}, [notes]);"
-    ),
-    blanks: [{ label: "__1__", answers: ["setItem"] }],
-    explanation: "setItem writes a string value to localStorage."
   },
   {
     id: "set2-fetch-storage-11",
@@ -2149,17 +1696,6 @@ export const set2Questions = [
     explanation: "Arrays and objects need to be converted to strings for storage."
   },
   {
-    id: "set2-fetch-storage-12",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "Complete",
-    type: "fill",
-    prompt: "Read and parse saved todos.",
-    snippet: "const saved = JSON.__1__(localStorage.getItem(\"todos\") || \"[]\");",
-    blanks: [{ label: "__1__", answers: ["parse"] }],
-    explanation: "JSON.parse converts the saved string back into an array."
-  },
-  {
     id: "set2-fetch-storage-13",
     setId: "set2",
     moduleId: "set2-fetch-storage",
@@ -2173,16 +1709,6 @@ export const set2Questions = [
     ],
     answer: "useState(() => JSON.parse(localStorage.getItem(\"todos\") || \"[]\"))",
     explanation: "A function initializer runs only for the initial state setup."
-  },
-  {
-    id: "set2-fetch-storage-14",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "True/False",
-    type: "tf",
-    prompt: "localStorage syncing is a valid useEffect use because it talks to a browser API outside React.",
-    answer: true,
-    explanation: "That is exactly the kind of external synchronization effects are for."
   },
   {
     id: "set2-fetch-storage-15",
@@ -2199,18 +1725,6 @@ export const set2Questions = [
     ),
     required: ["useEffect", "localStorage.setItem", "theme", "[theme]"],
     explanation: "This syncs React state to an external browser storage system."
-  },
-  {
-    id: "set2-fetch-storage-16",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "Typed Code",
-    type: "code",
-    prompt: "Write the cleanup line for an ignore flag inside a fetching effect.",
-    starter: "return ",
-    expected: "return () => { ignore = true; };",
-    required: ["return", "=>", "ignore", "true"],
-    explanation: "The cleanup prevents old async work from committing state later."
   },
   {
     id: "set2-debug-mini-1",
@@ -2341,40 +1855,6 @@ export const set2Questions = [
     explanation: "This combines state, rendering, events, and functional updates."
   },
   {
-    id: "set2-debug-mini-10",
-    setId: "set2",
-    moduleId: "set2-debug-mini",
-    level: "Typed Code",
-    type: "code",
-    prompt: "Write a TogglePanel component that shows Details only when open is true.",
-    starter: code("function TogglePanel() {", "  ", "}"),
-    expected: code(
-      "function TogglePanel() {",
-      "  const [open, setOpen] = useState(false);",
-      "  return <>{open && <p>Details</p>}<button onClick={() => setOpen(o => !o)}>Toggle</button></>;",
-      "}"
-    ),
-    required: ["function TogglePanel", "useState(false)", "open &&", "<p>Details</p>", "onClick", "setOpen", "!"],
-    explanation: "This is a small interactive conditional rendering program."
-  },
-  {
-    id: "set2-debug-mini-11",
-    setId: "set2",
-    moduleId: "set2-debug-mini",
-    level: "Typed Code",
-    type: "code",
-    prompt: "Write a submit handler that prevents refresh and clears name.",
-    starter: code("function handleSubmit(event) {", "  ", "}"),
-    expected: code(
-      "function handleSubmit(event) {",
-      "  event.preventDefault();",
-      "  setName(\"\");",
-      "}"
-    ),
-    required: ["function handleSubmit", "event.preventDefault", "setName(\"\")"],
-    explanation: "This is the core controlled form submit pattern."
-  },
-  {
     id: "set2-debug-mini-12",
     setId: "set2",
     moduleId: "set2-debug-mini",
@@ -2387,65 +1867,6 @@ export const set2Questions = [
     explanation: "This is the standard immutable delete-by-id update."
   },
   {
-    id: "set2-controlled-forms-17",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Which prop controls whether a radio input is selected?",
-    choices: ["checked", "value", "selected"],
-    answer: "checked",
-    explanation: "Radio inputs use checked for selected state, while value represents the radio option's submitted value."
-  },
-  {
-    id: "set2-controlled-forms-18",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the controlled radio input for the admin role.",
-    snippet: "<input type=\"radio\" value=\"admin\" checked={role === \"admin\"} onChange={e => __1__(e.target.__2__)} />",
-    blanks: [
-      { label: "__1__", answers: ["setRole"] },
-      { label: "__2__", answers: ["value"] }
-    ],
-    explanation: "A controlled radio uses checked to decide if it is selected and value to tell the handler which option was chosen."
-  },
-  {
-    id: "set2-controlled-forms-19",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the required-name validation branch.",
-    snippet: code(
-      "function handleSubmit(e) {",
-      "  e.preventDefault();",
-      "  if (name.trim() === \"\") {",
-      "    __1__(\"Name is required\");",
-      "    return;",
-      "  }",
-      "}"
-    ),
-    blanks: [{ label: "__1__", answers: ["setError"] }],
-    explanation: "Validation can set error state and return early before submitting."
-  },
-  {
-    id: "set2-controlled-forms-20",
-    setId: "set2",
-    moduleId: "set2-controlled-forms",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Why should validation errors usually live in state?",
-    choices: [
-      "So React can re-render and show or hide the error message",
-      "So package-lock.json can store the message",
-      "So the input becomes uncontrolled"
-    ],
-    answer: "So React can re-render and show or hide the error message",
-    explanation: "Error state lets the UI respond immediately to validation results."
-  },
-  {
     id: "set2-controlled-forms-21",
     setId: "set2",
     moduleId: "set2-controlled-forms",
@@ -2456,65 +1877,6 @@ export const set2Questions = [
     expected: "{error && <p>{error}</p>}",
     required: ["error", "&&", "<p>{error}</p>"],
     explanation: "Validation messages are often one-sided conditional renders."
-  },
-  {
-    id: "set2-fetch-storage-17",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the fetch error branch when the response is not ok.",
-    snippet: code(
-      "const response = await fetch(url);",
-      "if (!response.__1__) {",
-      "  throw new Error(\"Request failed\");",
-      "}"
-    ),
-    blanks: [{ label: "__1__", answers: ["ok"] }],
-    explanation: "fetch only rejects for network-level failures, so response.ok is commonly checked for HTTP errors."
-  },
-  {
-    id: "set2-fetch-storage-18",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Where should fetch errors usually be stored if the UI needs to display them?",
-    choices: ["error state", "a local variable only", "the dependency array"],
-    answer: "error state",
-    explanation: "Setting error state lets React render an error message."
-  },
-  {
-    id: "set2-fetch-storage-19",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "Complete",
-    type: "fill",
-    prompt: "Complete the catch block that stores an error message.",
-    snippet: code(
-      "try {",
-      "  await loadUsers();",
-      "} catch (error) {",
-      "  __1__(error.message);",
-      "}"
-    ),
-    blanks: [{ label: "__1__", answers: ["setError"] }],
-    explanation: "Caught request failures should update state when the UI needs to show them."
-  },
-  {
-    id: "set2-fetch-storage-20",
-    setId: "set2",
-    moduleId: "set2-fetch-storage",
-    level: "MCQ",
-    type: "mcq",
-    prompt: "Why should loading usually be set back to false in a finally block?",
-    choices: [
-      "It runs after success or failure",
-      "It only runs before fetch starts",
-      "It prevents JSX from using state"
-    ],
-    answer: "It runs after success or failure",
-    explanation: "finally is useful for cleanup work that should happen whether the request succeeded or failed."
   },
   {
     id: "set2-fetch-storage-21",

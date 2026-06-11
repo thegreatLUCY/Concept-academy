@@ -199,6 +199,18 @@ for (const [setId, , questions] of sets) {
   }
 }
 
+// Uniform sizing: every module everywhere holds exactly 10 questions, so
+// sidebar counts, exams, and pacing feel identical across tracks.
+for (const [setId, modules, questions] of sets) {
+  const perModule = new Map(modules.map((m) => [m.id, 0]));
+  for (const question of questions) {
+    perModule.set(question.moduleId, (perModule.get(question.moduleId) ?? 0) + 1);
+  }
+  for (const [moduleId, count] of perModule) {
+    if (count !== 10) fail(`${setId}/${moduleId} has ${count} questions (every module must have exactly 10)`);
+  }
+}
+
 // Lesson coverage: which modules still teach nothing before testing.
 const lessonedModuleIds = new Set(Object.keys(allLessons));
 const uncovered = sets.flatMap(([setId, modules]) =>
