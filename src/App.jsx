@@ -6,6 +6,8 @@ import PythonPlayground from "./components/PythonPlayground.jsx";
 import PythonRunPanel from "./components/PythonRunPanel.jsx";
 import SqlRunPanel from "./components/SqlRunPanel.jsx";
 import JsRunPanel from "./components/JsRunPanel.jsx";
+import SqlPlayground from "./components/SqlPlayground.jsx";
+import JsPlayground from "./components/JsPlayground.jsx";
 import { AnswerBlock, QuestionBody } from "./components/QuestionBody.jsx";
 import { modules as set1Modules, questions as set1Questions } from "./data/questions.js";
 import { set2Modules, set2Questions } from "./data/set2Questions.js";
@@ -1043,6 +1045,20 @@ function App() {
     return <PythonPlayground onBack={() => setView("quiz")} />;
   }
 
+  if (view === "sql-playground") {
+    return <SqlPlayground onBack={() => setView("quiz")} />;
+  }
+
+  if (view === "js-playground") {
+    return (
+      <JsPlayground
+        flavor={activeTrack.runtime}
+        trackTitle={activeTrack.setTitle}
+        onBack={() => setView("quiz")}
+      />
+    );
+  }
+
   if (view === "projects") {
     return <ProjectsView onBack={() => setView("quiz")} />;
   }
@@ -1110,6 +1126,20 @@ function App() {
               </button>
               <button className="playground-button" onClick={() => setView("projects")}>
                 Guided Projects
+              </button>
+            </div>
+          )}
+          {runtime === "sql" && (
+            <div className="sidebar-extras">
+              <button className="playground-button" onClick={() => setView("sql-playground")}>
+                SQL Playground
+              </button>
+            </div>
+          )}
+          {isJsRuntime(runtime) && (
+            <div className="sidebar-extras">
+              <button className="playground-button" onClick={() => setView("js-playground")}>
+                {activeTrack.setTitle} Playground
               </button>
             </div>
           )}

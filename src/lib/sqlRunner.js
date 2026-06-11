@@ -87,6 +87,14 @@ CREATE TABLE monthly (month INTEGER, revenue REAL);
 INSERT INTO monthly VALUES (1,100),(2,140),(3,90);
 `;
 
+// Table → columns summary derived from the seed, for playground/reference UI.
+export const SEED_SCHEMA = [...SEED_SQL.matchAll(/CREATE TABLE (\w+) \(([^;]+)\);/g)].map(
+  ([, table, cols]) => ({
+    table,
+    columns: cols.split(",").map((col) => col.trim().split(/\s+/)[0])
+  })
+);
+
 function injectScript() {
   return new Promise((resolve, reject) => {
     if (window.initSqlJs) {
