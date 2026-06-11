@@ -23,7 +23,7 @@ await page.goto(BASE_URL, { waitUntil: "networkidle" });
 await shot("landing");
 
 // 2. Python quiz with its module lesson open
-await page.locator(".topic-card", { hasText: "Programming fundamentals" }).click();
+await page.locator(".path-step", { hasText: "Python" }).first().click();
 await page.waitForSelector(".quiz-area");
 await shot("python-quiz");
 
@@ -60,7 +60,7 @@ await shot("exam");
 // 6. A second track (SQL) showing lessons across languages
 await page.getByRole("button", { name: "Back to questions" }).click();
 await page.getByRole("button", { name: "Back to topics" }).click();
-await page.locator(".topic-card", { hasText: "Relational data querying" }).click();
+await page.locator(".path-step", { hasText: "SQL" }).first().click();
 await page.waitForSelector(".quiz-area");
 await shot("sql-quiz");
 

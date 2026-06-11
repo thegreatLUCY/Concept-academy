@@ -2294,3 +2294,148 @@ textarea,
   background: var(--code);
   color: inherit;
 }
+
+/* Learning paths — the curriculum view: ordered syllabi, not a flat grid */
+.path-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  max-width: 1480px;
+  margin: 0 auto;
+  scroll-margin-top: 24px;
+}
+
+.learning-path {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  padding: 26px 22px 22px;
+  box-shadow: 0 14px 34px var(--shadow-soft);
+  animation: card-rise 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.learning-path:nth-child(1) { animation-delay: 60ms; }
+.learning-path:nth-child(2) { animation-delay: 140ms; }
+.learning-path:nth-child(3) { animation-delay: 220ms; }
+
+.path-header {
+  display: grid;
+  gap: 6px;
+}
+
+.path-header h3 {
+  margin: 0;
+  font-family: var(--font-display, inherit);
+  font-size: 1.35rem;
+}
+
+.path-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.path-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+/* the syllabus spine connecting the numbered steps */
+.path-steps li {
+  position: relative;
+}
+
+.path-steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 31px;
+  top: 100%;
+  height: 10px;
+  border-left: 2px dashed var(--line);
+}
+
+.path-step {
+  --topic-ink: color-mix(in srgb, var(--topic-accent), var(--ink-mix-color) var(--ink-mix-amount));
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--topic-accent), var(--line) 70%);
+  border-left: 4px solid var(--topic-accent);
+  border-radius: 10px;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--topic-accent), transparent 94%), transparent 50%),
+    var(--bg);
+  color: var(--text);
+  padding: 12px 14px 12px 10px;
+  text-align: left;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.path-step:hover {
+  border-color: var(--topic-ink);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--topic-accent), transparent 78%);
+  transform: translateX(3px);
+}
+
+.path-step:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.path-step-num {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--topic-ink);
+  color: var(--topic-ink);
+  font-weight: 700;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.path-step-body {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.path-step-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-weight: 650;
+  font-size: 1.02rem;
+}
+
+.path-step-meta {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.path-step-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.path-step-go {
+  color: var(--topic-ink);
+  font-size: 1.1rem;
+  transition: transform 160ms ease;
+}
+
+.path-step:hover .path-step-go {
+  transform: translateX(3px);
+}

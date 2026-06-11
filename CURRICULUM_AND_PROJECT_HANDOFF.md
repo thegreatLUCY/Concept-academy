@@ -49,6 +49,11 @@ The project is a Vite + React teaching quiz app called Concept Academy. It began
 - React/TypeScript/jQuery run via the JS runtime (src/lib/jsRunner.js): Babel standalone transpiles (JSX always, TS types stripped), code executes in a scoped Function with console capture, React components render for real (React 18 UMD, auto-render of App/last component), jQuery runs against a seeded live playground DOM scoped with $(sel, host). Grading (src/lib/jsGrader.js) compares console output + rendered markup of learner vs expected; non-runnable fragments fall back to string matching. looksRunnableJs() hides the Run button on terminal/HTML/CSS/JSON/fragment lesson examples.
 - Bash, Linux, Matplotlib, Cybersecurity stay string-graded (no browser runtime for shells; matplotlib rendering and cyber are conceptual by design).
 
+## Landing Page Curriculum (learning paths)
+
+- The landing page leads with `learningPaths` (App.jsx): three ordered W3Schools-style paths — Python & Data (python → sql → numpy → pandas → matplotlib), Web Development (react → typescript → jquery), Systems & Security (linux → bash → cybersecurity). Each step shows its order number, a "when to take it" note, question count, and per-track progress (% + done/total from `status === "passed"`).
+- The old flat topic grid still exists but only renders while the search box is filtering (`isFiltering`); module/concept search results are unchanged. CSS: `.path-grid` / `.learning-path` / `.path-step` in styles.css (per-track accent borders, dashed syllabus spine between steps).
+
 ## Teaching Engine (added after the curriculum build-out)
 
 - Progress model: localStorage records are `{ status: "passed"|"failed"|"revealed", attempts, box, due, updatedAt }` per question. Old boolean records migrate automatically in `loadProgress()`. Only `status === "passed"` counts toward progress.

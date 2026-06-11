@@ -292,6 +292,43 @@ const topicCatalog = [
   }
 ];
 
+// W3Schools-style curriculum: the library leads with ordered learning paths,
+// not a flat grid — each step says when to take it and what it builds on.
+const learningPaths = [
+  {
+    id: "data",
+    title: "Python & Data",
+    tagline: "One language from your first print() to real data analysis.",
+    steps: [
+      { id: "python", note: "Start here — no prerequisites, the foundation for everything below" },
+      { id: "sql", note: "Query data where it lives — pairs with Python, needs none of it" },
+      { id: "numpy", note: "Fast numeric arrays — take after Python sets 1–3" },
+      { id: "pandas", note: "DataFrames for messy real-world data — builds on NumPy" },
+      { id: "matplotlib", note: "Chart what you analyzed — best after NumPy and Pandas" }
+    ]
+  },
+  {
+    id: "web",
+    title: "Web Development",
+    tagline: "Build the interfaces people use, then harden them with types.",
+    steps: [
+      { id: "react", note: "Start here — components, hooks, and whole apps from scratch" },
+      { id: "typescript", note: "Add a type system once you can build with React" },
+      { id: "jquery", note: "Optional — read and migrate the legacy code you'll meet at work" }
+    ]
+  },
+  {
+    id: "systems",
+    title: "Systems & Security",
+    tagline: "Command the machine, automate it, then learn to defend it.",
+    steps: [
+      { id: "linux", note: "Start here — the operating system everything runs on" },
+      { id: "bash", note: "Automate the system you now understand" },
+      { id: "cybersecurity", note: "Defend it all — builds on Linux, networking, and the web" }
+    ]
+  }
+];
+
 // Compact text view of a SQL result set, for the AI tutor context and feedback.
 function sqlResultToText(run) {
   if (!run || !run.columns?.length) {
@@ -784,6 +821,14 @@ function App() {
   if (view === "topics") {
     const resumePoint = readResumePoint();
     const resumeTrack = resumePoint ? tracks[resumePoint.topic] : null;
+    const isFiltering = Boolean(cleanText(topicFilter));
+    const trackProgress = Object.fromEntries(
+      Object.values(tracks).map((track) => {
+        const done = track.questions.filter((question) => isPassed(question.id)).length;
+        const total = track.questions.length;
+        return [track.id, { done, total, pct: total ? Math.round((done / total) * 100) : 0 }];
+      })
+    );
 
     return (
       <main className="topic-page">
@@ -853,8 +898,8 @@ function App() {
 
         <section className="topic-toolbar" aria-label="Topic controls">
           <div>
-            <p className="eyebrow">The library</p>
-            <h2>Pick your track</h2>
+            <p className="eyebrow">The curriculum</p>
+            <h2>Three paths, eleven tracks — in the order to learn them</h2>
           </div>
           <label className="topic-search">
             <span>Search every module and concept</span>
@@ -885,7 +930,55 @@ function App() {
 
         {topicNotice && <p className="topic-notice">{topicNotice}</p>}
 
-        <section className="topic-grid" id="topic-grid" aria-label="Available and planned topics">
+        {!isFiltering && (
+          <section className="path-grid" id="topic-grid" aria-label="Learning paths">
+            {learningPaths.map((path) => (
+              <article className="learning-path" key={path.id}>
+                <header className="path-header">
+                  <h3>{path.title}</h3>
+                  <p>{path.tagline}</p>
+                </header>
+                <ol className="path-steps">
+                  {path.steps.map((step, index) => {
+                    const topic = topicCatalog.find((entry) => entry.id === step.id);
+                    const stats = trackProgress[step.id];
+
+                    return (
+                      <li key={step.id}>
+                        <button
+                          className="path-step"
+                          onClick={() => openTopic(topic)}
+                          style={{ "--topic-accent": topic.accent }}
+                        >
+                          <span className="path-step-num" aria-hidden="true">
+                            {index + 1}
+                          </span>
+                          <span className="path-step-body">
+                            <span className="path-step-title">
+                              {topic.title}
+                              <span className="path-step-meta">
+                                {stats?.done
+                                  ? `${stats.pct}% · ${stats.done}/${stats.total}`
+                                  : `${stats?.total ?? 0} questions`}
+                              </span>
+                            </span>
+                            <span className="path-step-note">{step.note}</span>
+                          </span>
+                          <span className="path-step-go" aria-hidden="true">
+                            →
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </article>
+            ))}
+          </section>
+        )}
+
+        {isFiltering && (
+        <section className="topic-grid" aria-label="Matching tracks">
           {filteredTopics.map((topic) => (
             <button
               className={tracks[topic.id] ? "topic-card available" : "topic-card"}
@@ -906,6 +999,7 @@ function App() {
             </button>
           ))}
         </section>
+        )}
 
         <footer className="topic-footer">
           <p>

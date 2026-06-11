@@ -68,6 +68,7 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 
 ## ✨ Features
 
+- 🗺️ **Learning paths** — the library is a curriculum, not a grid: three ordered paths (Python & Data, Web Development, Systems & Security) tell you what to take next and show your progress per track
 - 📖 **Lessons before questions** — W3Schools-style "learn, then try", with a real interpreter behind Python examples
 - ⚡ **Execution-based grading** — Python/NumPy/Pandas run in Pyodide (output comparison + hidden tests); **SQL runs in a real in-browser SQLite (sql.js)** and is graded by comparing result sets; **React/TS/jQuery compile with Babel and run live** — JSX answers are graded by comparing what they actually render
 - 🐍 **Python playground** — editor, console, and REPL with persistent session and `input()` support
