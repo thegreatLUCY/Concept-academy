@@ -17,6 +17,7 @@ import { set3Modules, set3Questions } from "./data/set3Questions.js";
 import { set4Modules, set4Questions } from "./data/set4Questions.js";
 import { set5Modules, set5Questions } from "./data/set5Questions.js";
 import { set6Modules, set6Questions, set6Lessons } from "./data/set6Questions.js";
+import { dockerSet1Modules, dockerSet1Questions, dockerSet1Lessons } from "./data/dockerSet1Questions.js";
 import { pythonSet1Modules, pythonSet1Questions } from "./data/pythonSet1Questions.js";
 import { pythonSet2Modules, pythonSet2Questions } from "./data/pythonSet2Questions.js";
 import { pythonSet3Modules, pythonSet3Questions } from "./data/pythonSet3Questions.js";
@@ -147,6 +148,7 @@ const tracks = {
   typescript: makeTrack({ id: "typescript", title: "TypeScript", setId: "ts-set1", setLabel: "TypeScript Foundations", modules: tsSet1Modules, questions: tsSet1Questions, runtime: "typescript" }),
   bash: makeTrack({ id: "bash", title: "Bash", setId: "bash-set1", setLabel: "Shell Foundations", modules: bashSet1Modules, questions: bashSet1Questions }),
   linux: makeTrack({ id: "linux", title: "Linux", setId: "linux-set1", setLabel: "Linux Foundations", modules: linuxSet1Modules, questions: linuxSet1Questions }),
+  docker: makeTrack({ id: "docker", title: "Docker", setId: "docker-set1", setLabel: "Containers Foundations", modules: dockerSet1Modules, questions: dockerSet1Questions }),
   jquery: makeTrack({ id: "jquery", title: "jQuery", setId: "jquery-set1", setLabel: "jQuery + Migration", modules: jquerySet1Modules, questions: jquerySet1Questions, runtime: "jquery" }),
   numpy: makeTrack({ id: "numpy", title: "NumPy", setId: "numpy-set1", setLabel: "Array Foundations", modules: numpySet1Modules, questions: numpySet1Questions, runtime: "python" }),
   pandas: makeTrack({ id: "pandas", title: "Pandas", setId: "pandas-set1", setLabel: "DataFrame Foundations", modules: pandasSet1Modules, questions: pandasSet1Questions, runtime: "python" }),
@@ -169,6 +171,7 @@ const tracks = {
 
 const lessonsByModule = {
   ...set6Lessons,
+  ...dockerSet1Lessons,
   ...reactLessons,
   ...pythonLessons,
   ...pythonExtraLessons,
@@ -291,6 +294,15 @@ const topicCatalog = [
     status: "Available"
   },
   {
+    id: "docker",
+    title: "Docker",
+    label: "Containers & shipping software",
+    description: "Containers vs VMs, images and layers, Dockerfiles, volumes, networking, Compose, registries, and production-grade multi-stage builds.",
+    mark: "🐳",
+    accent: "#1d63ed",
+    status: "Available"
+  },
+  {
     id: "cybersecurity",
     title: "Cybersecurity",
     label: "Defensive security & ethics",
@@ -350,11 +362,13 @@ const learningPaths = [
     steps: [
       { id: "linux", note: "Start here — the operating system everything runs on" },
       { id: "bash", note: "Automate the system you now understand" },
+      { id: "docker", note: "Package and ship software the way modern teams do" },
       { id: "cybersecurity", note: "Defend it all — builds on Linux, networking, and the web" }
     ],
     placement: [
       { trackId: "linux", setId: "linux-set1", label: "Linux — Foundations", reason: "Learn the filesystem, permissions, and processes before automating or defending anything." },
       { trackId: "bash", setId: "bash-set1", label: "Bash — Shell Foundations", reason: "You know your way around Linux — automate it with the shell." },
+      { trackId: "docker", setId: "docker-set1", label: "Docker — Containers Foundations", reason: "Comfortable in the shell — learn to package and run software in containers." },
       { trackId: "cybersecurity", setId: "cyber-set1", label: "Cybersecurity Set 1 — Security Foundations", reason: "With systems skills in place, start defensive security from the CIA triad up." },
       { trackId: "cybersecurity", setId: "cyber-set2", label: "Cybersecurity Set 2", reason: "Foundations are solid — move into web defense and OWASP territory." },
       { trackId: "cybersecurity", setId: "cyber-set3", label: "Cybersecurity Set 3", reason: "You think like a defender — finish with blue team, forensics, and ethics." }

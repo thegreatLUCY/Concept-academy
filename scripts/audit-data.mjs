@@ -26,6 +26,7 @@ import { matplotlibSet1Modules, matplotlibSet1Questions, matplotlibSet1Lessons }
 import { cyberSet1Modules, cyberSet1Questions, cyberSet1Lessons } from "../src/data/cyberSet1Questions.js";
 import { cyberSet2Modules, cyberSet2Questions, cyberSet2Lessons } from "../src/data/cyberSet2Questions.js";
 import { cyberSet3Modules, cyberSet3Questions, cyberSet3Lessons } from "../src/data/cyberSet3Questions.js";
+import { dockerSet1Modules, dockerSet1Questions, dockerSet1Lessons } from "../src/data/dockerSet1Questions.js";
 import { pythonProjects } from "../src/data/pythonProjects.js";
 
 // React set 1 predates setId-in-data; the app injects it, so the audit does too.
@@ -46,6 +47,7 @@ const sets = [
   ["ts-set1", tsSet1Modules, tsSet1Questions],
   ["bash-set1", bashSet1Modules, bashSet1Questions],
   ["linux-set1", linuxSet1Modules, linuxSet1Questions],
+  ["docker-set1", dockerSet1Modules, dockerSet1Questions],
   ["jquery-set1", jquerySet1Modules, jquerySet1Questions],
   ["numpy-set1", numpySet1Modules, numpySet1Questions],
   ["pandas-set1", pandasSet1Modules, pandasSet1Questions],
@@ -159,6 +161,7 @@ const allLessons = {
   ...pythonExtraLessons,
   ...reactLessons,
   ...set6Lessons,
+  ...dockerSet1Lessons,
   ...sqlSet1Lessons,
   ...sqlSet2Lessons,
   ...pythonSet5Lessons,

@@ -8,11 +8,11 @@
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white&labelColor=20232a)
 ![Pyodide](https://img.shields.io/badge/Python-Pyodide_in--browser-f0bd35?logo=python&logoColor=white&labelColor=20232a)
 ![AI Tutor](https://img.shields.io/badge/AI_Tutor-OpenRouter-8a2be2?labelColor=20232a)
-![Questions](https://img.shields.io/badge/questions-3060-15b77f?labelColor=20232a)
+![Questions](https://img.shields.io/badge/questions-3160-15b77f?labelColor=20232a)
 ![Tracks](https://img.shields.io/badge/tracks-11_live-15b77f?labelColor=20232a)
 ![License](https://img.shields.io/badge/license-MIT-blue?labelColor=20232a)
 
-An open-source W3Schools/LabEx-style teaching platform: **2,900+ questions across 11 tracks**, module lessons, **real Python running in the browser**, step-verified projects, exams with printable certificates, spaced-repetition review, and a Socratic AI tutor. **No backend, no accounts** — everything runs client-side.
+An open-source W3Schools/LabEx-style teaching platform: **2,900+ questions across 12 tracks**, module lessons, **real Python running in the browser**, step-verified projects, exams with printable certificates, spaced-repetition review, and a Socratic AI tutor. **No backend, no accounts** — everything runs client-side.
 
 </div>
 
@@ -56,13 +56,14 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 | 🔷 **TypeScript** | 10 modules · 100 questions — annotations to narrowing, generics, strict mode | ✅ Babel |
 | 💲 **Bash** | 10 modules · 100 questions — navigation to pipes, scripts, permissions | — |
 | 🐧 **Linux** | 10 modules · 100 questions — filesystem to systemd, networking, logs | — |
+| 🐳 **Docker** | 10 modules · 100 questions — containers vs VMs to Dockerfiles, volumes, Compose, multi-stage builds | — |
 | 🛡️ **Cybersecurity** | 3 sets · 30 modules · 300 questions — CIA triad & crypto to web defense, OWASP, threat modeling, blue team, forensics, ethics | — |
 | 💛 **jQuery** | 10 modules · 100 questions — selectors to AJAX, plus vanilla-JS migration | ✅ live playground |
 | 🔢 **NumPy** | 10 modules · 100 questions — arrays to broadcasting, masking, views vs copies | ✅ Pyodide |
 | 🐼 **Pandas** | 10 modules · 100 questions — DataFrames to groupby, merging, cleanup | ✅ Pyodide |
 | 📊 **Matplotlib** | 10 modules · 100 questions — figures to subplots, chart literacy | — |
 
-**Every one of the 296 modules ships with a lesson** (summary, key points, runnable/read-along example) shown before its questions. Every track gets the **AI tutor**, **review queue**, **exams**, and **search**.
+**Every one of the 316 modules ships with a lesson** (summary, key points, runnable/read-along example) shown before its questions. Every track gets the **AI tutor**, **review queue**, **exams**, and **search**.
 
 ---
 
@@ -96,7 +97,7 @@ npm run dev      # → http://localhost:5173
 | --- | --- |
 | `npm run dev` | Start the dev server |
 | `npm run build` | Production build |
-| `npm run audit` | Validate all 3,060 questions, lessons, and projects |
+| `npm run audit` | Validate all 3,160 questions, lessons, and projects |
 | `node scripts/screenshots.mjs` | Regenerate README screenshots (needs dev server + Playwright) |
 
 > First Python execution downloads the Pyodide runtime (~10 MB) from CDN, then it's cached.
