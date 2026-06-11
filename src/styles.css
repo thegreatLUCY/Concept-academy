@@ -2251,3 +2251,46 @@ textarea,
   color: var(--muted);
   font-size: 0.82rem;
 }
+
+/* Live JS/React/jQuery preview — real DOM rendered by the learner's code */
+.js-preview {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel, var(--bg));
+  padding: 16px 18px;
+  display: grid;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.js-preview-hidden {
+  display: none;
+}
+
+.js-preview h1,
+.js-preview h2,
+.js-preview h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.js-preview p,
+.js-preview ul,
+.js-preview div {
+  margin: 0;
+}
+
+.js-preview ul {
+  padding-left: 20px;
+}
+
+.js-preview button,
+.js-preview input {
+  justify-self: start;
+  font: inherit;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--code);
+  color: inherit;
+}

@@ -46,7 +46,8 @@ The project is a Vite + React teaching quiz app called Concept Academy. It began
 - Python family (`runtime: "python"`): NumPy and Pandas now execute via the existing Pyodide runtime. `src/lib/pyodideRunner.js` calls `pyodide.loadPackagesFromImports(code)` before every run, so `import numpy`/`import pandas` auto-load the packages on first use (cached after). Grading reuses `gradePythonCode` (stdout comparison / hidden tests; read_csv-style examples with no file fall back to string match).
 - SQL (`runtime: "sql"`): real in-browser SQLite via sql.js (CDN, lazy-loaded). `src/lib/sqlRunner.js` exports SEED_SQL (a seeded schema: users, products, orders, customers, suppliers, employees, players, authors, books, sales, monthly_sales/monthly, accounts, students, courses) and `runSql` (each run gets a FRESH seeded DB so DML never leaks). `src/lib/sqlGrader.js` `gradeSql`: runs the learner's query; for SELECT/WITH it compares the result set to the reference query's (order-insensitive unless ORDER BY/window), otherwise runs-clean + string match for DML/DDL. `src/components/SqlRunPanel.jsx` renders results as a table.
 - Seed/question collision rule: tables a CREATE-TABLE question or lesson creates must NOT be in the seed. Fixed instances: sql1-tables question creates `articles` (not seeded), its lesson creates `members`; sql2-schema-design lesson creates `clients`/`purchases`; student_courses removed from the seed. All 19 SQL reference queries + 20 SQL lesson examples verified to run against the seed (SQLite).
-- Bash, Linux, jQuery, TypeScript, Matplotlib, Cybersecurity stay string-graded (no runtime). The JS runner for React/TS/jQuery is deferred (see memory note).
+- React/TypeScript/jQuery run via the JS runtime (src/lib/jsRunner.js): Babel standalone transpiles (JSX always, TS types stripped), code executes in a scoped Function with console capture, React components render for real (React 18 UMD, auto-render of App/last component), jQuery runs against a seeded live playground DOM scoped with $(sel, host). Grading (src/lib/jsGrader.js) compares console output + rendered markup of learner vs expected; non-runnable fragments fall back to string matching. looksRunnableJs() hides the Run button on terminal/HTML/CSS/JSON/fragment lesson examples.
+- Bash, Linux, Matplotlib, Cybersecurity stay string-graded (no browser runtime for shells; matplotlib rendering and cyber are conceptual by design).
 
 ## Teaching Engine (added after the curriculum build-out)
 
@@ -62,7 +63,7 @@ The project is a Vite + React teaching quiz app called Concept Academy. It began
 - AI tutor upgrades: context now includes attempts and wrongStreak; after 2 wrong checks a nudge banner points to the tutor and the system prompt asks for a stronger, misconception-targeted hint.
 - QuestionBody/AnswerBlock moved to `src/components/QuestionBody.jsx` (shared by quiz and exam). Code-question Run button now prepends `starter` so starter-dependent code runs correctly.
 - Repo hygiene: README.md, MIT LICENSE, CONTRIBUTING.md (question schema + authoring rules), `scripts/audit-data.mjs` (npm run audit — all 9 sets, structural checks, self-consistency of model answers, TF balance warnings, lesson/project checks), and GitHub Actions CI (`.github/workflows/ci.yml`) running audit + build.
-- Known content debt: True/False answers are 75% True across the catalog (audit reports it); rebalance when sets are next edited. React track still uses string grading (needs a JS runner).
+- Known content debt: True/False answers are 75% True across the catalog (audit reports it); rebalance when sets are next edited. 
 
 ## App Structure
 

@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { seededShuffle } from "../lib/shuffle.js";
 import PythonRunPanel from "./PythonRunPanel.jsx";
 import SqlRunPanel from "./SqlRunPanel.jsx";
+import JsRunPanel from "./JsRunPanel.jsx";
+import { isJsRuntime } from "../lib/jsRunner.js";
 
 export function QuestionBody({
   question,
@@ -96,6 +98,10 @@ export function QuestionBody({
         <PythonRunPanel code={codeAnswer.trim() ? runnableCode : ""} onResult={onRunResult} />
       )}
       {runtime === "sql" && <SqlRunPanel sql={codeAnswer} onResult={onRunResult} />}
+      {isJsRuntime(runtime) && (
+        /* JSX answers are graded standalone, so the run matches the grade */
+        <JsRunPanel code={codeAnswer} flavor={runtime} onResult={onRunResult} />
+      )}
     </div>
   );
 }

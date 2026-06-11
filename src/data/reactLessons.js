@@ -1,7 +1,7 @@
 const code = (...lines) => lines.join("\n");
 
 // Lessons for React Set 1 modules, shown above each module's questions.
-// React examples are read-along (no in-browser JS runner yet).
+// Runnable examples get a Run button (Babel + React, right in the browser).
 export const reactLessons = {
   "react-orientation": {
     summary:
@@ -559,9 +559,10 @@ export const reactLessons = {
     ],
     example: code(
       "const count = 0;",
+      "const user = { address: { city: \"Cairo\" } };",
       "console.log(count || 5);   // 5  (0 is falsy — maybe wrong!)",
       "console.log(count ?? 5);   // 0  (?? respects 0)",
-      "console.log(user?.address?.city); // safe if user is missing"
+      "console.log(user?.address?.city); // safe even if user were missing"
     )
   },
   "set3-arrays-sorting-reduce": {
@@ -729,9 +730,15 @@ export const reactLessons = {
       "Transform once into UI-ready data; keep components dumb."
     ],
     example: code(
+      "const apiUsers = [",
+      "  { id: 1, name: \"Aya\", active: true },",
+      "  { id: 2, name: null, active: true },",
+      "  { id: 3, name: \"Bo\", active: false }",
+      "];",
       "const uiUsers = apiUsers",
       "  .filter((u) => u.active)",
-      "  .map((u) => ({ id: u.id, label: u.name ?? \"Unknown\" }));"
+      "  .map((u) => ({ id: u.id, label: u.name ?? \"Unknown\" }));",
+      "console.log(uiUsers);"
     )
   },
   "set3-defensive-debugging": {
@@ -1290,6 +1297,7 @@ export const reactLessons = {
       "Hiding admin buttons is UX; the API must still enforce access."
     ],
     example: code(
+      "const token = localStorage.getItem(\"token\");",
       "fetch(\"/api/admin\", {",
       "  headers: { Authorization: `Bearer ${token}` },",
       "});",

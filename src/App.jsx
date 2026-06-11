@@ -5,6 +5,7 @@ import ProjectsView from "./components/ProjectsView.jsx";
 import PythonPlayground from "./components/PythonPlayground.jsx";
 import PythonRunPanel from "./components/PythonRunPanel.jsx";
 import SqlRunPanel from "./components/SqlRunPanel.jsx";
+import JsRunPanel from "./components/JsRunPanel.jsx";
 import { AnswerBlock, QuestionBody } from "./components/QuestionBody.jsx";
 import { modules as set1Modules, questions as set1Questions } from "./data/questions.js";
 import { set2Modules, set2Questions } from "./data/set2Questions.js";
@@ -33,6 +34,8 @@ import { cyberSet2Modules, cyberSet2Questions, cyberSet2Lessons } from "./data/c
 import { cyberSet3Modules, cyberSet3Questions, cyberSet3Lessons } from "./data/cyberSet3Questions.js";
 import { gradePythonCode, gradeCodeByString } from "./lib/pythonGrader.js";
 import { gradeSql } from "./lib/sqlGrader.js";
+import { gradeJs } from "./lib/jsGrader.js";
+import { isJsRuntime, looksRunnableJs } from "./lib/jsRunner.js";
 import { cleanCode, cleanText } from "./lib/textUtils.js";
 
 const STORAGE_KEY = "react-zero-to-hero-progress";
@@ -102,6 +105,7 @@ const tracks = {
     id: "react",
     title: "React Zero to Hero",
     setTitle: "React",
+    runtime: "react",
     // learners land at the start of the teaching path, not the hardest set
     defaultSet: "set1",
     sets: reactCurriculumSets,
@@ -132,10 +136,10 @@ const tracks = {
     modules: [...sqlSet1Modules, ...sqlSet2Modules],
     questions: [...sqlSet1Questions, ...sqlSet2Questions].map((question, order) => ({ ...question, order }))
   },
-  typescript: makeTrack({ id: "typescript", title: "TypeScript", setId: "ts-set1", setLabel: "TypeScript Foundations", modules: tsSet1Modules, questions: tsSet1Questions }),
+  typescript: makeTrack({ id: "typescript", title: "TypeScript", setId: "ts-set1", setLabel: "TypeScript Foundations", modules: tsSet1Modules, questions: tsSet1Questions, runtime: "typescript" }),
   bash: makeTrack({ id: "bash", title: "Bash", setId: "bash-set1", setLabel: "Shell Foundations", modules: bashSet1Modules, questions: bashSet1Questions }),
   linux: makeTrack({ id: "linux", title: "Linux", setId: "linux-set1", setLabel: "Linux Foundations", modules: linuxSet1Modules, questions: linuxSet1Questions }),
-  jquery: makeTrack({ id: "jquery", title: "jQuery", setId: "jquery-set1", setLabel: "jQuery + Migration", modules: jquerySet1Modules, questions: jquerySet1Questions }),
+  jquery: makeTrack({ id: "jquery", title: "jQuery", setId: "jquery-set1", setLabel: "jQuery + Migration", modules: jquerySet1Modules, questions: jquerySet1Questions, runtime: "jquery" }),
   numpy: makeTrack({ id: "numpy", title: "NumPy", setId: "numpy-set1", setLabel: "Array Foundations", modules: numpySet1Modules, questions: numpySet1Questions, runtime: "python" }),
   pandas: makeTrack({ id: "pandas", title: "Pandas", setId: "pandas-set1", setLabel: "DataFrame Foundations", modules: pandasSet1Modules, questions: pandasSet1Questions, runtime: "python" }),
   matplotlib: makeTrack({ id: "matplotlib", title: "Matplotlib", setId: "matplotlib-set1", setLabel: "Visualization Foundations", modules: matplotlibSet1Modules, questions: matplotlibSet1Questions }),
@@ -712,6 +716,18 @@ function App() {
         } finally {
           setChecking(false);
         }
+      } else if (isJsRuntime(activeTrack.runtime)) {
+        setChecking(true);
+
+        try {
+          detail = await gradeJs(currentQuestion, codeAnswer, activeTrack.runtime);
+          correct = detail.correct;
+        } catch {
+          correct = gradeCodeByString(currentQuestion, codeAnswer);
+          detail = null;
+        } finally {
+          setChecking(false);
+        }
       } else {
         correct = gradeCodeByString(currentQuestion, codeAnswer);
       }
@@ -946,7 +962,10 @@ function App() {
     ? ""
     : runtime === "sql"
       ? lastRun.error || sqlResultToText(lastRun)
-      : [lastRun.output, lastRun.result, lastRun.error].filter(Boolean).join("\n");
+      : isJsRuntime(runtime)
+        ? lastRun.error ||
+          [lastRun.output, lastRun.html && `[rendered] ${lastRun.html}`].filter(Boolean).join("\n")
+        : [lastRun.output, lastRun.result, lastRun.error].filter(Boolean).join("\n");
   const attempts = currentQuestion ? progress[currentQuestion.id]?.attempts ?? 0 : 0;
 
   return (
@@ -1100,6 +1119,9 @@ function App() {
                         <pre>{lesson.example}</pre>
                         {runtime === "python" && <PythonRunPanel code={lesson.example} />}
                         {runtime === "sql" && <SqlRunPanel sql={lesson.example} />}
+                        {isJsRuntime(runtime) && looksRunnableJs(lesson.example) && (
+                          <JsRunPanel code={lesson.example} flavor={runtime} />
+                        )}
                       </div>
                     )}
                   </div>
@@ -1138,6 +1160,11 @@ function App() {
                   runtime === "sql" && (
                     <p className="grade-method">Verified by running your query against the database.</p>
                   )}
+                {isCorrect && gradeDetail?.method === "execution" && isJsRuntime(runtime) && (
+                  <p className="grade-method">
+                    Verified by compiling and running your code in the browser.
+                  </p>
+                )}
                 {isCorrect && gradeDetail?.method === "tests" && (
                   <p className="grade-method">Verified: your code passed the hidden tests.</p>
                 )}
@@ -1146,7 +1173,7 @@ function App() {
                   <pre className="py-error">{gradeDetail.detail}</pre>
                 )}
                 {!isCorrect &&
-                  runtime === "python" &&
+                  (runtime === "python" || isJsRuntime(runtime)) &&
                   gradeDetail?.method === "execution" &&
                   gradeDetail.expectedOutput != null &&
                   !gradeDetail.detail && (
