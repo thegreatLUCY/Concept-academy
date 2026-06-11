@@ -8,6 +8,7 @@ import SqlRunPanel from "./components/SqlRunPanel.jsx";
 import JsRunPanel from "./components/JsRunPanel.jsx";
 import SqlPlayground from "./components/SqlPlayground.jsx";
 import JsPlayground from "./components/JsPlayground.jsx";
+import ReferenceView from "./components/ReferenceView.jsx";
 import { AnswerBlock, QuestionBody } from "./components/QuestionBody.jsx";
 import { modules as set1Modules, questions as set1Questions } from "./data/questions.js";
 import { set2Modules, set2Questions } from "./data/set2Questions.js";
@@ -1045,6 +1046,16 @@ function App() {
     return <PythonPlayground onBack={() => setView("quiz")} />;
   }
 
+  if (view === "reference") {
+    return (
+      <ReferenceView
+        track={activeTrack}
+        lessonsByModule={lessonsByModule}
+        onBack={() => setView("quiz")}
+      />
+    );
+  }
+
   if (view === "sql-playground") {
     return <SqlPlayground onBack={() => setView("quiz")} />;
   }
@@ -1143,6 +1154,11 @@ function App() {
               </button>
             </div>
           )}
+          <div className="sidebar-extras">
+            <button className="playground-button" onClick={() => setView("reference")}>
+              Quick Reference
+            </button>
+          </div>
         </div>
 
         <div className="set-switcher" aria-label="Curriculum sets">

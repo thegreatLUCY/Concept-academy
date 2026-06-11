@@ -2577,3 +2577,102 @@ textarea,
 .playground-preview {
   min-height: 120px;
 }
+
+/* Quick Reference — one-page per-track cheat sheet */
+.reference-shell {
+  max-width: 1480px;
+}
+
+.reference-toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 0 22px;
+}
+
+.reference-search {
+  max-width: 420px;
+  flex: 1;
+}
+
+.reference-count {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.reference-set-title {
+  margin: 34px 0 14px;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+}
+
+.reference-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 16px;
+}
+
+.reference-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--track-accent, var(--accent));
+  border-radius: 12px;
+  background: var(--panel);
+  padding: 16px 18px;
+}
+
+.reference-card h3 {
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+.reference-card ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.reference-example {
+  position: relative;
+}
+
+.reference-example pre {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--code);
+  color: var(--code-text);
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  overflow-x: auto;
+}
+
+.copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 1px solid color-mix(in srgb, var(--code-text), transparent 70%);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--code), transparent 10%);
+  color: var(--code-text);
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 140ms ease;
+}
+
+.reference-example:hover .copy-button,
+.copy-button:focus-visible {
+  opacity: 1;
+}
