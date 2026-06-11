@@ -1114,7 +1114,7 @@ function App() {
   }
 
   if (view === "projects") {
-    return <ProjectsView onBack={() => setView("quiz")} />;
+    return <ProjectsView track={activeTrack.id} onBack={() => setView("quiz")} />;
   }
 
   if (view === "exam") {
@@ -1188,6 +1188,9 @@ function App() {
               <button className="playground-button" onClick={() => setView("sql-playground")}>
                 SQL Playground
               </button>
+              <button className="playground-button" onClick={() => setView("projects")}>
+                Guided Projects
+              </button>
             </div>
           )}
           {isJsRuntime(runtime) && (
@@ -1195,6 +1198,11 @@ function App() {
               <button className="playground-button" onClick={() => setView("js-playground")}>
                 {activeTrack.setTitle} Playground
               </button>
+              {activeTrack.id === "react" && (
+                <button className="playground-button" onClick={() => setView("projects")}>
+                  Guided Projects
+                </button>
+              )}
             </div>
           )}
           <div className="sidebar-extras">

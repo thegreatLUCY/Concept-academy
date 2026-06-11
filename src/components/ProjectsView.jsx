@@ -1,6 +1,40 @@
 import { useState } from "react";
 import { pythonProjects } from "../data/pythonProjects.js";
+import { reactProjects } from "../data/reactProjects.js";
+import { sqlProjects } from "../data/sqlProjects.js";
 import { isPythonReady, runPython } from "../lib/pyodideRunner.js";
+import { isJsReady, runJs } from "../lib/jsRunner.js";
+import { isSqlReady, runSql } from "../lib/sqlRunner.js";
+
+const allProjects = [
+  ...pythonProjects.map((project) => ({ track: "python", runtime: "python", ...project })),
+  ...reactProjects,
+  ...sqlProjects
+];
+
+const TRACK_LABELS = { python: "Python", react: "React", sql: "SQL" };
+
+// SQL step checks return rows shaped (check_name, ok); pass = every ok is 1.
+function evaluateSqlChecks(result) {
+  if (result.error) {
+    return { output: "", error: result.error };
+  }
+
+  const nameIndex = result.columns.indexOf("check_name");
+  const okIndex = result.columns.indexOf("ok");
+  const failed = result.rows.filter((row) => Number(row[okIndex]) !== 1);
+  const passed = result.rows.filter((row) => Number(row[okIndex]) === 1);
+  const output = passed.map((row) => `\u2713 ${row[nameIndex]}`).join("\n");
+
+  if (failed.length) {
+    return {
+      output,
+      error: failed.map((row) => `\u2717 ${row[nameIndex]}`).join("\n")
+    };
+  }
+
+  return { output, error: null };
+}
 
 const PROJECTS_KEY = "concept-academy-projects";
 
@@ -12,7 +46,7 @@ function loadProjectState() {
   }
 }
 
-function ProjectsView({ onBack }) {
+function ProjectsView({ track = "python", onBack }) {
   const [projectState, setProjectState] = useState(loadProjectState);
   const [activeProjectId, setActiveProjectId] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -21,7 +55,8 @@ function ProjectsView({ onBack }) {
   const [status, setStatus] = useState("idle");
   const [showHint, setShowHint] = useState(false);
 
-  const activeProject = pythonProjects.find((project) => project.id === activeProjectId);
+  const trackProjects = allProjects.filter((project) => project.track === track);
+  const activeProject = trackProjects.find((project) => project.id === activeProjectId);
   const savedSteps = activeProject ? projectState[activeProject.id]?.steps ?? {} : {};
   const step = activeProject?.steps[stepIndex];
   const doneCount = activeProject
@@ -67,10 +102,22 @@ function ProjectsView({ onBack }) {
       return;
     }
 
-    setStatus(isPythonReady() ? "running" : "loading");
+    const runtime = activeProject.runtime;
+    const ready =
+      runtime === "python" ? isPythonReady() : runtime === "sql" ? isSqlReady() : isJsReady(runtime);
+    setStatus(ready ? "running" : "loading");
 
     try {
-      const result = await runPython(`${code}\n\n${step.tests}`);
+      let result;
+
+      if (runtime === "python") {
+        result = await runPython(`${code}\n\n${step.tests}`);
+      } else if (runtime === "sql") {
+        result = evaluateSqlChecks(await runSql(`${code}\n\n${step.tests}`));
+      } else {
+        result = await runJs(`${code}\n;\n${step.tests}`, runtime);
+      }
+
       setRun(result);
 
       if (!result.error) {
@@ -102,11 +149,11 @@ function ProjectsView({ onBack }) {
       <main className="projects-shell">
         <header className="playground-topline">
           <div>
-            <p className="eyebrow">Python Track</p>
+            <p className="eyebrow">{TRACK_LABELS[track] ?? track} Track</p>
             <h1>Guided Projects</h1>
             <p className="playground-subtitle">
-              Build something real, step by step. Every step is verified by running your code
-              against hidden tests in the in-browser Python runtime.
+              Build something real, step by step. Every step is verified by actually running your
+              code against hidden checks, right in the browser.
             </p>
           </div>
           <button className="topic-back-button" onClick={onBack}>
@@ -115,7 +162,7 @@ function ProjectsView({ onBack }) {
         </header>
 
         <section className="project-grid" aria-label="Available projects">
-          {pythonProjects.map((project) => {
+          {trackProjects.map((project) => {
             const saved = projectState[project.id]?.steps ?? {};
             const done = project.steps.filter((_, index) => saved[index]?.done).length;
 
@@ -200,7 +247,7 @@ function ProjectsView({ onBack }) {
               disabled={status !== "idle" || !code.trim()}
             >
               {status === "loading"
-                ? "Starting Python..."
+                ? "Starting runtime..."
                 : status === "running"
                   ? "Checking..."
                   : "Check Step"}

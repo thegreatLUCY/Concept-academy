@@ -237,6 +237,24 @@ async function execute(code, flavor, host) {
     table: (...args) => push(args)
   };
 
+  // For project step tests: render a component and hand back its markup.
+  const renderToHtml = (Component, props) => {
+    if (typeof Component !== "function") {
+      throw new Error("Expected a component function — did you define it with the right name?");
+    }
+
+    const mount = document.createElement("div");
+    host.appendChild(mount);
+
+    try {
+      const root = window.ReactDOM.createRoot(mount);
+      window.ReactDOM.flushSync(() => root.render(window.React.createElement(Component, props)));
+      return mount.innerHTML;
+    } finally {
+      mount.remove();
+    }
+  };
+
   const autoRender = (Component) => {
     if (!Component || rootElement.childNodes.length || !window.ReactDOM) return;
 
@@ -270,7 +288,7 @@ async function execute(code, flavor, host) {
   try {
     const fn = new Function(
       "console", "require", "module", "exports", "document",
-      "React", "ReactDOM", "$", "jQuery", "__autoRender",
+      "React", "ReactDOM", "$", "jQuery", "__autoRender", "__renderToHtml",
       ...hookNames,
       compiled
     );
@@ -279,7 +297,7 @@ async function execute(code, flavor, host) {
     fn(
       fakeConsole, makeRequire(rootElement), moduleShim, moduleShim.exports,
       makeDocumentProxy(host, rootElement),
-      window.React, window.ReactDOM, jq, jq, autoRender,
+      window.React, window.ReactDOM, jq, jq, autoRender, renderToHtml,
       ...hookValues
     );
   } catch (error) {
