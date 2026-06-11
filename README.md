@@ -8,7 +8,7 @@
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white&labelColor=20232a)
 ![Pyodide](https://img.shields.io/badge/Python-Pyodide_in--browser-f0bd35?logo=python&logoColor=white&labelColor=20232a)
 ![AI Tutor](https://img.shields.io/badge/AI_Tutor-OpenRouter-8a2be2?labelColor=20232a)
-![Questions](https://img.shields.io/badge/questions-3006-15b77f?labelColor=20232a)
+![Questions](https://img.shields.io/badge/questions-2960-15b77f?labelColor=20232a)
 ![Tracks](https://img.shields.io/badge/tracks-11_live-15b77f?labelColor=20232a)
 ![License](https://img.shields.io/badge/license-MIT-blue?labelColor=20232a)
 
