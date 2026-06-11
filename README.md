@@ -8,7 +8,7 @@
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white&labelColor=20232a)
 ![Pyodide](https://img.shields.io/badge/Python-Pyodide_in--browser-f0bd35?logo=python&logoColor=white&labelColor=20232a)
 ![AI Tutor](https://img.shields.io/badge/AI_Tutor-OpenRouter-8a2be2?labelColor=20232a)
-![Questions](https://img.shields.io/badge/questions-2960-15b77f?labelColor=20232a)
+![Questions](https://img.shields.io/badge/questions-3060-15b77f?labelColor=20232a)
 ![Tracks](https://img.shields.io/badge/tracks-11_live-15b77f?labelColor=20232a)
 ![License](https://img.shields.io/badge/license-MIT-blue?labelColor=20232a)
 
@@ -51,7 +51,7 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 | Track | Content | Code execution |
 | --- | --- | :---: |
 | 🐍 **Python** | 5 sets · 92 modules · 920 questions — files & syntax through OOP, async, itertools, typing, performance, packaging | ✅ Pyodide |
-| ⚛️ **React** | 5 sets · 84 modules · 840 questions — JSX to hooks, routing, server state, architecture | ✅ Babel + React |
+| ⚛️ **React** | 6 sets · 94 modules · 940 questions — JSX to hooks, routing, server state, architecture, React 19 (Actions, use(), Server Components) | ✅ Babel + React |
 | 🗄️ **SQL** | 2 sets · 20 modules · 200 questions — SELECT to window functions, transactions, indexes, schema design | ✅ sql.js |
 | 🔷 **TypeScript** | 10 modules · 100 questions — annotations to narrowing, generics, strict mode | ✅ Babel |
 | 💲 **Bash** | 10 modules · 100 questions — navigation to pipes, scripts, permissions | — |
@@ -96,7 +96,7 @@ npm run dev      # → http://localhost:5173
 | --- | --- |
 | `npm run dev` | Start the dev server |
 | `npm run build` | Production build |
-| `npm run audit` | Validate all 2,960 questions, lessons, and projects |
+| `npm run audit` | Validate all 3,060 questions, lessons, and projects |
 | `node scripts/screenshots.mjs` | Regenerate README screenshots (needs dev server + Playwright) |
 
 > First Python execution downloads the Pyodide runtime (~10 MB) from CDN, then it's cached.

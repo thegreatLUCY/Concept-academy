@@ -5,6 +5,7 @@ import { set2Modules, set2Questions } from "../src/data/set2Questions.js";
 import { set3Modules, set3Questions } from "../src/data/set3Questions.js";
 import { set4Modules, set4Questions } from "../src/data/set4Questions.js";
 import { set5Modules, set5Questions } from "../src/data/set5Questions.js";
+import { set6Modules, set6Questions, set6Lessons } from "../src/data/set6Questions.js";
 import { pythonSet1Modules, pythonSet1Questions } from "../src/data/pythonSet1Questions.js";
 import { pythonSet2Modules, pythonSet2Questions } from "../src/data/pythonSet2Questions.js";
 import { pythonSet3Modules, pythonSet3Questions } from "../src/data/pythonSet3Questions.js";
@@ -34,6 +35,7 @@ const sets = [
   ["set3", set3Modules, set3Questions],
   ["set4", set4Modules, set4Questions],
   ["set5", set5Modules, set5Questions],
+  ["set6", set6Modules, set6Questions],
   ["python-set1", pythonSet1Modules, pythonSet1Questions],
   ["python-set2", pythonSet2Modules, pythonSet2Questions],
   ["python-set3", pythonSet3Modules, pythonSet3Questions],
@@ -156,6 +158,7 @@ const allLessons = {
   ...pythonLessons,
   ...pythonExtraLessons,
   ...reactLessons,
+  ...set6Lessons,
   ...sqlSet1Lessons,
   ...sqlSet2Lessons,
   ...pythonSet5Lessons,

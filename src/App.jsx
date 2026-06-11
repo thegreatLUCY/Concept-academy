@@ -16,6 +16,7 @@ import { set2Modules, set2Questions } from "./data/set2Questions.js";
 import { set3Modules, set3Questions } from "./data/set3Questions.js";
 import { set4Modules, set4Questions } from "./data/set4Questions.js";
 import { set5Modules, set5Questions } from "./data/set5Questions.js";
+import { set6Modules, set6Questions, set6Lessons } from "./data/set6Questions.js";
 import { pythonSet1Modules, pythonSet1Questions } from "./data/pythonSet1Questions.js";
 import { pythonSet2Modules, pythonSet2Questions } from "./data/pythonSet2Questions.js";
 import { pythonSet3Modules, pythonSet3Questions } from "./data/pythonSet3Questions.js";
@@ -52,6 +53,7 @@ const reactCurriculumSets = [
   { id: "set3", title: "Set 3", label: "JavaScript Maturity" },
   { id: "set4", title: "Set 4", label: "React Architecture" },
   { id: "set5", title: "Set 5", label: "Routing + Server Data" },
+  { id: "set6", title: "Set 6", label: "Modern React 19" },
   { id: "all", title: "All Sets", label: "Everything" }
 ];
 const reactModules = [
@@ -59,14 +61,16 @@ const reactModules = [
   ...set2Modules,
   ...set3Modules,
   ...set4Modules,
-  ...set5Modules
+  ...set5Modules,
+  ...set6Modules
 ];
 const reactQuestions = [
   ...set1Questions.map((question) => ({ ...question, setId: "set1" })),
   ...set2Questions,
   ...set3Questions,
   ...set4Questions,
-  ...set5Questions
+  ...set5Questions,
+  ...set6Questions
 ].map((question, order) => ({ ...question, order }));
 const pythonCurriculumSets = [
   { id: "python-set1", title: "Set 1", label: "Python Foundations" },
@@ -164,6 +168,7 @@ const tracks = {
 };
 
 const lessonsByModule = {
+  ...set6Lessons,
   ...reactLessons,
   ...pythonLessons,
   ...pythonExtraLessons,
@@ -334,6 +339,7 @@ const learningPaths = [
       { trackId: "react", setId: "set3", label: "React Set 3 — JavaScript Maturity", reason: "Solid on hooks basics — strengthen the JavaScript that powers real apps." },
       { trackId: "react", setId: "set4", label: "React Set 4 — React Architecture", reason: "You build features — learn to structure whole applications." },
       { trackId: "react", setId: "set5", label: "React Set 5 — Routing + Server Data", reason: "Architecture is in place — connect routing and server state." },
+      { trackId: "react", setId: "set6", label: "React Set 6 — Modern React 19", reason: "You know classic React — learn the React 19 way: Actions, use(), and Server Components." },
       { trackId: "typescript", setId: "ts-set1", label: "TypeScript — Foundations", reason: "Your React is strong; add the type system professional teams expect." }
     ]
   },
