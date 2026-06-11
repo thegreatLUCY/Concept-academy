@@ -17,6 +17,7 @@ import { pythonSet4Modules, pythonSet4Questions } from "./data/pythonSet4Questio
 import { pythonSet5Modules, pythonSet5Questions, pythonSet5Lessons } from "./data/pythonSet5Questions.js";
 import { pythonLessons } from "./data/pythonLessons.js";
 import { reactLessons } from "./data/reactLessons.js";
+import { pythonExtraLessons } from "./data/pythonLessonsExtra.js";
 import { sqlSet1Modules, sqlSet1Questions, sqlSet1Lessons } from "./data/sqlSet1Questions.js";
 import { sqlSet2Modules, sqlSet2Questions, sqlSet2Lessons } from "./data/sqlSet2Questions.js";
 import { tsSet1Modules, tsSet1Questions, tsSet1Lessons } from "./data/tsSet1Questions.js";
@@ -152,6 +153,7 @@ const tracks = {
 const lessonsByModule = {
   ...reactLessons,
   ...pythonLessons,
+  ...pythonExtraLessons,
   ...sqlSet1Lessons,
   ...sqlSet2Lessons,
   ...pythonSet5Lessons,

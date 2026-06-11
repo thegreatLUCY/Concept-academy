@@ -12,6 +12,7 @@ import { pythonSet4Modules, pythonSet4Questions } from "../src/data/pythonSet4Qu
 import { pythonSet5Modules, pythonSet5Questions, pythonSet5Lessons } from "../src/data/pythonSet5Questions.js";
 import { pythonLessons } from "../src/data/pythonLessons.js";
 import { reactLessons } from "../src/data/reactLessons.js";
+import { pythonExtraLessons } from "../src/data/pythonLessonsExtra.js";
 import { sqlSet1Modules, sqlSet1Questions, sqlSet1Lessons } from "../src/data/sqlSet1Questions.js";
 import { sqlSet2Modules, sqlSet2Questions, sqlSet2Lessons } from "../src/data/sqlSet2Questions.js";
 import { tsSet1Modules, tsSet1Questions, tsSet1Lessons } from "../src/data/tsSet1Questions.js";
@@ -153,6 +154,7 @@ if (trueShare > 80 || trueShare < 20) {
 const allModuleIds = new Set(sets.flatMap(([, modules]) => modules.map((m) => m.id)));
 const allLessons = {
   ...pythonLessons,
+  ...pythonExtraLessons,
   ...reactLessons,
   ...sqlSet1Lessons,
   ...sqlSet2Lessons,

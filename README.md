@@ -62,7 +62,7 @@ Most quiz sites test you without teaching you, and grade code by string-matching
 | 🐼 **Pandas** | 10 modules · 100 questions — DataFrames to groupby, merging, cleanup | — |
 | 📊 **Matplotlib** | 10 modules · 100 questions — figures to subplots, chart literacy | — |
 
-Every module in every track ships with a **lesson** (summary, key points, example). Every track gets the **AI tutor**, **review queue**, **exams**, and **search**.
+**Every one of the 296 modules ships with a lesson** (summary, key points, runnable/read-along example) shown before its questions. Every track gets the **AI tutor**, **review queue**, **exams**, and **search**.
 
 ---
 
@@ -109,7 +109,7 @@ src/
   App.jsx                  # tracks registry, quiz engine, progress, review, search
   components/              # QuestionBody, ExamMode, ProjectsView, PythonPlayground, AiTutor
   lib/                     # pyodideRunner, pythonGrader (execution grading), shuffle
-  data/                    # 22 question sets, 172 lessons, 3 guided projects
+  data/                    # 22 question sets, 296 lessons (100% coverage), 3 guided projects
 scripts/
   audit-data.mjs           # structural + balance audit (runs in CI)
   screenshots.mjs          # Playwright capture for this README
