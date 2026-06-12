@@ -899,7 +899,7 @@ export const set6Questions = [
     ),
     tf(
       "Creating a new promise inside the component body and passing it to use is the recommended pattern.",
-      true,
+      false,
       "Trick statement — it is the classic MISTAKE: each render creates a fresh promise, so the component suspends forever. Create promises in a parent, a cache, or a framework loader."
     ),
     mcq(

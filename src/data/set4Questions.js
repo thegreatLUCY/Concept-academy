@@ -51,7 +51,7 @@ export const set4Questions = [
     mcq("Which component is more presentational?", ["A Button that receives label and onClick props", "A Dashboard that fetches all app data", "A Provider that owns auth state"], "A Button that receives label and onClick props", "Presentational components focus on UI and receive data/handlers through props."),
     mcq("Which component is more container-like?", ["A ProductsPage that loads products and passes them to ProductGrid", "A Badge that renders children", "An IconButton with aria-label"], "A ProductsPage that loads products and passes them to ProductGrid", "Container components usually coordinate data and pass it to smaller UI components."),
     tf("A reusable component should usually know as little as possible about the page that uses it.", true, "Reusable pieces become stronger when they depend on props rather than page-specific globals."),
-    fill("Complete a split where App renders a page component.", "function App() { return <__1__ />; }", [{ label: "__1__", answers: ["DashboardPage"] }], "A page component can keep App from growing into a large mixed-responsibility file."),
+    fill("Complete the split: App should render a page component named DashboardPage.", "function App() { return <__1__ />; }", [{ label: "__1__", answers: ["DashboardPage"] }], "A page component can keep App from growing into a large mixed-responsibility file."),
     mcq("When should you split a component?", ["When one component has several responsibilities or repeated UI", "Every time it has more than one line", "Only after deployment"], "When one component has several responsibilities or repeated UI", "Splitting is useful when it improves clarity, reuse, or testability."),
     mcq("Which folder style groups files by product area?", ["features/cart/CartPage.jsx", "components/Everything.jsx", "all-code/App.jsx"], "features/cart/CartPage.jsx", "Feature folders keep related UI, hooks, and utilities together."),
     tf("A huge App.jsx that owns routing, fetching, forms, layout, and all UI becomes hard to maintain.", true, "As apps grow, separate pages, providers, routes, and components are easier to reason about."),
@@ -68,7 +68,7 @@ export const set4Questions = [
     mcq("Which concern belongs to server-state management?", ["Caching and refetching product data", "Toggling a tooltip", "Focusing an input ref"], "Caching and refetching product data", "Server-state tools help coordinate freshness, cache, and request status."),
     mcq("What does stale data mean?", ["Cached data that may no longer match the server", "Data stored in a ref", "Data rendered inside a fragment"], "Cached data that may no longer match the server", "A cache can still display stale data while deciding when to refetch."),
     tf("TanStack Query is commonly used to manage async server state such as caching, loading, errors, and refetching.", true, "It is not required for every app, but it solves many server-state problems."),
-    typed("Write a derived local UI state name for an active tab.", "const [", "const [activeTab, setActiveTab] = useState(\"details\");", ["activeTab", "setActiveTab", "useState"], "UI state should be named by the UI decision it controls.")
+    typed("Declare activeTab state with useState, starting with the value \"details\".", "const [", "const [activeTab, setActiveTab] = useState(\"details\");", ["activeTab", "setActiveTab", "useState"], "UI state should be named by the UI decision it controls.")
   ]),
   ...attach("set4-usereducer-basics", [
     mcq("What does useReducer return?", ["The current state and a dispatch function", "Only a setter function", "A Provider and Consumer"], "The current state and a dispatch function", "The common shape is const [state, dispatch] = useReducer(reducer, initialState)."),
@@ -139,7 +139,7 @@ export const set4Questions = [
     fill("Return values from a hook.", "return [value, __1__];", [{ label: "__1__", answers: ["setValue", "toggle"] }], "Custom hooks can return values and functions."),
     tf("Custom hooks may call other hooks.", true, "They are the proper place to compose hook logic."),
     mcq("Which is a good custom hook example?", ["useDebounce(query, 300)", "debounceComponent.jsx()", "useClassNameOnlyWithoutHooks"], "useDebounce(query, 300)", "Parameterized hooks are common for reusable behavior."),
-    fill("Complete localStorage lazy initialization.", "const [value, setValue] = useState(() => localStorage.getItem(__1__));", [{ label: "__1__", answers: ["key"] }], "useLocalStorage often reads the initial value lazily."),
+    fill("Inside a useLocalStorage(key) hook, complete the lazy initial read.", "const [value, setValue] = useState(() => localStorage.getItem(__1__));", [{ label: "__1__", answers: ["key"] }], "useLocalStorage often reads the initial value lazily."),
     typed("Write a simple useToggle return line.", "return ", "return [value, () => setValue(v => !v)];", ["return [value", "setValue", "=> !"], "A hook can expose state and an updater function.")
   ]),
   ...attach("set4-refs-portals-errors", [

@@ -289,7 +289,7 @@ export const set2Questions = [
     moduleId: "set2-batching-stale",
     level: "MCQ",
     type: "mcq",
-    prompt: "If count is 0, what is the likely result after these run in one click handler?",
+    prompt: "count is 0 when a click handler runs these three lines. What is count on the next render?",
     snippet: code(
       "setCount(count + 1);",
       "setCount(count + 1);",

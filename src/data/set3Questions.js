@@ -82,7 +82,7 @@ export const set3Questions = [
   fill(
     "set3-functions-callbacks-6",
     "set3-functions-callbacks",
-    "Complete the callback passed to addEventListener.",
+    "Pass an existing function named handleClick as the click callback.",
     "button.addEventListener(\"click\", __1__);",
     [{ label: "__1__", answers: ["handleClick"] }],
     "The handler function is passed as a value. It should not be called immediately."
@@ -105,7 +105,7 @@ export const set3Questions = [
   fill(
     "set3-functions-callbacks-9",
     "set3-functions-callbacks",
-    "Complete the higher-order function call.",
+    "Complete the higher-order function call. Name the callback parameter user.",
     "const names = users.map(__1__ => __1__.name);",
     [{ label: "__1__", answers: ["user"] }],
     "The callback receives each user and returns the name."
@@ -293,7 +293,7 @@ export const set3Questions = [
     "set3-type-conversion",
     "Convert an input value into a number.",
     "const age = __1__(event.target.value);",
-    [{ label: "__1__", answers: ["Number"] }],
+    [{ label: "__1__", answers: ["Number", "parseInt", "parseFloat"] }],
     "Number(value) converts a numeric string into a number."
   ),
   mcq(
@@ -348,7 +348,7 @@ export const set3Questions = [
     "set3-type-conversion",
     "Complete the controlled numeric input update.",
     "onChange={e => setAge(__1__(e.target.value))}",
-    [{ label: "__1__", answers: ["Number"] }],
+    [{ label: "__1__", answers: ["Number", "parseInt", "parseFloat"] }],
     "The input produces a string, and Number converts it before storing numeric state."
   ),
   typed(
@@ -395,8 +395,8 @@ export const set3Questions = [
     "set3-equality-truthiness-5",
     "set3-equality-truthiness",
     "Safely read a nested property with optional chaining.",
-    "const city = user.address__1__.city;",
-    [{ label: "__1__", answers: ["?"] }],
+    "const city = user.address__1__city;",
+    [{ label: "__1__", answers: ["?.", "?"] }],
     "user.address?.city avoids crashing when address is missing."
   ),
   mcq(
@@ -749,7 +749,7 @@ export const set3Questions = [
   fill(
     "set3-destructuring-api-9",
     "set3-destructuring-api",
-    "Complete a default prop value through destructuring.",
+    "Give the size prop a default value of 40 through destructuring.",
     "function Avatar({ size = __1__ }) { return <img width={size} />; }",
     [{ label: "__1__", answers: ["40"] }],
     "Default values in parameters are useful for optional props."
@@ -1175,7 +1175,7 @@ export const set3Questions = [
   fill(
     "set3-modules-utilities-2",
     "set3-modules-utilities",
-    "Complete a named import alias.",
+    "Alias the imported formatDate to the local name formatUserDate.",
     "import { formatDate as __1__ } from \"./dates.js\";",
     [{ label: "__1__", answers: ["formatUserDate"] }],
     "The local name formatUserDate can differ from the exported name formatDate."
@@ -1191,9 +1191,9 @@ export const set3Questions = [
   fill(
     "set3-modules-utilities-4",
     "set3-modules-utilities",
-    "Complete a re-export from a barrel file.",
+    "Complete the barrel re-export of Button from the sibling file ./Button.jsx.",
     "export { Button } from \"__1__\";",
-    [{ label: "__1__", answers: ["./Button.jsx"] }],
+    [{ label: "__1__", answers: ["./Button.jsx", "./Button"] }],
     "A barrel can gather exports from sibling modules."
   ),
   tf(

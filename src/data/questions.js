@@ -74,7 +74,7 @@ export const questions = [
     moduleId: "react-orientation",
     level: "Complete",
     type: "fill",
-    prompt: "Complete the simplest component function name.",
+    prompt: "Complete this root component with the conventional name React projects use for it.",
     snippet: code(
       "function __1__() {",
       "  return <h1>Hello React</h1>;",
@@ -122,7 +122,7 @@ export const questions = [
     moduleId: "react-orientation",
     level: "MCQ",
     type: "mcq",
-    prompt: "Which name is valid for a React component?",
+    prompt: "Which of these names will JSX treat as a React component instead of a plain HTML tag?",
     choices: ["UserCard", "userCard", "user-card"],
     answer: "UserCard",
     explanation: "Component names must start with a capital letter so JSX can tell them apart from HTML tags."
